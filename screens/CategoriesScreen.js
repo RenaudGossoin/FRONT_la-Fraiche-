@@ -1,16 +1,41 @@
-import React from 'react';
 import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Card} from 'react-native-elements';
-
-
-
+import React, {useState} from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const CategoriesScreen = () => {
+
+  const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
+
+  const [categoryIndex, setCategoryIndex] = useState(0);
+
+const CategoryList = () =>{
+  return(
+  <View style={styles.categoryContainer}>
+    {categories.map((item, index)=>(
+      <TouchableOpacity key={index} onPress={()=> setCategoryIndex(index)}>
+
+      <Text
+      key={index}
+      style={[
+        styles.categoryText,
+        categoryIndex == index && styles.categoryTextSelected
+      ]}>
+        {item}
+        </Text>
+      </TouchableOpacity>
+      
+    ))}
+  </View>
+  )
+}
     return (
       <>
       <ScrollView style={styles.body}>
-      
+      <View style={{backgroundColor:"#53B175"}}>
+<CategoryList/>
+</View>
         <View style={styles.body}>
         <View style={styles.title}>
           <Text style={styles.bigtitle}>La Fraiche</Text>
@@ -53,6 +78,7 @@ const CategoriesScreen = () => {
         </View>
         </ScrollView>
       </>
+
     );
 };
 
@@ -64,7 +90,6 @@ const styles = StyleSheet.create({
     // paddingTop: 147,
     // paddingBottom: '70%',
   },
-  
   title: {
     flex: 1,
     alignItems: 'center',
@@ -86,7 +111,6 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginBottom: 20,
   },
-  
   container: {
       flex: 1,
       alignItems: 'center',
@@ -94,7 +118,6 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       flexWrap : "wrap",
-      
     },
 
     category : {
@@ -104,7 +127,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#53B175',
       borderStyle: 'solid',
       borderColor: '#5375752B',
-
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
@@ -112,30 +134,45 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.44,
       shadowRadius: 10.32,
-
       elevation: 16,
     },
-
     imageup: {
       width: 130,
       height: 80,
       marginBottom: 10,
       marginTop: 30,
     },
-
     imagedown: {
       width: 130,
       height: 130,
       marginBottom: 10
     },
-
     categoryname : {
       textAlign : 'center',
       color: '#ffffff',
       // fontFamily: 'Montserrat',
-      fontWeight: 'bold',
+      fontWeight: 'bold'
+    },
 
+    categoryContainer : {
+      flexDirection : 'row',
+      marginTop : 50,
+      marginBottom : 20,
+      paddingHorizontal:20,
+      justifyContent:'space-between',
+    },
+    categoryText:{fontSize:18, color:'#ffffff', fontWeight:'bold', opacity:0.5,},
+
+    categoryTextSelected:{
+      color: '#ffffff',
+      fontWeight:'bold',
+      opacity:1,
+      paddingBottom:3,
+      borderBottomWidth:2,
+      borderColor:'#ffffff'
     }
   });    
     
+
+  
 export default CategoriesScreen;
