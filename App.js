@@ -11,7 +11,8 @@ import HomeScreen from "./screens/HomeScreen";
 import AccountScreen from './screens/AccountScreen';
 import FavouriteScreen from './screens/FavouriteScreen';
 import BasketScreen from './screens/BasketScreen';
-import CategoriesScreen from './screens/CategoriesScreen'
+import CategoriesScreen from './screens/CategoriesScreen';
+import LockerScreen from './screens/LockerScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
