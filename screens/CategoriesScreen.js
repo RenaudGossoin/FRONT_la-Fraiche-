@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     categoryname : {
       textAlign : 'center',
       color: '#ffffff',
-      fontFamily: 'Montserrat',
+      // fontFamily: 'Montserrat',
       fontWeight: 'bold',
 
     }
