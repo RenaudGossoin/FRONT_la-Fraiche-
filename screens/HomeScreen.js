@@ -21,7 +21,7 @@ const HomeScreen = (props) => {
      />
 </View>
 <View style={styles.links}>
-<Text onPress={() => props.navigation.navigate('SignUp', {screen: 'SignUp'})}
+<Text onPress={() => props.navigation.navigate('SignUp', {screen: 'SignUp'})} style={{marginTop:0, marginBottom:5}}
 >Pas de compte ?</Text>
 <Text style={{color:"#53B175"}}
 onPress={() => props.navigation.navigate('SignIn', {screen: 'SignIn'})}>Me connecter</Text>
