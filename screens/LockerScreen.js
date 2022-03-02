@@ -10,7 +10,10 @@ import * as Permissions from 'expo-permissions';
 
 export default function LockerScreen(props) {
 
- 
+  const [lockers, setLockers] = useState([])
+  const [latitude, setLatitude] = useState([])
+  const [longitude, setLongitude] = useState([])
+
   const [ferme1, setFerme1] = useState(false);
   const [ferme2, setFerme2] = useState(false);
   const [ferme3, setFerme3] = useState(false);
@@ -50,6 +53,49 @@ export default function LockerScreen(props) {
   var isDisabled = false;
   if (addPOI) {
     isDisabled = true;
+  }
+
+  useEffect(() => {
+    
+  const Lockers = async() => {
+    const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
+    const body = await data.json()
+    console.log(body);
+  }
+  lockers() 
+}, [])
+
+  
+  /*useEffect(() => {
+    const findArticles = async() => {
+      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=b32c8b844d1243b1a7998d8228910f50`)
+      const body = await data.json()
+      console.log(body)
+      setArticleList(body.articles) 
+    }
+
+    findArticles()    
+  },[])*/
+
+
+  var selectPOI = (e) => {
+    if (addPOI) {
+      setAddPOI(false);
+      setIsVisible(true);
+      setTempPOI({ latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude });
+    }
+  }
+
+  var handleSubmit = () => {
+
+    var copyListPOI = [...listPOI, { longitude: tempPOI.longitude, latitude: tempPOI.latitude, titre: titrePOI, description: descPOI }];
+    AsyncStorage.setItem("POI", JSON.stringify(copyListPOI));
+
+    setListPOI(copyListPOI);
+    setIsVisible(false);
+    setTempPOI();
+    setDescPOI();
+    setTitrePOI();
   }
 
   return (
@@ -146,34 +192,11 @@ export default function LockerScreen(props) {
         />
         <Marker key={"currentPos1"}
           pinColor="blue"
-          title=" La ferme des 4 étoiles montante du dev"
-          description="part ici houhouuu, choisit nous stp"
-          coordinate={{ latitude: 48.872939393965694, longitude: 2.2701871445515867 }}
+          title={lockers}
+          //description="part ici houhouuu, choisit nous stp"
+          //coordinate={latitude} {longitude}
         />
-        <Marker key={"currentPos2"}
-          pinColor="blue"
-          title="La ferme de la Couturière Elodie"
-          description="Elodie notre fermière t'accueil avec des radis en bienvenue"
-          coordinate={{ latitude: 48.88817952018065, longitude: 2.330182795535716 }}
-        />
-        <Marker key={"currentPos3"}
-          pinColor="blue"
-          title="La ferme de Renaud"
-          description="Renaud le prénom pas la marque de voiture hein !!!"
-          coordinate={{ latitude: 48.846340539193704, longitude: 2.335862530428087 }}
-        />
-        <Marker key={"currentPos4"}
-          pinColor="blue"
-          title="La Ferme ouverte de Boramy"
-          description="Je ne suis pas fermier, pas moi te méprend pas !"
-          coordinate={{ latitude: 48.82914374967133, longitude: 2.431566206320608 }}
-        />
-        <Marker key={"currentPos5"}
-          pinColor="blue"
-          title="La ferme du Vilain Amour"
-          description="choisit moi ou je vais te retrouver ... "
-          coordinate={{ latitude: 48.904704768930785, longitude: 2.4037320810788603 }}
-        />
+        
         {markerPOI}
 
       </MapView>
