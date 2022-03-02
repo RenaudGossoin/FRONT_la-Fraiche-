@@ -11,7 +11,9 @@ import HomeScreen from "./screens/HomeScreen";
 import AccountScreen from './screens/AccountScreen';
 import FavouriteScreen from './screens/FavouriteScreen';
 import BasketScreen from './screens/BasketScreen';
-import CategoriesScreen from './screens/CategoriesScreen'
+import CategoriesScreen from './screens/CategoriesScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +61,8 @@ export default function App() {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
+      <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 
