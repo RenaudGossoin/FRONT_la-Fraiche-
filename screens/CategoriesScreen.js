@@ -43,7 +43,7 @@ const CategoryList = () =>{
         <View style={styles.body}>
             <View style={styles.title}>
               <Text style={styles.bigtitle}>La Fraiche</Text>
-              <Text style={styles.subtitle}>Catégories</Text>
+              {/* <Text style={styles.subtitle}>Catégories</Text> */}
             </View>
 
 
