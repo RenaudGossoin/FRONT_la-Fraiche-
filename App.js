@@ -56,6 +56,7 @@ const BottomNavigator = () => {
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Favourite" component={FavouriteScreen} />
       <Tab.Screen name="Basket" component={BasketScreen} />
+      
     </Tab.Navigator>
   );
 }
