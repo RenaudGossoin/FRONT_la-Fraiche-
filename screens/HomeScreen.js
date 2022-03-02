@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet,TextInput,Image, ImageBackground, ScrollView } from 'react-native'
 import { Button } from 'react-native-elements';
 
 const HomeScreen = (props) => {
+
     return (
 
 <ImageBackground source={require('../assets/background_panier.png')} style={styles.container}>
@@ -15,23 +16,19 @@ const HomeScreen = (props) => {
   style={styles.textInput}
   keyboardType = 'numeric'
 />
+
   </View>
 <Button title="Rechercher" buttonStyle={styles.button}
        onPress={() => props.navigation.navigate('BottomNavigator', {screen: 'Categories'})}
      />
 </View>
 <View style={styles.links}>
-<Text onPress={() => props.navigation.navigate('SignUp', {screen: 'SignUp'})}
+<Text onPress={() => props.navigation.navigate('SignUp', {screen: 'SignUp'})} style={{marginTop:0, marginBottom:5}}
 >Pas de compte ?</Text>
 <Text style={{color:"#53B175"}}
 onPress={() => props.navigation.navigate('SignIn', {screen: 'SignIn'})}>Me connecter</Text>
 </View>
-
-
  </View>
- 
-
-
     </ImageBackground>
 
     );
@@ -85,5 +82,6 @@ logo:{
     marginTop:70
 }
   });    
-    
+  
+
 export default HomeScreen;

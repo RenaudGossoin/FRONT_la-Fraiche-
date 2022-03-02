@@ -5,10 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
 import DropShadow from "react-native-drop-shadow";
 import { FontAwesome } from '@expo/vector-icons';
 
+//différents Screens
 import HomeScreen from "./screens/HomeScreen";
 import AccountScreen from './screens/AccountScreen';
 import FavouriteScreen from './screens/FavouriteScreen';
@@ -62,6 +62,7 @@ const BottomNavigator = () => {
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Favourite" component={FavouriteScreen} />
       <Tab.Screen name="Basket" component={BasketScreen} />
+      
     </Tab.Navigator>
   );
 }
@@ -83,6 +84,7 @@ export default function App() {
       <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
+  
 
   );
 }
