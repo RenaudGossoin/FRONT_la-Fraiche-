@@ -8,11 +8,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-<<<<<<< HEAD
 export default function LockerScreen() {
-=======
-export default function Lockers() {
->>>>>>> lockersAB
 
   const [alignSelf, setAlignSelf] = useState("flex-end");
   const [ferme1, setFerme1] = useState(false);

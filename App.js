@@ -19,7 +19,7 @@ import SignUpScreen from "./screens/SignUpScreen";
 import LockerScreen from './screens/LockerScreen';
 import ProductScreen from './screens/ProductScreen';
 import DetailScreen from './screens/DetailScreen';
-import LockerScreen from './screens/LockerScreen';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
