@@ -85,7 +85,7 @@ export default function BasketScreen(props) {
             marginHorizontal: 50,
             marginVertical: 10,
           }}
-          buttonStyle={{ borderRadius: 10, backgroundColor: "#1dd1a1" }}
+          buttonStyle={{ borderRadius: 10, backgroundColor: "#53B175" }}
           onPress={() => props.navigation.navigate("Locker")}
         />
         <View
@@ -101,6 +101,7 @@ export default function BasketScreen(props) {
           <Text style={{ paddingTop: 5 }}> 100 €</Text>
         </View>
       </View>
+      
     </ScrollView>
   );
 }
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     paddingTop: 40,
-    backgroundColor: "#1dd1a1",
+    backgroundColor: "#53B175",
     paddingBottom: 15,
     fontSize: 18,
     color: "#ffffff",

@@ -8,9 +8,9 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-export default function LockerScreen() {
+export default function LockerScreen(props) {
 
-  const [alignSelf, setAlignSelf] = useState("flex-end");
+ 
   const [ferme1, setFerme1] = useState(false);
   const [ferme2, setFerme2] = useState(false);
   const [ferme3, setFerme3] = useState(false);
@@ -25,10 +25,6 @@ export default function LockerScreen() {
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
-  //const [titrePOI, setTitrePOI] = useState();
-  //const [descPOI, setDescPOI] = useState();
-
-  const [tempPOI, setTempPOI] = useState();
 
   useEffect(() => {
     async function askPermissions() {
@@ -45,25 +41,6 @@ export default function LockerScreen() {
     askPermissions();
   }, []);
 
-  
-
-  /*var selectPOI = (e) => {
-    if (addPOI) {
-      setAddPOI(false);
-      setIsVisible(true);
-      setTempPOI({ latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude });
-    }
-  }*/
-
-  /*var handleSubmit = () => {
-    setListPOI([...listPOI, { longitude: tempPOI.longitude, latitude: tempPOI.latitude, titre: titrePOI, description: descPOI }]);
-    setIsVisible(false);
-    setTempPOI();
-    setDescPOI();
-    setTitrePOI();
-  }*/
-
-
   var markerPOI = listPOI.map((POI, i) => {
     return <Marker key={i} pinColor="blue" coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
       title={POI.titre}
@@ -76,7 +53,16 @@ export default function LockerScreen() {
   }
 
   return (
+    
     <View style={{ flex: 1 }} >
+      <View style={{ alignItems: 'center',  
+                    textAlign: "center",
+                    paddingTop: 40,
+                    backgroundColor: "#53B175",
+                    paddingBottom: 15
+                    }}>
+      <Text style={{ color: 'white', fontSize:18}}>Mon casier</Text>
+    </View>
 
             <View style = {{flexDirection: 'row', margin: 10}}>
               <Text  style={{flex: 1, fontSize:20, }}>
@@ -86,7 +72,7 @@ export default function LockerScreen() {
             </View>
             
        <View>   
-      <Overlay overlayStyle = {{width: '70%', height:'70%', borderRadius:'10%', padding:-10}}
+      <Overlay overlayStyle = {{height:'60%', width:'80%',borderRadius:10, padding:-10}}
         isVisible={isVisible}
         onBackdropPress={() => { setIsVisible(false) }} 
       >
@@ -94,8 +80,8 @@ export default function LockerScreen() {
       <ScrollView>
         <View style={{ flex: 1, alignItems: 'center',
          justifyContent: 'center',
-         backgroundColor:'#53B175', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
-          <Text style={{ color: 'white', fontSize:25, margin:'5%' }}>Je choisis mon locker</Text>
+         backgroundColor:'#53B175', borderTopLeftRadius:10, borderTopRightRadius:10}}>
+          <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
           </View>  
           
             <CheckBox     
@@ -129,7 +115,7 @@ export default function LockerScreen() {
         
           <Button
             title="Confirmer"
-            buttonStyle={{ backgroundColor: '#53B175', borderRadius: '10px' }}
+            buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
                 containerStyle={{
                   marginHorizontal: 70,
                   marginVertical: 10,
@@ -179,7 +165,7 @@ export default function LockerScreen() {
         <Marker key={"currentPos4"}
           pinColor="blue"
           title="La Ferme ouverte de Boramy"
-          description="C'est la ferme qui est ouverte, pas moi te méprend pas !"
+          description="Je ne suis pas fermier, pas moi te méprend pas !"
           coordinate={{ latitude: 48.82914374967133, longitude: 2.431566206320608 }}
         />
         <Marker key={"currentPos5"}
@@ -207,26 +193,16 @@ export default function LockerScreen() {
               title='Gpay :  Credit/ Debit Card'
               checked={gpay}
               onPress={() => setGpay(!gpay)}/>
-        
+        </View>
         
              <Button
                 title="Valider ma commande"
-                buttonStyle={{ backgroundColor: '#53B175', borderRadius: '10px' }}
-                containerStyle={{
-                  height: 40,
-                  marginHorizontal: 50,
-                  marginVertical: 10,
-                  alignItems: 'center', 
-                  
-                  
-                }}
-                titleStyle={{
-                  color: 'white',
-                  
-                }}
+                buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10, margin: 30, marginVertical: 10}}
+                 
+                onPress={() => props.navigation.navigate("Error")}
               />
         
-        </View>
+        
     </View>
   );
 }
