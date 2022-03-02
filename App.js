@@ -17,6 +17,11 @@ import CategoriesScreen from './screens/CategoriesScreen';
 import LogInScreen from './screens/LogInScreen';
 import SignUpScreen from "./screens/SignUpScreen";
 import LockerScreen from './screens/LockerScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
+
+import SuccessScreen from './screens/SuccessScreen';
+import ErrorScreen from './screens/ErrorScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,8 +75,13 @@ export default function App() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="SignIn" component={LogInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="Locker" component={LockerScreen} />
+      <Stack.Screen name="Locker" component={LockerScreen}/>
+      <Stack.Screen name="Success" component={SuccessScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="Error" component={ErrorScreen} />
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
+      <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   

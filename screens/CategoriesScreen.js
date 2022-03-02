@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, ScrollView} from 'react-native';
+
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {Card} from 'react-native-elements';
 import React, {useState} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const CategoriesScreen = () => {
+function CategoriesScreen(props) {
 
   const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
 
@@ -30,6 +31,9 @@ const CategoryList = () =>{
   </View>
   )
 }
+
+  const goTo = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
+  
     return (
       <>
       <ScrollView style={styles.body}>
@@ -37,44 +41,67 @@ const CategoryList = () =>{
 <CategoryList/>
 </View>
         <View style={styles.body}>
-        <View style={styles.title}>
-          <Text style={styles.bigtitle}>La Fraiche</Text>
-          <Text style={styles.subtitle}>Catégories</Text>
-        </View>
+            <View style={styles.title}>
+              <Text style={styles.bigtitle}>La Fraiche</Text>
+              <Text style={styles.subtitle}>Catégories</Text>
+            </View>
 
-        <View style={styles.container}>
-          <Card containerStyle={styles.category}>
-             <Card.Image
-              style={styles.imageup}
-              source={require('../assets/cat-fruits.png')}
-            />
-            <Text style={styles.categoryname}>Fruits</Text>
-          </Card>
 
-          <Card containerStyle={styles.category}>
-             <Card.Image
-              style={styles.imageup}
-              source={require('../assets/cat-légumes.png')}
-            />
-            <Text style={styles.categoryname}>Légumes</Text>
-          </Card>
 
-          <Card containerStyle={styles.category}>
-             <Card.Image
-              style={styles.imagedown}
-              source={require('../assets/cat-panier-oeufs.png')}
-            />
-            <Text style={styles.categoryname}>Oeufs</Text>
-          </Card>
+            <View style={styles.container}>
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imageup}
+                  source={require('../assets/cat-fruits.png')}
+                />
+                <Text style={styles.categoryname}>Fruits</Text>
 
-          <Card containerStyle={styles.category}>
-             <Card.Image
-              style={styles.imagedown}
-              source={require('../assets/cat-laitage.png')}
-            />
-            <Text style={styles.categoryname}>Laitages</Text>
-          </Card>
-          </View>
+                
+                  <Pressable  
+                  style={styles.button}
+                  title="Fruits"
+                  onPress={goTo}  />
+               
+
+              </Card>
+
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imageup}
+                  source={require('../assets/cat-légumes.png')}
+                />
+                <Text style={styles.categoryname}>Légumes</Text>
+                
+                <Pressable 
+                  style={styles.button}
+                  onPress={goTo}
+                  />
+              </Card>
+
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imagedown}
+                  source={require('../assets/cat-panier-oeufs.png')}
+                />
+                <Text style={styles.categoryname}>Oeufs</Text>
+                <Pressable 
+                  style={styles.button}
+                  onPress={goTo}
+                  />
+              </Card>
+
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imagedown}
+                  source={require('../assets/cat-laitage.png')}
+                />
+                <Text style={styles.categoryname}>Laitages</Text>
+                <Pressable 
+                  style={styles.button}
+                  onPress={goTo}
+                  />
+              </Card>
+              </View>
         </View>
         </ScrollView>
       </>
@@ -85,10 +112,6 @@ const CategoryList = () =>{
 const styles = StyleSheet.create({
   body: {
     backgroundColor: '#ffffff',
-    // paddingLeft: '80',
-    // paddingRight: '80',
-    // paddingTop: 147,
-    // paddingBottom: '70%',
   },
   title: {
     flex: 1,
@@ -127,6 +150,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#53B175',
       borderStyle: 'solid',
       borderColor: '#5375752B',
+      position: 'relative',
+
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
@@ -170,7 +195,18 @@ const styles = StyleSheet.create({
       paddingBottom:3,
       borderBottomWidth:2,
       borderColor:'#ffffff'
+    },
+
+    button : {
+      
+      backgroundColor: "#FFFFFF",
+      opacity : 0,
+      borderRadius: 10,
+      paddingVertical: 80,
+      paddingHorizontal: 65,
+      position : 'absolute',
     }
+
   });    
     
 
