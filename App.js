@@ -17,6 +17,8 @@ import CategoriesScreen from './screens/CategoriesScreen';
 import LogInScreen from './screens/LogInScreen';
 import SignUpScreen from "./screens/SignUpScreen";
 import LockerScreen from './screens/LockerScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +73,8 @@ export default function App() {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Locker" component={LockerScreen} />
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
+      <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 
