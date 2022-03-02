@@ -1,10 +1,23 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {connect} from 'react-redux';
+
 
 function ProductScreen(props) {
+
+  const [departement, setDepartement] = useState("");
+  
+
+useEffect(() => {
+  setDepartement(props.saveDepartement);
+  console.log(departement+" from UseEffect")
+
+}, [departement]);
+
   const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});  
+
   return (
 
       <ScrollView style={styles.body}>
@@ -205,4 +218,11 @@ const styles = StyleSheet.create({
     }
   });    
     
-export default ProductScreen;
+  function mapStateToProps(state) {
+    return { saveDepartement : state.saveDepartement }
+  }
+  
+  export default connect(
+    mapStateToProps, 
+    null
+  )(ProductScreen);

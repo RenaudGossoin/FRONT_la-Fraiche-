@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet,TextInput,Image, ImageBackground, ScrollView } from 'react-native'
 import { Button } from 'react-native-elements';
+import {connect} from 'react-redux';
+
 
 const HomeScreen = (props) => {
+
+const [departement,setDepartement] = useState("");
 
     return (
 
@@ -15,11 +19,14 @@ const HomeScreen = (props) => {
     <TextInput placeholder='dept'
   style={styles.textInput}
   keyboardType = 'numeric'
+  onChangeText={(val) => setDepartement(val)}
 />
 
   </View>
 <Button title="Rechercher" buttonStyle={styles.button}
-       onPress={() => props.navigation.navigate('BottomNavigator', {screen: 'Categories'})}
+       onPress={() => {props.navigation.navigate('BottomNavigator', {screen: 'Categories'});
+       props.onSubmitDepartement(departement)}
+      }
      />
 </View>
 <View style={styles.links}>
@@ -83,5 +90,13 @@ logo:{
 }
   });    
   
-
-export default HomeScreen;
+  function mapDispatchToProps(dispatch) {
+    return {
+      onSubmitDepartement: function(departement) {
+          dispatch( {type: 'saveDepartement', departement} )
+      }
+    }
+   }
+   export default connect(null, mapDispatchToProps)(HomeScreen);
+   
+   
