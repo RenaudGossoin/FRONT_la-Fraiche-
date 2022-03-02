@@ -5,10 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
 import DropShadow from "react-native-drop-shadow";
 import { FontAwesome } from '@expo/vector-icons';
 
+//différents Screens
 import HomeScreen from "./screens/HomeScreen";
 import AccountScreen from './screens/AccountScreen';
 import FavouriteScreen from './screens/FavouriteScreen';
@@ -74,6 +74,7 @@ export default function App() {
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
     </Stack.Navigator>
   </NavigationContainer>
+  
 
   );
 }
