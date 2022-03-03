@@ -62,7 +62,7 @@ const BottomNavigator = () => {
         activeTintColor: '#404040',
         inactiveTintColor: '#A6A6A6',
         style: {
-          backgroundColor: '#D9D9D9',
+          //backgroundColor: '#D9D9D9',
         borderTopLeftRadius: 10, 
         borderTopRightRadius: 10,
         }
@@ -72,7 +72,6 @@ const BottomNavigator = () => {
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Favourite" component={FavouriteScreen} />
       <Tab.Screen name="Basket" component={BasketScreen} />
-      
     </Tab.Navigator>
   );
 }

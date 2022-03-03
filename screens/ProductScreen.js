@@ -2,19 +2,90 @@ import React,{useEffect, useState} from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import {connect} from 'react-redux';
 
 
 function ProductScreen(props) {
 
+  const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
+
+  const [categoryIndex, setCategoryIndex] = useState(0);
+
+const CategoryList = () =>{
+  return(
+  <View style={styles.categoryContainer}>
+    {categories.map((item, index)=>(
+      <TouchableOpacity key={index} onPress={()=> setCategoryIndex(index)}>
+
+      <Text
+      key={index}
+      style={[
+        styles.categoryText,
+        categoryIndex == index && styles.categoryTextSelected
+      ]}>
+        {item}
+        </Text>
+      </TouchableOpacity>
+      
+    ))}
+  </View>
+  )
+}
+
   const [departement, setDepartement] = useState("");
+  const [articleList, setArticleList] = useState([]);
+
   
-
 useEffect(() => {
-  setDepartement(props.saveDepartement);
-  console.log(departement+" from UseEffect")
+  const findArticles = async() => {
+    setDepartement(props.saveDepartement);
+    const data = await fetch(`https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`)
+    const body = await data.json()
+    
+    //console.log(body)
+    setArticleList(body.articles) 
+  }
 
-}, [departement]);
+  findArticles()
+  //console.log(departement+" from UseEffect")
+
+}, []);
+
+//console.log(articleList)
+
+const ArticlesArray = articleList.map((element,i)=>{
+  console.log(element.img)
+    return (
+    <Card containerStyle={styles.item}>
+    <Icon
+    style={styles.icon}
+    name="favorite"
+    size={18}
+    />
+    <Card.Image
+      style={styles.image}
+      source={{uri:element.img}}
+    />
+    <View style={styles.textcontainer}>
+      <View><Text style={styles.productandprice}>{element.nom}</Text></View>
+
+      <View><Text style={styles.productandprice}>{element.prix}</Text></View>
+    </View>
+
+    <Text style={styles.productquantity}>6 pièces</Text>
+
+    <Pressable 
+    onPress={goTo}
+    style={styles.button}
+    >
+    <Text style={styles.textbutton}>détails</Text>  
+    </Pressable>
+</Card>)
+  })
+
+
 
   const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});  
 
@@ -22,91 +93,13 @@ useEffect(() => {
 
       <ScrollView style={styles.body}>
         <View style={styles.body}>
+          
             <View >
                   <Text style={styles.title}>Nos bons oeufs frais</Text>
             </View>
 
             <View style={styles.container}>
-                <Card containerStyle={styles.item}>
-                    <Icon
-                    style={styles.icon}
-                    name="favorite"
-                    size={18}
-                    // color={plant.like ? COLORS.red : COLORS.black}
-                    />
-                    <Card.Image
-                      style={styles.image}
-                      source={require('../assets/cat-fruits.png')}
-                    />
-                    <View style={styles.textcontainer}>
-                      <View><Text style={styles.productandprice}>Oeufs</Text></View>
-
-                      <View><Text style={styles.productandprice}>1,99€</Text></View>
-                    </View>
-
-                    <Text style={styles.productquantity}>6 pièces</Text>
-                
-                    <Pressable 
-                    onPress={goTo}
-                    style={styles.button}
-                    >
-                    <Text style={styles.textbutton}>détails</Text>  
-                    </Pressable>
-                </Card>
-
-                <Card containerStyle={styles.item}>
-                    <Icon
-                    style={styles.icon}
-                    name="favorite"
-                    size={18}
-                    // color={plant.like ? COLORS.red : COLORS.black}
-                    />
-                    <Card.Image
-                      style={styles.image}
-                      source={require('../assets/cat-fruits.png')}
-                    />
-                    <View style={styles.textcontainer}>
-                      <View><Text style={styles.productandprice}>Oeufs</Text></View>
-
-                      <View><Text style={styles.productandprice}>1,99€</Text></View>
-                    </View>
-
-                    <Text style={styles.productquantity}>6 pièces</Text>
-                
-                    <Pressable 
-                    onPress={goTo}
-                    style={styles.button}
-                    >
-                    <Text style={styles.textbutton}>détails</Text>  
-                    </Pressable>
-                </Card>
-
-               <Card containerStyle={styles.item}>
-                    <Icon
-                    style={styles.icon}
-                    name="favorite"
-                    size={18}
-                    // color={plant.like ? COLORS.red : COLORS.black}
-                    />
-                    <Card.Image
-                      style={styles.image}
-                      source={require('../assets/cat-fruits.png')}
-                    />
-                    <View style={styles.textcontainer}>
-                      <View><Text style={styles.productandprice}>Oeufs</Text></View>
-
-                      <View><Text style={styles.productandprice}>1,99€</Text></View>
-                    </View>
-
-                    <Text style={styles.productquantity}>6 pièces</Text>
-                
-                    <Pressable 
-                    onPress={goTo}
-                    style={styles.button}
-                    >
-                    <Text style={styles.textbutton}>détails</Text>  
-                    </Pressable>
-                </Card>
+              {ArticlesArray}
             </View>
           
          
@@ -136,12 +129,13 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       flexWrap : "wrap",
+   
 
     },
 
     item : {
-      width: 112,
-      height: 175,
+      width: '30%',
+      height: '25%',
       borderRadius : 10,
       backgroundColor: '#ffffff',
       borderStyle: 'solid',
@@ -158,21 +152,22 @@ const styles = StyleSheet.create({
 
       marginRight: 6,
       marginLeft: 6,
-      padding: 8,
+      paddingHorizontal:'2%',
+      paddingBottom:'2%'
     },
 
     icon:{
-      marginLeft: 75,
+      marginLeft: '80%',
     },
 
     image: {
-
       width: 60,
       height: 60,
       marginBottom: 0,
       marginTop: 0,
-      marginRight: 13,
-      marginLeft: 13,
+      marginRight: '5%',
+      marginLeft: '5%',
+      resizeMode: 'contain',
       
     },
 
@@ -181,13 +176,16 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems: 'center',
       justifyContent: 'space-between',
+      resizeMode: 'contain',
+
       marginTop: 5,
     },
 
     productandprice:{
-      fontSize: 14,
+      fontSize: 12,
       borderColor : '#000000',
       fontWeight: 'bold',
+       resizeMode: 'contain',
     },
 
     productquantity:{
@@ -215,7 +213,25 @@ const styles = StyleSheet.create({
       // textAlign: "center",
       marginLeft : 'auto',
       marginRight : 'auto',
-    }
+    },
+    categoryContainer : {
+      flexDirection : 'row',
+      marginTop : 50,
+      marginBottom : 20,
+      paddingHorizontal:20,
+      justifyContent:'space-between',
+    },
+    categoryText:{fontSize:18, color:'#ffffff', fontWeight:'bold', opacity:0.5,},
+
+    categoryTextSelected:{
+      color: '#ffffff',
+      fontWeight:'bold',
+      opacity:1,
+      paddingBottom:3,
+      borderBottomWidth:2,
+      borderColor:'#ffffff'
+    },
+
   });    
     
   function mapStateToProps(state) {

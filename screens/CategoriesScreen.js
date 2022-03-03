@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    marginTop: 147,
+    //marginTop: 20,
   },
 
   bigtitle: {
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     },
 
     category : {
-      width: 164,
+      width: 150,
       height: 190,
       borderRadius : 18,
       backgroundColor: '#53B175',
@@ -154,23 +154,26 @@ const styles = StyleSheet.create({
 
       shadowColor: "#000",
       shadowOffset: {
-        width: 0,
-        height: 8,
+        width: 5,
+        height: 5,
       },
-      shadowOpacity: 0.44,
-      shadowRadius: 10.32,
-      elevation: 16,
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      elevation: 10,
     },
     imageup: {
-      width: 130,
+      //width: 130,
       height: 80,
       marginBottom: 10,
       marginTop: 30,
+      resizeMode: 'contain'
     },
     imagedown: {
       width: 130,
       height: 130,
-      marginBottom: 10
+      marginBottom: 10,
+      //resizeMode: 'contain'
+
     },
     categoryname : {
       textAlign : 'center',
