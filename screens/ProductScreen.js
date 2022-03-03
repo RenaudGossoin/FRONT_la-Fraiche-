@@ -3,18 +3,23 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import BandeVerteHaut from './BandeVerteHaut';
 
 import {connect} from 'react-redux';
 
 
 function ProductScreen(props) {
 
-  const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
 
+  const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
   const [categoryIndex, setCategoryIndex] = useState(0);
+  const [departement, setDepartement] = useState("");
+  const [articleList, setArticleList] = useState([]);
+
 
 const CategoryList = () =>{
   return(
+
   <View style={styles.categoryContainer}>
     {categories.map((item, index)=>(
       <TouchableOpacity key={index} onPress={()=> setCategoryIndex(index)}>
@@ -28,15 +33,10 @@ const CategoryList = () =>{
         {item}
         </Text>
       </TouchableOpacity>
-      
     ))}
   </View>
   )
 }
-
-  const [departement, setDepartement] = useState("");
-  const [articleList, setArticleList] = useState([]);
-
   
 useEffect(() => {
   const findArticles = async() => {
@@ -90,34 +90,31 @@ const ArticlesArray = articleList.map((element,i)=>{
   const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});  
 
   return (
-
+    <>
+    <BandeVerteHaut/>
       <ScrollView style={styles.body}>
-        <View style={styles.body}>
-          
             <View >
                   <Text style={styles.title}>Nos bons oeufs frais</Text>
             </View>
-
             <View style={styles.container}>
               {ArticlesArray}
             </View>
-          
-         
-        </View>
         </ScrollView>
+        </>
   );
 };
 
 const styles = StyleSheet.create({
     body: {
       backgroundColor: '#ffffff',
+
     },
 
     title: {
       textAlign: 'center',
       fontWeight: 'bold',
       fontSize: 18,
-      marginTop: 46+123,
+      //marginTop: 46+123,
       marginBottom: 25,
     },
 
@@ -129,13 +126,14 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "row",
       flexWrap : "wrap",
+      paddingBottom:'10%'
    
 
     },
 
     item : {
       width: '30%',
-      height: '25%',
+      height: '33%',
       borderRadius : 10,
       backgroundColor: '#ffffff',
       borderStyle: 'solid',
@@ -185,7 +183,6 @@ const styles = StyleSheet.create({
       fontSize: 12,
       borderColor : '#000000',
       fontWeight: 'bold',
-       resizeMode: 'contain',
     },
 
     productquantity:{
@@ -193,7 +190,6 @@ const styles = StyleSheet.create({
       color : '#7C7C7C',
       marginTop: 3,
     },
-
 
     button : {
       backgroundColor: "#53B175",
@@ -222,15 +218,6 @@ const styles = StyleSheet.create({
       justifyContent:'space-between',
     },
     categoryText:{fontSize:18, color:'#ffffff', fontWeight:'bold', opacity:0.5,},
-
-    categoryTextSelected:{
-      color: '#ffffff',
-      fontWeight:'bold',
-      opacity:1,
-      paddingBottom:3,
-      borderBottomWidth:2,
-      borderColor:'#ffffff'
-    },
 
   });    
     

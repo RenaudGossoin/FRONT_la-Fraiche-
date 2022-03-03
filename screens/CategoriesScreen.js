@@ -1,13 +1,13 @@
-
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {Card} from 'react-native-elements';
 import React, {useState} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import BandeVerteHaut from './BandeVerteHaut';
 
 
 function CategoriesScreen(props) {
 
-  const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
+ /* const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
 
   const [categoryIndex, setCategoryIndex] = useState(0);
 
@@ -30,23 +30,20 @@ const CategoryList = () =>{
     ))}
   </View>
   )
-}
+}*/
 
   const goTo = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
   
     return (
       <>
-      <ScrollView style={styles.body}>
-      <View style={{backgroundColor:"#53B175"}}>
-<CategoryList/>
-</View>
-        <View style={styles.body}>
+
+       <BandeVerteHaut/>
+
+       <View style={styles.body}>
+       <ScrollView >
             <View style={styles.title}>
-              <Text style={styles.bigtitle}>La Fraiche</Text>
               <Text style={styles.subtitle}>Catégories</Text>
             </View>
-
-
 
             <View style={styles.container}>
               <Card containerStyle={styles.category}>
@@ -61,8 +58,6 @@ const CategoryList = () =>{
                   style={styles.button}
                   title="Fruits"
                   onPress={goTo}  />
-               
-
               </Card>
 
               <Card containerStyle={styles.category}>
@@ -102,14 +97,20 @@ const CategoryList = () =>{
                   />
               </Card>
               </View>
-        </View>
         </ScrollView>
+
+       </View>
+      
       </>
 
     );
 };
 
 const styles = StyleSheet.create({
+  bandeVerte:{
+    backgroundColor:'#53B175',
+    height:'17%'
+  },
   body: {
     backgroundColor: '#ffffff',
   },
@@ -123,7 +124,6 @@ const styles = StyleSheet.create({
 
   bigtitle: {
     // fontFamily: "Rochester",
-
     color:'#53B175',
   },
 
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      display: "flex",
+      //display: "flex",
       flexDirection: "row",
       flexWrap : "wrap",
     },
@@ -201,7 +201,6 @@ const styles = StyleSheet.create({
     },
 
     button : {
-      
       backgroundColor: "#FFFFFF",
       opacity : 0,
       borderRadius: 10,
