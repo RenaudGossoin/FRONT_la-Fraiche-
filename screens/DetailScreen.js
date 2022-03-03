@@ -1,16 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Button } from 'react-native';
+import {useState} from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable, Button, Image, TouchableOpacity } from 'react-native';
 import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Divider from 'react-native-divider';
 
 
-const DetailScreen = () => {
+
+function DetailScreen(props) {
+
+  const [showTextProductDetails, setShowTextProductDetails] = useState(false);
+  const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
+  const [showTextConseils, setShowTextConseils] = useState(false);
+
+  const goBack = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
+
     return (
       <>
       <ScrollView style={styles.body}>
       <View style={styles.body}>
               <View style={styles.container}>
+                    <View>
+                    <TouchableOpacity 
+                              onPress={goBack}
+                              >
+                                    <Image
+                                        style={styles.imgGoback}
+                                        source={require('../assets/fleche-goback.png')}
+                                      />
+                            </TouchableOpacity> 
+                    </View>
                     <View>
                         <Card.Image
                           style={styles.image}
@@ -28,6 +47,7 @@ const DetailScreen = () => {
                                     size={25}
                                     // color={plant.like ? COLORS.red : COLORS.black}
                                 />
+
                             </View>
                         </View>
                         
@@ -38,11 +58,6 @@ const DetailScreen = () => {
                                   title="-"
                                   color="gray"
                                   buttonStyle={styles.button}
-                                  // type="outline"
-                                  // titleStyle={{ color: "#636e72" }}
-                                  // containerStyle={{
-                                  //   marginRight: 10,
-                                  // }}
                                   onPress={() => console.log("add : click réussi")}
                                 />
                                 <Text style={styles.quantity}>1</Text>
@@ -50,21 +65,13 @@ const DetailScreen = () => {
                                   title="+"
                                   color="#53B175"
                                   buttonStyle={styles.button}
-                                  // type="outline"
-                                  // titleStyle={{ color: "#636e72" }}
-                                  // containerStyle={{
-                                  //   marginLeft: 10,
-                                  // }}
                                   onPress={() => console.log("minus: click réussi")}
                                 />
                             </View>
 
-                            <View style={styles.ainproductinfolines}>
+                            <View style={styles.mainproductinfolines}>
                                 <View><Text style={styles.price}>3,20€</Text></View>
-                                <View>
-                                    <Text style={styles.unit}>le kg</Text>
-                                </View>
-                                
+                                <View><Text style={styles.unit}>le kg</Text></View>
                             </View>
                             
                         </View>
@@ -72,61 +79,64 @@ const DetailScreen = () => {
                     <View>
                     
                     <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Détails du produits</Text>
 
-                      <View style={styles.firstlineshowhidemenu}>
-                        <View>
-                          <Text style={styles.titleshowhidemenu}>Détails du produits</Text>
+                            <TouchableOpacity 
+                              onPress={() => setShowTextProductDetails(!showTextProductDetails)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
                         </View>
-
-                        <View>
-                          <Icon
-                              style={styles.icon}
-                              name="arrow-drop-down"
-                              size={30}
-                              />
-                        </View>
-
-                      </View>
-                      <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text>
+                         
+                        {showTextProductDetails && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
+                              
 
                     <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Infos nutritionnelles</Text>
 
-                    <View style={styles.firstlineshowhidemenu}>
-                      <View>
-                        <Text style={styles.titleshowhidemenu}>Infos nutritionnelles</Text>
-                      </View>
-
-                      <View>
-                        <Icon
-                            style={styles.icon}
-                            name="arrow-drop-down"
-                            size={30}
-                            />
-                      </View>
-
+                            <TouchableOpacity 
+                              onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
+                        </View>
+                         
+                        {showTextInfoNutri && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
-                    {/* <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text> */}
-                    </View>
+                              
 
                     <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Conseils</Text>
 
-                    <View style={styles.firstlineshowhidemenu}>
-                      <View>
-                        <Text style={styles.titleshowhidemenu}>Conseils</Text>
-                      </View>
-
-                      <View>
-                        <Icon
-                            style={styles.icon}
-                            name="arrow-drop-down"
-                            size={30}
-                            />
-                      </View>
-
+                            <TouchableOpacity 
+                              onPress={() => setShowTextConseils(!showTextConseils)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
+                        </View>
+                         
+                        {showTextConseils && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
-                    {/* <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text> */}
-                    </View>
+                              
                       
                     <Pressable 
                       style={styles.buttonaddtobasket}
@@ -154,7 +164,10 @@ const DetailScreen = () => {
       
        
     );
+    
 };
+
+
 
 const styles = StyleSheet.create({
     body: {
@@ -167,8 +180,13 @@ const styles = StyleSheet.create({
       display : 'flex',
       flexDirection : 'column',
       
-      marginTop: 150,
+      marginTop: 50,
       padding: 30,
+    },
+
+    imgGoback : {
+      width: 35,
+      height : 20,
     },
 
     image: {
@@ -176,7 +194,6 @@ const styles = StyleSheet.create({
       width: 329,
       height: 200,
       marginBottom: 0,
-      marginTop: 20,
       marginRight: 13,
       marginLeft: 13,
       
@@ -246,7 +263,8 @@ const styles = StyleSheet.create({
     unit : {
       fontSize: 12,
       color: "#7C7C7C",
-      textAlign: "left",
+      marginLeft : 43,
+      
     },
 
     marginTopshowhidemenu : {
@@ -256,7 +274,13 @@ const styles = StyleSheet.create({
     firstlineshowhidemenu : {
       display : 'flex',
       flexDirection : 'row',
-      justifyContent : 'space-between'
+      justifyContent : 'space-between',
+    },
+
+    imgFleche : {
+      width : 20,
+      height : 20,
+      backgroundColor: "#ffffff",
     },
 
     titleshowhidemenu : {
@@ -268,6 +292,9 @@ const styles = StyleSheet.create({
       fontSize: 13,
       color: "#7C7C7C",
       textAlign: "left",
+      
+      marginTop: 10,
+      lineHeight: 20,
     },
 
     buttonaddtobasket : {
@@ -275,6 +302,8 @@ const styles = StyleSheet.create({
       
       borderRadius: 17,
       height: 67,
+
+      marginTop: 80,
     },
 
     textaddtobasketbutton : {
