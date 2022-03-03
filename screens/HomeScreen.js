@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet,TextInput,Image, ImageBackground, ScrollView } from 'react-native'
+import { View, Text, StyleSheet,TextInput,Image, ImageBackground, ScrollView,KeyboardAvoidingView } from 'react-native'
 import { Button } from 'react-native-elements';
+import {connect} from 'react-redux';
+
 
 const HomeScreen = (props) => {
+
+const [departement,setDepartement] = useState("");
 
     return (
 
 <ImageBackground source={require('../assets/background_panier.png')} style={styles.container}>
+  <KeyboardAvoidingView style={styles.container}>
  <View style={styles.viewContainer}>
  <Image source={require('../assets/logo.png')} style={styles.logo}></Image>
 <View style={styles.textInputBtn}>
@@ -15,11 +20,14 @@ const HomeScreen = (props) => {
     <TextInput placeholder='dept'
   style={styles.textInput}
   keyboardType = 'numeric'
+  onChangeText={(val) => setDepartement(val)}
 />
 
   </View>
 <Button title="Rechercher" buttonStyle={styles.button}
-       onPress={() => props.navigation.navigate('BottomNavigator', {screen: 'Categories'})}
+       onPress={() => {props.navigation.navigate('BottomNavigator', {screen: 'Categories'});
+       props.onSubmitDepartement(departement)}
+      }
      />
 </View>
 <View style={styles.links}>
@@ -29,6 +37,7 @@ const HomeScreen = (props) => {
 onPress={() => props.navigation.navigate('SignIn', {screen: 'SignIn'})}>Me connecter</Text>
 </View>
  </View>
+ </KeyboardAvoidingView>
     </ImageBackground>
 
     );
@@ -43,9 +52,9 @@ const styles = StyleSheet.create({
     },
     viewContainer:{
       flex:1,
-      justifyContent:'center',
+      justifyContent:'flex-end',
       alignItems:'center',
-      maxHeight:'70%',
+      maxHeight:'80%',
     },
     textInputBtn:{
       flex:1,
@@ -70,18 +79,27 @@ const styles = StyleSheet.create({
     },
     links:{
       flex:1,
-      justifyContent:'center',
+      justifyContent:'flex-start',
       alignItems:'center',
-      marginBottom:50,
     },
 logo:{
  flex: 1,
     width: 200,
     height: 200,
+    minHeight:70,
     resizeMode: 'contain',
-    marginTop:70
+    // marginTop:70,
+    
 }
   });    
   
-
-export default HomeScreen;
+  function mapDispatchToProps(dispatch) {
+    return {
+      onSubmitDepartement: function(departement) {
+          dispatch( {type: 'saveDepartement', departement} )
+      }
+    }
+   }
+   export default connect(null, mapDispatchToProps)(HomeScreen);
+   
+   
