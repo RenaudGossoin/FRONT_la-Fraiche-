@@ -59,7 +59,7 @@ const DetailScreen = () => {
                                 />
                             </View>
 
-                            <View style={styles.ainproductinfolines}>
+                            <View style={styles.mainproductinfolines}>
                                 <View><Text style={styles.price}>3,20€</Text></View>
                                 <View>
                                     <Text style={styles.unit}>le kg</Text>

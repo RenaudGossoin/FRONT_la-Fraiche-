@@ -2,23 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView  } from 'react-native';
 import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
+
 
 
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import CheckBoxLockers from './CheckBoxLockers';
 
-export default function LockerScreen(props) {
+function LockerScreen(props) {
 
-  const [lockers, setLockers] = useState([])
-  const [latitude, setLatitude] = useState([])
-  const [longitude, setLongitude] = useState([])
-
-  const [ferme1, setFerme1] = useState(false);
-  const [ferme2, setFerme2] = useState(false);
-  const [ferme3, setFerme3] = useState(false);
-  const [ferme4, setFerme4] = useState(false);
-  const [ferme5, setFerme5] = useState(false);
+  const [lockersList, setLockersList] = useState([])
+  //const [checkBox, setCheckBox] = useState({})
+ 
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
   const [gpay, setGpay] = useState(false);
@@ -28,6 +25,19 @@ export default function LockerScreen(props) {
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
+
+  useEffect(() => {
+    
+    const Lockers = async() => {
+      const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
+      const body = await data.json()
+      //console.log(body);
+      setLockersList(body.result)
+      
+    }
+    Lockers() 
+  }, [])
+  //console.log(lockersList);
 
   useEffect(() => {
     async function askPermissions() {
@@ -44,38 +54,16 @@ export default function LockerScreen(props) {
     askPermissions();
   }, []);
 
-  var markerPOI = listPOI.map((POI, i) => {
+  var markerPOI = lockersList.map((POI, i) => {
     return <Marker key={i} pinColor="blue" coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
-      title={POI.titre}
-      description={POI.description}
+      title={POI.nom}
     />
   });
-  var isDisabled = false;
+ 
+  /*var isDisabled = false;
   if (addPOI) {
     isDisabled = true;
-  }
-
-  useEffect(() => {
-    
-  const Lockers = async() => {
-    const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
-    const body = await data.json()
-    console.log(body);
-  }
-  lockers() 
-}, [])
-
-  
-  /*useEffect(() => {
-    const findArticles = async() => {
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=b32c8b844d1243b1a7998d8228910f50`)
-      const body = await data.json()
-      console.log(body)
-      setArticleList(body.articles) 
-    }
-
-    findArticles()    
-  },[])*/
+  }*/
 
 
   var selectPOI = (e) => {
@@ -97,6 +85,7 @@ export default function LockerScreen(props) {
     setDescPOI();
     setTitrePOI();
   }
+  
 
   return (
     
@@ -130,31 +119,7 @@ export default function LockerScreen(props) {
           <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
           </View>  
           
-            <CheckBox     
-          title=" La ferme des 4 étoiles montante du dev - 2 rue des retrouvailles, 75020 Paris" 
-          checked={ferme1}
-              onPress={() => setFerme1(!ferme1)} 
-        />
-        <CheckBox
-          title="La ferme de la Couturière Elodie - 84 bd de la ferme, 75011 Paris" 
-          checked={ferme2}
-              onPress={() => setFerme2(!ferme2)} 
-        />
-        <CheckBox
-          title="La ferme de Renaud - 32 rue de la paix, 75009 Paris" 
-          checked={ferme3}
-              onPress={() => setFerme3(!ferme3)}  
-        />
-        <CheckBox
-          title="La Ferme ouverte de Boramy - 16 bd de courcelle, 75017 Paris"
-          checked={ferme4}
-              onPress={() => setFerme4(!ferme4)}
-        />
-        <CheckBox
-          title="La ferme du Vilain Amour - 2 rue de paris 75005 Paris"
-          checked={ferme5}
-              onPress={() => setFerme5(!ferme5)}
-        />
+          <CheckBoxLockers/>
         
         
         </ScrollView>
@@ -190,14 +155,9 @@ export default function LockerScreen(props) {
           description="I'am here"
           coordinate={{ latitude: currentLatitude, longitude: currentLongitude }}
         />
-        <Marker key={"currentPos1"}
-          pinColor="blue"
-          title={lockers}
-          //description="part ici houhouuu, choisit nous stp"
-          //coordinate={latitude} {longitude}
-        />
         
         {markerPOI}
+        
 
       </MapView>
 
@@ -229,3 +189,11 @@ export default function LockerScreen(props) {
     </View>
   );
 }
+function mapStateToProps(state) {
+  return { saveDepartement : state.saveDepartement }
+}
+
+export default connect(
+  mapStateToProps, 
+  null
+)(LockerScreen);

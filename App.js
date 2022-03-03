@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
+
 //redux
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
@@ -93,6 +94,7 @@ export default function App() {
       <Stack.Screen name="Error" component={ErrorScreen} />
       <Stack.Screen name="Product" component={ProductScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Screen name="Basket" component={BasketScreen}/>
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
     </Stack.Navigator>
   </NavigationContainer>
