@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { saveDepartement: state.saveDepartement };
+  return { saveDepartement: state.saveDepartement, token: state.token };
 }
 
 export default connect(mapStateToProps, null)(ProductScreen);
