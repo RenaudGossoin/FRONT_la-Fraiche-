@@ -88,7 +88,7 @@ logo:{
     height: 200,
     minHeight:70,
     resizeMode: 'contain',
-    marginTop:70,
+    // marginTop:70,
     
 }
   });    

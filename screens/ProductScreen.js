@@ -91,7 +91,7 @@ const ArticlesArray = articleList.map((element,i)=>{
 
   return (
     <>
-    <BandeVerteHaut/>
+    {/* <BandeVerteHaut/> */}
       <ScrollView style={styles.body}>
             <View >
                   <Text style={styles.title}>Nos bons oeufs frais</Text>
