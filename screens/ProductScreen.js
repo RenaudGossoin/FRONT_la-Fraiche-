@@ -35,14 +35,22 @@ function ProductScreen(props) {
 
   useEffect(() => {
     const findArticles = async () => {
-      setDepartement(props.saveDepartement);
-      const data = await fetch(
-        `https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`
-      );
-      const body = await data.json();
-
-      //console.log(body)
-      setArticleList(body.articles);
+      console.log(props.token);
+      if (props.token) {
+        const data = await fetch(
+          `https://lafraiche.herokuapp.com/articles?token=${props.token}`
+        );
+        const body = await data.json();
+        console.log(body);
+        setArticleList(body.articles);
+      } else {
+        const data = await fetch(
+          `https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`
+        );
+        const body = await data.json();
+        //console.log(body)
+        setArticleList(body.articles);
+      }
     };
 
     findArticles();
@@ -54,7 +62,7 @@ function ProductScreen(props) {
   const ArticlesArray = articleList.map((element, i) => {
     console.log(element.img);
     return (
-      <Card containerStyle={styles.item}>
+      <Card key={i} containerStyle={styles.item}>
         <Icon style={styles.icon} name="favorite" size={18} />
         <Card.Image style={styles.image} source={{ uri: element.img }} />
         <View style={styles.textcontainer}>
