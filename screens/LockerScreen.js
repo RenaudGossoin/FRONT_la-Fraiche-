@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Overlay, Input, CheckBox, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { connect } from "react-redux";
 
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
-export default function LockerScreen(props) {
+function LockerScreen(props) {
   const [ferme1, setFerme1] = useState(false);
   const [ferme2, setFerme2] = useState(false);
   const [ferme3, setFerme3] = useState(false);
@@ -21,6 +22,7 @@ export default function LockerScreen(props) {
   const [addPOI, setAddPOI] = useState(false);
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
+  console.log(props.token);
 
   useEffect(() => {
     async function askPermissions() {
@@ -245,3 +247,9 @@ export default function LockerScreen(props) {
     </View>
   );
 }
+
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
+export default connect(mapStateToProps, null)(LockerScreen);

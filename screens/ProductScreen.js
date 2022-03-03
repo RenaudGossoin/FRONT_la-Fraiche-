@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { connect } from "react-redux";
 
 function ProductScreen(props) {
+  //console.log(props.token);
   const goTo = () =>
     props.navigation.navigate("Detail", { screen: "DetailScreen" });
   return (
@@ -202,4 +204,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductScreen;
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
+export default connect(mapStateToProps, null)(ProductScreen);

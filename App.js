@@ -23,8 +23,16 @@ import DetailScreen from "./screens/DetailScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import ErrorScreen from "./screens/ErrorScreen";
 
+//reducers
+import count from "./reducers/count";
+import token from "./reducers/token";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const store = createStore(combineReducers({ count, token }));
 
 const BottomNavigator = () => {
   return (
@@ -67,19 +75,21 @@ const BottomNavigator = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="SignIn" component={LogInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Locker" component={LockerScreen} />
-        <Stack.Screen name="Success" component={SuccessScreen} />
-        <Stack.Screen name="Account" component={AccountScreen} />
-        <Stack.Screen name="Error" component={ErrorScreen} />
-        <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
-        <Stack.Screen name="Product" component={ProductScreen} />
-        <Stack.Screen name="Detail" component={DetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="SignIn" component={LogInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Locker" component={LockerScreen} />
+          <Stack.Screen name="Success" component={SuccessScreen} />
+          <Stack.Screen name="Account" component={AccountScreen} />
+          <Stack.Screen name="Error" component={ErrorScreen} />
+          <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
+          <Stack.Screen name="Product" component={ProductScreen} />
+          <Stack.Screen name="Detail" component={DetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

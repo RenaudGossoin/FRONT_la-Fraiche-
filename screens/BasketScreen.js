@@ -2,8 +2,10 @@ import { View, Image, StyleSheet, ScrollView } from "react-native";
 
 import { Text, Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
 
-export default function BasketScreen(props) {
+function BasketScreen(props) {
+  console.log(props.token);
   return (
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <Text style={styles.title}>Mon Panier</Text>
@@ -101,7 +103,6 @@ export default function BasketScreen(props) {
           <Text style={{ paddingTop: 5 }}> 100 €</Text>
         </View>
       </View>
-      
     </ScrollView>
   );
 }
@@ -153,3 +154,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
+
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
+export default connect(mapStateToProps, null)(BasketScreen);
