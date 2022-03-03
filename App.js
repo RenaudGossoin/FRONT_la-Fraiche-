@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
+//redux
+import {Provider} from 'react-redux';
+import {createStore, combineReducers}  from 'redux';
+import saveDepartement from './reducers/saveDepartement';
+
+
+//Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -23,8 +30,12 @@ import DetailScreen from './screens/DetailScreen';
 import SuccessScreen from './screens/SuccessScreen';
 import ErrorScreen from './screens/ErrorScreen';
 
+//navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+//redux
+const store = createStore(combineReducers({saveDepartement}));
 
 const BottomNavigator = () => {
   return (
@@ -51,8 +62,7 @@ const BottomNavigator = () => {
         activeTintColor: '#404040',
         inactiveTintColor: '#A6A6A6',
         style: {
-          backgroundColor: '#D9D9D9',
-        marginTop:20,
+          //backgroundColor: '#D9D9D9',
         borderTopLeftRadius: 10, 
         borderTopRightRadius: 10,
         }
@@ -62,13 +72,14 @@ const BottomNavigator = () => {
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Favourite" component={FavouriteScreen} />
       <Tab.Screen name="Basket" component={BasketScreen} />
-      
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
+
+    <Provider store={store}>
 
 <NavigationContainer>
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -79,12 +90,13 @@ export default function App() {
       <Stack.Screen name="Success" component={SuccessScreen} />
       <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="Error" component={ErrorScreen} />
-      <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
       <Stack.Screen name="Product" component={ProductScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Screen name="BottomNavigator" component={BottomNavigator}/>
     </Stack.Navigator>
   </NavigationContainer>
-  
+
+  </Provider>
 
   );
 }
