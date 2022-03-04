@@ -127,6 +127,7 @@ function LockerScreen(props) {
 
 
           <Button
+          
             title="Confirmer"
             onPress={() => {setIsVisible(false)}}
             //disabled={isDisabled}

@@ -61,7 +61,7 @@ function ProductScreen(props) {
           <View>
             <Text style={styles.productandprice}>{element.nom}</Text>
           </View>
-
+  
           <View>
             <Text style={styles.productandprice}>{element.prix}</Text>
           </View>
@@ -130,12 +130,14 @@ function ProductScreen(props) {
       </SafeAreaView>
 
       <ScrollView style={styles.body}>
-        <View>
-          <Text style={styles.title}>Nos bons oeufs frais</Text>
+            <View >
+                  <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text>
+            </View>
+            <View style={styles.container}>
+              {ArticlesArray}
+            </View>
+        </ScrollView>
         </View>
-        <View style={styles.container}>{ArticlesArray}</View>
-      </ScrollView>
-    </View>
   );
 }
 
