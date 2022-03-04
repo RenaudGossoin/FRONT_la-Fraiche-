@@ -44,10 +44,135 @@ function DetailScreen(props) {
               />
             </View>
 
+<<<<<<< HEAD
             <View style={styles.mainproductinfolines}>
               <View style={styles.productandfavoriteline}>
                 <View>
                   <Text style={styles.producttitle}>Cerises</Text>
+=======
+                    <View style={styles.mainproductinfolines}>
+                        <View style={styles.productandfavoriteline}>
+                            <View><Text style={styles.producttitle}>Cerises</Text></View>
+                            <View>
+                                <Icon
+                                    style={styles.icon}
+                                    name="favorite"
+                                    size={25}
+                                    // color={plant.like ? COLORS.red : COLORS.black}
+                                />
+                            </View>
+                        </View>
+                        
+                        
+                        <View style={styles.addquantityandpriceline}>
+                            <View style={styles.blockbutton}>
+                                <Button
+                                  title="-"
+                                  color="gray"
+                                  buttonStyle={styles.button}
+                                  // type="outline"
+                                  // titleStyle={{ color: "#636e72" }}
+                                  // containerStyle={{
+                                  //   marginRight: 10,
+                                  // }}
+                                  onPress={() => console.log("add : click réussi")}
+                                />
+                                <Text style={styles.quantity}>1</Text>
+                                <Button
+                                  title="+"
+                                  color="#53B175"
+                                  buttonStyle={styles.button}
+                                  // type="outline"
+                                  // titleStyle={{ color: "#636e72" }}
+                                  // containerStyle={{
+                                  //   marginLeft: 10,
+                                  // }}
+                                  onPress={() => console.log("minus: click réussi")}
+                                />
+                            </View>
+
+                            <View style={styles.mainproductinfolines}>
+                                <View><Text style={styles.price}>3,20€</Text></View>
+                                <View>
+                                    <Text style={styles.unit}>le kg</Text>
+                                </View>
+                                
+                            </View>
+                            
+                        </View>
+
+                    <View>
+                    
+                    <View style={styles.marginTopshowhidemenu}>
+
+                      <View style={styles.firstlineshowhidemenu}>
+                        <View>
+                          <Text style={styles.titleshowhidemenu}>Détails du produits</Text>
+                        </View>
+
+                        <View>
+                          <Icon
+                              style={styles.icon}
+                              name="arrow-drop-down"
+                              size={30}
+                              />
+                        </View>
+
+                      </View>
+                      <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text>
+                    </View>
+
+                    <View style={styles.marginTopshowhidemenu}>
+
+                    <View style={styles.firstlineshowhidemenu}>
+                      <View>
+                        <Text style={styles.titleshowhidemenu}>Infos nutritionnelles</Text>
+                      </View>
+
+                      <View>
+                        <Icon
+                            style={styles.icon}
+                            name="arrow-drop-down"
+                            size={30}
+                            />
+                      </View>
+
+                    </View>
+                    {/* <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text> */}
+                    </View>
+
+                    <View style={styles.marginTopshowhidemenu}>
+
+                    <View style={styles.firstlineshowhidemenu}>
+                      <View>
+                        <Text style={styles.titleshowhidemenu}>Conseils</Text>
+                      </View>
+
+                      <View>
+                        <Icon
+                            style={styles.icon}
+                            name="arrow-drop-down"
+                            size={30}
+                            />
+                      </View>
+
+                    </View>
+                    {/* <Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu laoreet nibh. Duis finibus odio.</Text> */}
+                    </View>
+                      
+                    <Pressable 
+                      style={styles.buttonaddtobasket}
+                      
+                      // onPress={goTo}
+                      >
+                    <Text style={styles.textaddtobasketbutton}>Ajouter au panier</Text>  
+                    </Pressable>
+
+
+                    </View>
+
+                        
+>>>>>>> lockersuiteAB
                 </View>
               </View>
 

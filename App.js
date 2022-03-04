@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
+
 //redux
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
@@ -41,6 +42,9 @@ const store = createStore(combineReducers({ saveDepartement, count, token, saveC
 
 const BottomNavigator = () => {
   return (
+
+
+
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {

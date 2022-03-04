@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Overlay, Input, CheckBox, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView  } from 'react-native';
+import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
+
+//pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
+//faire un [etat isDisable]
 
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import CheckBoxLockers from './CheckBoxLockers';
+
 function LockerScreen(props) {
-  const [ferme1, setFerme1] = useState(false);
-  const [ferme2, setFerme2] = useState(false);
-  const [ferme3, setFerme3] = useState(false);
-  const [ferme4, setFerme4] = useState(false);
-  const [ferme5, setFerme5] = useState(false);
+
+  const [lockersList, setLockersList] = useState([])
+  const [isDisabled, setIsDisabled] = useState(false)
+
+ 
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
   const [gpay, setGpay] = useState(false);
@@ -24,6 +32,19 @@ function LockerScreen(props) {
   const [isVisible, setIsVisible] = useState(false);
   console.log(props.token);
 
+  useEffect(() => {
+    
+    const Lockers = async() => {
+      const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
+      const body = await data.json()
+      //console.log(body);
+      setLockersList(body.result)
+      
+    }
+    Lockers() 
+  }, [])
+  //console.log(lockersList);
+//console.log(props.saveDepartement);
   useEffect(() => {
     async function askPermissions() {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -37,44 +58,14 @@ function LockerScreen(props) {
     askPermissions();
   }, []);
 
-  var markerPOI = listPOI.map((POI, i) => {
-    return (
-      <Marker
-        key={i}
-        pinColor="blue"
-        coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
-        title={POI.titre}
-        description={POI.description}
-      />
-    );
+  var markerPOI = lockersList.map((POI, i) => {
+    return <Marker key={i} pinColor="blue" coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
+      title={POI.nom}
+    />
   });
-  var isDisabled = false;
-  if (addPOI) {
-    isDisabled = true;
-  }
-
-  useEffect(() => {
-    
-  const Lockers = async() => {
-    const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
-    const body = await data.json()
-    console.log(body);
-  }
-  lockers() 
-}, [])
-
   
-  /*useEffect(() => {
-    const findArticles = async() => {
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=b32c8b844d1243b1a7998d8228910f50`)
-      const body = await data.json()
-      console.log(body)
-      setArticleList(body.articles) 
-    }
-
-    findArticles()    
-  },[])*/
-
+  
+  
 
   var selectPOI = (e) => {
     if (addPOI) {
@@ -96,6 +87,8 @@ function LockerScreen(props) {
     setTitrePOI();
   }
 
+
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -107,82 +100,42 @@ function LockerScreen(props) {
           paddingBottom: 15,
         }}
       >
-        <Text style={{ color: "white", fontSize: 18 }}>Mon casier</Text>
+        
+      <ScrollView>
+        <View style={{ flex: 1, alignItems: 'center',
+         justifyContent: 'center',
+         backgroundColor:'#53B175', borderTopLeftRadius:10, borderTopRightRadius:10}}>
+          <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
+          </View>  
+          
+          <CheckBoxLockers
+          />
+          
+        
+        </ScrollView> 
+        
+
+
+          <Button
+            title="Confirmer"
+            onPress={() => {setIsVisible(false)}}
+            //disabled={isDisabled}
+            buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
+                containerStyle={{
+                  marginHorizontal: 70,
+                  marginVertical: 10,
+                  alignItems: 'center', 
+                  justifyContent: 'center'}}      
+          />
+        
+      
       </View>
 
       <View style={{ flexDirection: "row", margin: 10 }}>
         <Text style={{ flex: 1, fontSize: 20 }}>Votre panier :</Text>
         <Text style={{ textAlign: "right", flex: 1, fontSize: 20 }}>100€</Text>
       </View>
-
-      <View>
-        <Overlay
-          overlayStyle={{
-            height: "60%",
-            width: "80%",
-            borderRadius: 10,
-            padding: -10,
-          }}
-          isVisible={isVisible}
-          onBackdropPress={() => {
-            setIsVisible(false);
-          }}
-        >
-          <ScrollView>
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#53B175",
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 25, margin: 5 }}>
-                Je choisis mon locker
-              </Text>
-            </View>
-
-            <CheckBox
-              title=" La ferme des 4 étoiles montante du dev - 2 rue des retrouvailles, 75020 Paris"
-              checked={ferme1}
-              onPress={() => setFerme1(!ferme1)}
-            />
-            <CheckBox
-              title="La ferme de la Couturière Elodie - 84 bd de la ferme, 75011 Paris"
-              checked={ferme2}
-              onPress={() => setFerme2(!ferme2)}
-            />
-            <CheckBox
-              title="La ferme de Renaud - 32 rue de la paix, 75009 Paris"
-              checked={ferme3}
-              onPress={() => setFerme3(!ferme3)}
-            />
-            <CheckBox
-              title="La Ferme ouverte de Boramy - 16 bd de courcelle, 75017 Paris"
-              checked={ferme4}
-              onPress={() => setFerme4(!ferme4)}
-            />
-            <CheckBox
-              title="La ferme du Vilain Amour - 2 rue de paris 75005 Paris"
-              checked={ferme5}
-              onPress={() => setFerme5(!ferme5)}
-            />
-          </ScrollView>
-
-          <Button
-            title="Confirmer"
-            buttonStyle={{ backgroundColor: "#53B175", borderRadius: 10 }}
-            containerStyle={{
-              marginHorizontal: 70,
-              marginVertical: 10,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          />
-        </Overlay>
-      </View>
+      
 
       <MapView
         onPress={() => {
@@ -206,58 +159,10 @@ function LockerScreen(props) {
             longitude: currentLongitude,
           }}
         />
-        <Marker
-          key={"currentPos1"}
-          pinColor="blue"
-          title=" La ferme des 4 étoiles montante du dev"
-          description="part ici houhouuu, choisit nous stp"
-          coordinate={{
-            latitude: 48.872939393965694,
-            longitude: 2.2701871445515867,
-          }}
-        />
-        <Marker
-          key={"currentPos2"}
-          pinColor="blue"
-          title="La ferme de la Couturière Elodie"
-          description="Elodie notre fermière t'accueil avec des radis en bienvenue"
-          coordinate={{
-            latitude: 48.88817952018065,
-            longitude: 2.330182795535716,
-          }}
-        />
-        <Marker
-          key={"currentPos3"}
-          pinColor="blue"
-          title="La ferme de Renaud"
-          description="Renaud le prénom pas la marque de voiture hein !!!"
-          coordinate={{
-            latitude: 48.846340539193704,
-            longitude: 2.335862530428087,
-          }}
-        />
-        <Marker
-          key={"currentPos4"}
-          pinColor="blue"
-          title="La Ferme ouverte de Boramy"
-          description="Je ne suis pas fermier, pas moi te méprend pas !"
-          coordinate={{
-            latitude: 48.82914374967133,
-            longitude: 2.431566206320608,
-          }}
-        />
-        <Marker
-          key={"currentPos5"}
-          pinColor="blue"
-          title="La ferme du Vilain Amour"
-          description="choisit moi ou je vais te retrouver ... "
-          coordinate={{
-            latitude: 48.904704768930785,
-            longitude: 2.4037320810788603,
-          }}
-        />
         
         {markerPOI}
+        
+
       </MapView>
 
       <View style={{ margin: -10 }}>
@@ -292,8 +197,14 @@ function LockerScreen(props) {
   );
 }
 
+
+
+
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { saveDepartement : state.saveDepartement, token: state.token }
 }
 
-export default connect(mapStateToProps, null)(LockerScreen);
+export default connect(
+  mapStateToProps, 
+  null
+)(LockerScreen);
