@@ -87,15 +87,28 @@ function LockerScreen(props) {
 
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          alignItems: "center",
-          textAlign: "center",
-          paddingTop: 40,
-          backgroundColor: "#53B175",
-          paddingBottom: 15,
-        }}
+    
+    <View style={{ flex: 1 }} >
+      <View style={{ alignItems: 'center',  
+                    textAlign: "center",
+                    paddingTop: 40,
+                    backgroundColor: "#53B175",
+                    paddingBottom: 15
+                    }}>
+      <Text style={{ color: 'white', fontSize:18}}>Mon casier</Text>
+    </View>
+
+            <View style = {{flexDirection: 'row', margin: 10}}>
+              <Text  style={{flex: 1, fontSize:20, }}>
+                Votre panier : 
+              </Text>
+              <Text style={{textAlign: 'right', flex: 1, fontSize:20}}>100€</Text>
+            </View>
+            
+       <View>   
+      <Overlay overlayStyle = {{height:'60%', width:'80%',borderRadius:10, padding:-10}}
+        isVisible={isVisible}
+        onBackdropPress={() => { setIsVisible(false) }} 
       >
         
       <ScrollView>
@@ -122,22 +135,16 @@ function LockerScreen(props) {
                   marginHorizontal: 70,
                   marginVertical: 10,
                   alignItems: 'center', 
-                  justifyContent: 'center'}}      
+                  justifyContent: 'center'}}
+                      
+                  
           />
         
-      
+      </Overlay>
       </View>
 
-      <View style={{ flexDirection: "row", margin: 10 }}>
-        <Text style={{ flex: 1, fontSize: 20 }}>Votre panier :</Text>
-        <Text style={{ textAlign: "right", flex: 1, fontSize: 20 }}>100€</Text>
-      </View>
-      
-
-      <MapView
-        onPress={() => {
-          setIsVisible(!isVisible);
-        }}
+      <MapView 
+        onPress={() => { setIsVisible(!isVisible) }}
         style={{ flex: 1 }}
         initialRegion={{
           latitude: 48.866667,
@@ -146,15 +153,13 @@ function LockerScreen(props) {
           longitudeDelta: 0.0421,
         }}
       >
-        <Marker
-          key={"currentPos"}
+
+
+        <Marker key={"currentPos"}
           pinColor="red"
           title="Hello"
           description="I'am here"
-          coordinate={{
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-          }}
+          coordinate={{ latitude: currentLatitude, longitude: currentLongitude }}
         />
         
         {markerPOI}
@@ -162,34 +167,31 @@ function LockerScreen(props) {
 
       </MapView>
 
-      <View style={{ margin: -10 }}>
-        <CheckBox
-          title="Credit/ Debit Card"
-          checked={credit}
-          onPress={() => setCredit(!credit)}
-        />
-        <CheckBox
-          title="Paypal"
-          checked={paypal}
-          onPress={() => setPaypal(!paypal)}
-        />
-        <CheckBox
-          title="Gpay :  Credit/ Debit Card"
-          checked={gpay}
-          onPress={() => setGpay(!gpay)}
-        />
-      </View>
 
-      <Button
-        title="Valider ma commande"
-        buttonStyle={{
-          backgroundColor: "#53B175",
-          borderRadius: 10,
-          margin: 30,
-          marginVertical: 10,
-        }}
-        onPress={() => props.navigation.navigate("Error")}
-      />
+            <View style={{margin:-10}}>
+            
+              <CheckBox 
+              title='Credit/ Debit Card'
+              checked={credit}
+              onPress={() => setCredit(!credit)}/>
+              <CheckBox 
+              title='Paypal'
+              checked={paypal}
+              onPress={() => setPaypal(!paypal)}/>
+              <CheckBox 
+              title='Gpay :  Credit/ Debit Card'
+              checked={gpay}
+              onPress={() => setGpay(!gpay)}/>
+        </View>
+        
+             <Button
+                title="Valider ma commande"
+                buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10, margin: 30, marginVertical: 10}}
+                 
+                onPress={() => props.navigation.navigate("Error")}
+              />
+        
+        
     </View>
   );
 }
