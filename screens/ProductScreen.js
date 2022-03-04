@@ -41,7 +41,7 @@ const CategoryList = () =>{
 useEffect(() => {
   const findArticles = async() => {
     setDepartement(props.saveDepartement);
-    const data = await fetch(`https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`)
+    const data = await fetch(`http://192.168.1.143:3000/articles?departement=${props.saveDepartement}`)
     const body = await data.json()
     
     //console.log(body)
@@ -54,6 +54,8 @@ useEffect(() => {
 }, []);
 
 //console.log(articleList)
+
+const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});  
 
 const ArticlesArray = articleList.map((element,i)=>{
   console.log(element.img)
@@ -87,7 +89,7 @@ const ArticlesArray = articleList.map((element,i)=>{
 
 
 
-  const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});  
+  
 
   return (
     <>
@@ -206,7 +208,6 @@ const styles = StyleSheet.create({
       width: 50,
       fontSize: 13,
       fontWeight: 'bold',
-      // textAlign: "center",
       marginLeft : 'auto',
       marginRight : 'auto',
     },

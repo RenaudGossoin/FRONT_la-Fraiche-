@@ -3,7 +3,8 @@ import {useState} from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Button, Image, TouchableOpacity } from 'react-native';
 import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Divider from 'react-native-divider';
+
+
 
 
 
@@ -12,9 +13,21 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
+  const [likeProduct, setLikeProduct] = useState(false);
 
   const goBack = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
 
+  var handleFavoriteClick = () => {
+    setLikeProduct(!likeProduct);
+    console.log('jai cliqué sur le coeur')
+    console.log (likeProduct)
+  }
+
+  // var heartColor = '';
+  // console.log (heartColor)
+  // if(likeProduct === true){
+  //   heartColor = '#e74c3c'
+  // };
     return (
       <>
       <ScrollView style={styles.body}>
@@ -41,13 +54,13 @@ function DetailScreen(props) {
                         <View style={styles.productandfavoriteline}>
                             <View><Text style={styles.producttitle}>Cerises</Text></View>
                             <View>
-                                <Icon
-                                    style={styles.icon}
-                                    name="favorite"
-                                    size={25}
-                                    // color={plant.like ? COLORS.red : COLORS.black}
-                                />
-
+                              <Icon 
+                                  name="favorite"
+                                  size={30}
+                                
+                                  // color={heartColor}
+                                  onPress={()=>handleFavoriteClick()}
+                                  />
                             </View>
                         </View>
                         
