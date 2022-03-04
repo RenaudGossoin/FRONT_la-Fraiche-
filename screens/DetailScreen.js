@@ -20,12 +20,24 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
+  const [likeProduct, setLikeProduct] = useState(false);
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
 
-  return (
-    <>
+  var handleFavoriteClick = () => {
+    setLikeProduct(!likeProduct);
+    console.log('jai cliqué sur le coeur')
+    console.log (likeProduct)
+  }
+
+  // var heartColor = '';
+  // console.log (heartColor)
+  // if(likeProduct === true){
+  //   heartColor = '#e74c3c'
+  // };
+    return (
+      <>
       <ScrollView style={styles.body}>
         <View style={styles.body}>
           <View style={styles.container}>
@@ -44,134 +56,115 @@ function DetailScreen(props) {
               />
             </View>
 
-            <View style={styles.mainproductinfolines}>
-              <View style={styles.productandfavoriteline}>
-                <View>
-                  <Text style={styles.producttitle}>Cerises</Text>
-                </View>
-              </View>
+                    <View style={styles.mainproductinfolines}>
+                        <View style={styles.productandfavoriteline}>
+                            <View><Text style={styles.producttitle}>Cerises</Text></View>
+                            <View>
+                              <Icon 
+                                  name="favorite"
+                                  size={30}
+                                
+                                  // color={heartColor}
+                                  onPress={()=>handleFavoriteClick()}
+                                  />
+                            </View>
+                        </View>
+                        
+                        
+                        <View style={styles.addquantityandpriceline}>
+                            <View style={styles.blockbutton}>
+                                <Button
+                                  title="-"
+                                  color="gray"
+                                  buttonStyle={styles.button}
+                                  onPress={props.onDecreaseClick}
+                                />
+                                <Text style={styles.quantity}>{props.count}</Text>
+                                <Button
+                                  title="+"
+                                  color="#53B175"
+                                  buttonStyle={styles.button}
+                                  onPress={props.onIncreaseClick}
+                                />
+                            </View>
 
-              <View style={styles.addquantityandpriceline}>
-                <View style={styles.blockbutton}>
-                  <Button
-                    title="-"
-                    color="gray"
-                    buttonStyle={styles.button}
-                    onPress={props.onDecreaseClick}
-                  />
-                  <Text style={styles.quantity}>{props.count}</Text>
-                  <Button
-                    title="+"
-                    color="#53B175"
-                    buttonStyle={styles.button}
-                    onPress={props.onIncreaseClick}
-                  />
-                </View>
+                            <View style={styles.mainproductinfolines}>
+                                <View><Text style={styles.price}>3,20€</Text></View>
+                                <View><Text style={styles.unit}>le kg</Text></View>
+                            </View>
+                            
+                        </View>
 
-                <View style={styles.mainproductinfolines}>
-                  <View>
-                    <Text style={styles.price}>3,20€</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.unit}>le kg</Text>
-                  </View>
-                </View>
-              </View>
-
-              <View>
-                <View style={styles.marginTopshowhidemenu}>
-                  <View style={styles.firstlineshowhidemenu}>
-                    <Text style={styles.titleshowhidemenu}>
-                      Détails du produits
-                    </Text>
-
-                    <TouchableOpacity
-                      onPress={() =>
-                        setShowTextProductDetails(!showTextProductDetails)
-                      }
-                    >
-                      <Image
-                        style={styles.imgFleche}
-                        source={require("../assets/fleche-deroulante-bas.png")}
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  {showTextProductDetails && (
                     <View>
-                      <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
-                      </Text>
+                    
+                    <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Détails du produits</Text>
+
+                            <TouchableOpacity 
+                              onPress={() => setShowTextProductDetails(!showTextProductDetails)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
+                        </View>
+                         
+                        {showTextProductDetails && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
-                  )}
-                </View>
+                              
 
-                <View style={styles.marginTopshowhidemenu}>
-                  <View style={styles.firstlineshowhidemenu}>
-                    <Text style={styles.titleshowhidemenu}>
-                      Infos nutritionnelles
-                    </Text>
+                    <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Infos nutritionnelles</Text>
 
-                    <TouchableOpacity
-                      onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
-                    >
-                      <Image
-                        style={styles.imgFleche}
-                        source={require("../assets/fleche-deroulante-bas.png")}
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  {showTextInfoNutri && (
-                    <View>
-                      <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
-                      </Text>
+                            <TouchableOpacity 
+                              onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
+                        </View>
+                         
+                        {showTextInfoNutri && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
-                  )}
-                </View>
+                              
 
-                <View style={styles.marginTopshowhidemenu}>
-                  <View style={styles.firstlineshowhidemenu}>
-                    <Text style={styles.titleshowhidemenu}>Conseils</Text>
+                    <View style={styles.marginTopshowhidemenu}>
+                        <View style={styles.firstlineshowhidemenu}>
+                            <Text style={styles.titleshowhidemenu}>
+                            Conseils</Text>
 
-                    <TouchableOpacity
-                      onPress={() => setShowTextConseils(!showTextConseils)}
-                    >
-                      <Image
-                        style={styles.imgFleche}
-                        source={require("../assets/fleche-deroulante-bas.png")}
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  {showTextConseils && (
-                    <View>
-                      <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
-                      </Text>
+                            <TouchableOpacity 
+                              onPress={() => setShowTextConseils(!showTextConseils)}
+                              >
+                                    <Image
+                                        style={styles.imgFleche}
+                                        source={require('../assets/fleche-deroulante-bas.png')}
+                                      />
+                            </TouchableOpacity>   
+                            
+                        </View>
+                         
+                        {showTextConseils && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
                     </View>
-                  )}
-                </View>
+                              
+                      
+                    <Pressable 
+                      style={styles.buttonaddtobasket}
+                      
+                      // onPress={goTo}
+                      >
+                    <Text style={styles.textaddtobasketbutton}>Ajouter au panier</Text>  
+                    </Pressable>
 
-                <Pressable
-                  style={styles.buttonaddtobasket}
-
-                  // onPress={goTo}
-                >
-                  <Text style={styles.textaddtobasketbutton}>
-                    Ajouter au panier
-                  </Text>
-                </Pressable>
               </View>
             </View>
           </View>
