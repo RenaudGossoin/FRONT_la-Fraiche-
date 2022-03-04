@@ -4,6 +4,8 @@ import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 
+//pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
+//faire un [etat isDisable]
 
 
 import MapView, { Marker } from 'react-native-maps';
@@ -14,7 +16,8 @@ import CheckBoxLockers from './CheckBoxLockers';
 function LockerScreen(props) {
 
   const [lockersList, setLockersList] = useState([])
-  //const [checkBox, setCheckBox] = useState({})
+  const [isDisabled, setIsDisabled] = useState(false)
+
  
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
@@ -38,7 +41,7 @@ function LockerScreen(props) {
     Lockers() 
   }, [])
   //console.log(lockersList);
-
+//console.log(props.saveDepartement);
   useEffect(() => {
     async function askPermissions() {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -59,12 +62,9 @@ function LockerScreen(props) {
       title={POI.nom}
     />
   });
- 
-  /*var isDisabled = false;
-  if (addPOI) {
-    isDisabled = true;
-  }*/
-
+  
+  
+  
 
   var selectPOI = (e) => {
     if (addPOI) {
@@ -85,7 +85,8 @@ function LockerScreen(props) {
     setDescPOI();
     setTitrePOI();
   }
-  
+
+
 
   return (
     
@@ -119,19 +120,26 @@ function LockerScreen(props) {
           <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
           </View>  
           
-          <CheckBoxLockers/>
+          <CheckBoxLockers
+          />
+          
         
+        </ScrollView> 
         
-        </ScrollView>
-        
+
+
           <Button
             title="Confirmer"
+            onPress={() => {setIsVisible(false)}}
+            //disabled={isDisabled}
             buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
                 containerStyle={{
                   marginHorizontal: 70,
                   marginVertical: 10,
                   alignItems: 'center', 
                   justifyContent: 'center'}}
+                      
+                  
           />
         
       </Overlay>

@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-
+import {connect} from 'react-redux';
 //Le choix des lockers sont fait en dur... Trop compliqué de pouvoir les selectionnés un à un. AB 
 
 
-export default function CheckBoxLockers() {
+//pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
+//faire un [etat isDisable]
+export default function CheckBoxLockers(props) {
 
     const [checkBox, setCheckBox] = useState([false, false, false,false,false,false,false,false]);
-
+   /* const [isDisabled, setIsDisabled] = useState(false)
+    
+    for (var i=0; i<checkBox.length; i++) {
+        if(checkBox>=2){
+            setIsDisabled = true
+        } 
+    }*/
+   
     return (
+
+        
 
         <View>
 
@@ -35,7 +46,7 @@ export default function CheckBoxLockers() {
         title=
         "La boîte à meuh Paris Jaures - 15 Rue de l'Ourcq, 75019 Paris"
         checked={checkBox[3]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], checkBox[2],!checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+                onPress={() =>setCheckBox([checkBox[0], checkBox[1], checkBox[2],!checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
             />
             <CheckBox
         title="La boîte à meuh Paris Saint Martin - 13 Boulevard de Strasbourg, 75010 Paris"
@@ -61,3 +72,12 @@ export default function CheckBoxLockers() {
         </View>
     )
 }
+
+/*function mapDispatchToProps(dispatch) {
+    return {
+      onKeepCheck: function(check) {
+          dispatch( {type: 'saveCheck', check} )
+      }
+    }
+   }
+   export default connect(null, mapDispatchToProps)(CheckBoxLockers);*/

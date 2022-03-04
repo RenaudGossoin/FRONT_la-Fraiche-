@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
 import saveDepartement from './reducers/saveDepartement';
-
+import saveCheck from './reducers/saveCheck';
 
 //Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -40,6 +40,9 @@ const store = createStore(combineReducers({saveDepartement}));
 
 const BottomNavigator = () => {
   return (
+
+
+
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
@@ -99,7 +102,9 @@ export default function App() {
     </Stack.Navigator>
   </NavigationContainer>
 
+ 
   </Provider>
+  
 
   );
 }

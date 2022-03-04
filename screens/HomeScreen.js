@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 const HomeScreen = (props) => {
 
 const [departement,setDepartement] = useState("");
-
+console.log(departement);
     return (
 
 <ImageBackground source={require('../assets/background_panier.png')} style={styles.container}>
