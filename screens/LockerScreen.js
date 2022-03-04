@@ -28,8 +28,7 @@ function LockerScreen(props) {
   const [addPOI, setAddPOI] = useState(false);
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  console.log(props.token);
-
+  
   useEffect(() => {
     
     const Lockers = async() => {
