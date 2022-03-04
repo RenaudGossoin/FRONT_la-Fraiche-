@@ -20,6 +20,7 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
+  console.log(props.detailArticle);
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
@@ -47,7 +48,9 @@ function DetailScreen(props) {
             <View style={styles.mainproductinfolines}>
               <View style={styles.productandfavoriteline}>
                 <View>
-                  <Text style={styles.producttitle}>Cerises</Text>
+                  <Text style={styles.producttitle}>
+                    {JSON.stringify(itemId.nom)}
+                  </Text>
                 </View>
               </View>
 
@@ -334,7 +337,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { count: state.count };
+  return { count: state.count, detailArticle: state.detailArticle };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);

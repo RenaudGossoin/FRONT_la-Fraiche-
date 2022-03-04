@@ -1,14 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
-
 //redux
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import saveDepartement from "./reducers/saveDepartement";
 import count from "./reducers/count";
 import token from "./reducers/token";
-import saveCategorie from "./reducers/saveCategorie"
+import saveCategorie from "./reducers/saveCategorie";
+import detailArticle from "./reducers/detailArticle";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -38,13 +38,18 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //redux
-const store = createStore(combineReducers({ saveDepartement, count, token, saveCategorie }));
+const store = createStore(
+  combineReducers({
+    saveDepartement,
+    count,
+    token,
+    saveCategorie,
+    detailArticle,
+  })
+);
 
 const BottomNavigator = () => {
   return (
-
-
-
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
