@@ -1,108 +1,155 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import { Card } from "react-native-elements";
-import React, { useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import BandeVerteHaut from "./BandeVerteHaut";
+import { View, Text, StyleSheet, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import {Card} from 'react-native-elements';
+import React, {useState, useEffect} from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import BandeVerteHaut from './BandeVerteHaut';
+import { MaterialIcons } from '@expo/vector-icons'; 
+
+import {connect} from 'react-redux';
+
+
+
 
 function CategoriesScreen(props) {
-  /* const categories = ['légumes', 'fruits', 'oeufs', 'laitage' ]
 
-  const [categoryIndex, setCategoryIndex] = useState(0);
+  const goTo = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
+  const [categorie, setCategorie] = useState("");
 
-const CategoryList = () =>{
-  return(
-  <View style={styles.categoryContainer}>
-    {categories.map((item, index)=>(
-      <TouchableOpacity key={index} onPress={()=> setCategoryIndex(index)}>
+  var handleOnPressFruits = ()=> {
+    setCategorie('Fruits');
+    props.onSubmitCategorie('Fruits');
+    goTo()
+  }
 
-      <Text
-      key={index}
-      style={[
-        styles.categoryText,
-        categoryIndex == index && styles.categoryTextSelected
-      ]}>
-        {item}
-        </Text>
-      </TouchableOpacity>
-      
-    ))}
-  </View>
-  )
-}*/
+  var handleOnPressLegumes = ()=> {
+    setCategorie('Legumes');
+    props.onSubmitCategorie('Legumes');
+    goTo()
+  }
 
-  const goTo = () =>
-    props.navigation.navigate("Product", { screen: "ProductScreen" });
+  var handleOnPressOeufs = ()=> {
+    setCategorie('Oeufs');
+    props.onSubmitCategorie('Oeufs');
+    goTo()
+  }
+  var handleOnPressFromages = ()=> {
+    setCategorie('Fromages');
+    props.onSubmitCategorie('Fromages');
+    goTo()
+  }
 
-  return (
-    <>
-      <BandeVerteHaut />
+// useEffect(() => {
+//      props.onSubmitCategorie(categorie);
+//      console.log('console.log du UseEffet',categorie)
+//  }, [categorie]);
 
-      <View style={styles.body}>
-        <ScrollView>
-          <View style={styles.title}>
-            <Text style={styles.subtitle}>Catégories</Text>
-          </View>
-
-          <View style={styles.container}>
-            <Card containerStyle={styles.category}>
-              <Card.Image
-                style={styles.imageup}
-                source={require("../assets/cat-fruits.png")}
-              />
-              <Text style={styles.categoryname}>Fruits</Text>
-
-              <Pressable style={styles.button} title="Fruits" onPress={goTo} />
-            </Card>
-
-            <Card containerStyle={styles.category}>
-              <Card.Image
-                style={styles.imageup}
-                source={require("../assets/cat-légumes.png")}
-              />
-              <Text style={styles.categoryname}>Légumes</Text>
-
-              <Pressable style={styles.button} onPress={goTo} />
-            </Card>
-
-            <Card containerStyle={styles.category}>
-              <Card.Image
-                style={styles.imagedown}
-                source={require("../assets/cat-panier-oeufs.png")}
-              />
-              <Text style={styles.categoryname}>Oeufs</Text>
-              <Pressable style={styles.button} onPress={goTo} />
-            </Card>
-
-            <Card containerStyle={styles.category}>
-              <Card.Image
-                style={styles.imagedown}
-                source={require("../assets/cat-laitage.png")}
-              />
-              <Text style={styles.categoryname}>Laitages</Text>
-              <Pressable style={styles.button} onPress={goTo} />
-            </Card>
-          </View>
-        </ScrollView>
+    return (
+      <>
+{/* //HEADER vert */}
+       <View>
+       <SafeAreaView style={{
+        display:'flex',
+        alignItems:'flex-end',
+        justifyContent:'flex-end',
+        height:'16%',
+        backgroundColor: "#53B175",
+                    paddingBottom: 15,
+                    paddingTop:40,
+                    paddingHorizontal:30}}>
+      <View style={{ 
+          alignItems: 'flex-end',
+          justifyContent:'flex-end',
+                    }}>
+      <Text style={{ color: 'white', fontSize:18, fontWeight: 'bold',  }}>Texte à dynamiser</Text>
       </View>
-    </>
-  );
-}
+    </SafeAreaView>
+{/* //fin HEADER vert */}
+
+       <ScrollView >
+            <View style={styles.title}>
+              <Text style={styles.subtitle}>Catégories</Text>
+            </View>
+
+            <View style={styles.container}>
+              <Card name='Fruits' containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imageup}
+                  source={require('../assets/cat-fruits.png')}
+                />
+                <Text style={styles.categoryname}>Fruits</Text>
+
+              <Pressable style={styles.button} title="Fruits"
+                  onPress={handleOnPressFruits}
+              />
+            </Card>
+
+              <Card name='Légumes' containerStyle={styles.category}>
+                <Card.Image
+                  style={styles.imageup}
+                  source={require('../assets/cat-légumes.png')}
+                />
+                <Text style={styles.categoryname}>Légumes</Text>
+                
+                <Pressable 
+                  style={styles.button}
+                  onPress={handleOnPressLegumes}
+                  />
+              </Card>
+
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                name='Oeufs'
+                  style={styles.imagedown}
+                  source={require('../assets/cat-panier-oeufs.png')}
+                />
+                <Text style={styles.categoryname}>Oeufs</Text>
+                <Pressable 
+                  style={styles.button}
+                  onPress={handleOnPressOeufs}
+                  />
+              </Card>
+
+              <Card containerStyle={styles.category}>
+                <Card.Image
+                name="laitage"
+                  style={styles.imagedown}
+                  source={require('../assets/cat-laitage.png')}
+                />
+                <Text style={styles.categoryname}>Laitages</Text>
+                <Pressable 
+                  style={styles.button}
+                  onPress={handleOnPressFromages}
+                  />
+              </Card>
+              </View>
+        </ScrollView>
+
+       </View>
+      
+      </>
+
+    );
+
+   /* return(
+      <BandeVerteHaut/>
+    )*/
+};
 
 const styles = StyleSheet.create({
-  bandeVerte: {
-    backgroundColor: "#53B175",
-    height: "17%",
-  },
-  body: {
-    backgroundColor: "#ffffff",
-  },
-  title: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  // bandeVerte: {
+  //   backgroundColor: "#53B175",
+  //   height: "17%",
+  // },
+  // body: {
+  //   backgroundColor: "#ffffff",
+  // },
+   title: {
+     flex: 1,
+     alignItems: "center",
+     justifyContent: "center",
 
-    //marginTop: 20,
-  },
+     //marginTop: 20,
+   },
 
   bigtitle: {
     // fontFamily: "Rochester",
@@ -113,7 +160,7 @@ const styles = StyleSheet.create({
     // fontFamily: "Montserrat",
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 100,
+    marginTop: 20,
     marginBottom: 20,
   },
   container: {
@@ -163,13 +210,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  categoryname: {
-    textAlign: "center",
-    color: "#ffffff",
-    // fontFamily: 'Montserrat',
-    fontWeight: "bold",
-  },
-
   categoryContainer: {
     flexDirection: "row",
     marginTop: 50,
@@ -184,15 +224,6 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  categoryTextSelected: {
-    color: "#ffffff",
-    fontWeight: "bold",
-    opacity: 1,
-    paddingBottom: 3,
-    borderBottomWidth: 2,
-    borderColor: "#ffffff",
-  },
-
   button: {
     backgroundColor: "#FFFFFF",
     opacity: 0,
@@ -201,6 +232,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 65,
     position: "absolute",
   },
-});
+});  
 
-export default CategoriesScreen;
+    function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitCategorie: function (categorie) {
+      dispatch({ type: "saveCategorie", categorie });
+    },
+  };   
+}
+export default connect(null, mapDispatchToProps)(CategoriesScreen);

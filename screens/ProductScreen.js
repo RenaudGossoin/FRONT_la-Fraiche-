@@ -1,102 +1,105 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import { Card } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import BandeVerteHaut from "./BandeVerteHaut";
+import React,{useEffect, useState} from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import {Card} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 import { connect } from "react-redux";
 
 function ProductScreen(props) {
-  const categories = ["légumes", "fruits", "oeufs", "laitage"];
-  const [categoryIndex, setCategoryIndex] = useState(0);
+
   const [departement, setDepartement] = useState("");
   const [articleList, setArticleList] = useState([]);
 
-  const CategoryList = () => {
-    return (
-      <View style={styles.categoryContainer}>
-        {categories.map((item, index) => (
-          <TouchableOpacity key={index} onPress={() => setCategoryIndex(index)}>
-            <Text
-              key={index}
-              style={[
-                styles.categoryText,
-                categoryIndex == index && styles.categoryTextSelected,
-              ]}
-            >
-              {item}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
+
+//console.log(articleList)
+
+const goTo = () => props.navigation.navigate('Detail', {screen: "DetailScreen"});
+const goBack = () => props.navigation.navigate('BottomNavigator', {screen: 'Categories'});
+
+useEffect(() => {
+console.log("ouverture UseEffect Product",props.saveCategorie)
+
+  const findArticles = async () => {
+    //console.log(props.saveCategorie);
+    if (props.token) {
+      const data = await fetch(
+        `http://192.168.10.114:3000/articles?token=${props.token}&categorie=${props.saveCategorie}`
+      );
+
+
+      const body = await data.json();
+      setArticleList(body.articlesFilter);
+    } else {
+      const data = await fetch(
+        `http://192.168.10.114:3000/articles?departement=${props.saveDepartement}&categorie=${props.saveCategorie}`
+      );
+      const body = await data.json();
+      setArticleList(body.articlesFilter);
+    }
   };
 
-  useEffect(() => {
-    const findArticles = async () => {
-      console.log(props.token);
-      if (props.token) {
-        const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?token=${props.token}`
-        );
-        const body = await data.json();
-        console.log(body);
-        setArticleList(body.articles);
-      } else {
-        const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`
-        );
-        const body = await data.json();
-        //console.log(body)
-        setArticleList(body.articles);
-      }
-    };
+  findArticles();
+  //console.log(departement+" from UseEffect")
+}, []);
 
-    findArticles();
-    //console.log(departement+" from UseEffect")
-  }, []);
 
-  //console.log(articleList)
-
-  const ArticlesArray = articleList.map((element, i) => {
-    console.log(element.img);
-    return (
-      <Card key={i} containerStyle={styles.item}>
-        <Icon style={styles.icon} name="favorite" size={18} />
-        <Card.Image style={styles.image} source={{ uri: element.img }} />
-        <View style={styles.textcontainer}>
-          <View>
-            <Text style={styles.productandprice}>{element.nom}</Text>
-          </View>
-
-          <View>
-            <Text style={styles.productandprice}>{element.prix}</Text>
-          </View>
+const ArticlesArray = articleList.map((element, i) => {
+  //console.log(element.img);
+  return (
+    <Card key={i} containerStyle={styles.item}>
+      <Icon style={styles.icon} name="favorite" size={18} />
+      <Card.Image style={styles.image} source={{ uri: element.img }} />
+      <View style={styles.textcontainer}>
+        <View>
+          <Text style={styles.productandprice}>{element.nom}</Text>
         </View>
 
-        <Text style={styles.productquantity}>6 pièces</Text>
+        <View>
+          <Text style={styles.productandprice}>{element.prix}</Text>
+        </View>
+      </View>
 
-        <Pressable onPress={goTo} style={styles.button}>
-          <Text style={styles.textbutton}>détails</Text>
-        </Pressable>
-      </Card>
-    );
-  });
+      <Text style={styles.productquantity}>6 pièces</Text>
 
-  const goTo = () =>
-    props.navigation.navigate("Detail", { screen: "DetailScreen" });
+      <Pressable onPress={goTo} style={styles.button}>
+        <Text style={styles.textbutton}>détails</Text>
+      </Pressable>
+    </Card>
+  );
+});
 
   return (
-    <>
-      {/* <BandeVerteHaut/> */}
+    <View style={{flex:1, backgroundColor: '#ffffff'}}>
+    
+     <SafeAreaView style={{
+        display:'flex',
+        height:'16%',
+        backgroundColor: "#53B175",
+                    paddingBottom: 15,
+                    paddingTop:40,
+                    paddingHorizontal:30}}>
+
+                    <MaterialIcons name="arrow-back-ios" size={24} color="white" onPress={goBack}/> 
+      <View style={{ 
+alignItems: 'flex-end',
+          justifyContent:'flex-end',
+                    }}>
+      <Text style={{ color: 'white', fontSize:18, fontWeight: 'bold',  }}>Texte à dynamiser</Text>
+      </View>
+    </SafeAreaView>
+
       <ScrollView style={styles.body}>
-        <View>
-          <Text style={styles.title}>Nos bons oeufs frais</Text>
+            <View >
+                  <Text style={styles.title}>Nos bons oeufs frais</Text>
+            </View>
+            <View style={styles.container}>
+              {ArticlesArray}
+            </View>
+        </ScrollView>
         </View>
-        <View style={styles.container}>{ArticlesArray}</View>
-      </ScrollView>
-    </>
   );
 }
 
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { saveDepartement: state.saveDepartement, token: state.token };
+  return { saveDepartement: state.saveDepartement, token: state.token, saveCategorie:state.saveCategorie };
 }
 
 export default connect(mapStateToProps, null)(ProductScreen);
