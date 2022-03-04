@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 
 
 function CategoriesScreen(props) {
-
+ 
   const goTo = () => props.navigation.navigate('Product', {screen: "ProductScreen"});
   const [categorie, setCategorie] = useState("");
 
@@ -47,6 +47,7 @@ function CategoriesScreen(props) {
       <>
 {/* //HEADER vert */}
        <View>
+
        <SafeAreaView style={{
         display:'flex',
         alignItems:'flex-end',
@@ -60,7 +61,7 @@ function CategoriesScreen(props) {
           alignItems: 'flex-end',
           justifyContent:'flex-end',
                     }}>
-      <Text style={{ color: 'white', fontSize:18, fontWeight: 'bold',  }}>Texte à dynamiser</Text>
+      <Text style={{ color: 'white', fontSize:18, fontWeight: 'bold',  }}>Bienvenue Antoine !</Text>
       </View>
     </SafeAreaView>
 {/* //fin HEADER vert */}

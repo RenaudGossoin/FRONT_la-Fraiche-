@@ -129,6 +129,7 @@ function LockerScreen(props) {
           </ScrollView>
 
           <Button
+          
             title="Confirmer"
             buttonStyle={{ backgroundColor: "#53B175", borderRadius: 10 }}
             containerStyle={{
@@ -137,6 +138,8 @@ function LockerScreen(props) {
               alignItems: "center",
               justifyContent: "center",
             }}
+            onPress={() =>
+              props.navigation.navigate("Locker")}
           />
         </Overlay>
       </View>
@@ -242,7 +245,7 @@ function LockerScreen(props) {
           margin: 30,
           marginVertical: 10,
         }}
-        onPress={() => props.navigation.navigate("Error")}
+        onPress={() => props.navigation.navigate("Success")}
       />
     </View>
   );

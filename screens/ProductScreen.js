@@ -26,15 +26,14 @@ console.log("ouverture UseEffect Product",props.saveCategorie)
     //console.log(props.saveCategorie);
     if (props.token) {
       const data = await fetch(
-        `http://192.168.10.114:3000/articles?token=${props.token}&categorie=${props.saveCategorie}`
+        `https://lafraiche.herokuapp.com/articles?token=${props.token}&categorie=${props.saveCategorie}`
       );
-
 
       const body = await data.json();
       setArticleList(body.articlesFilter);
     } else {
       const data = await fetch(
-        `http://192.168.10.114:3000/articles?departement=${props.saveDepartement}&categorie=${props.saveCategorie}`
+        `https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}&categorie=${props.saveCategorie}`
       );
       const body = await data.json();
       setArticleList(body.articlesFilter);
@@ -93,7 +92,7 @@ alignItems: 'flex-end',
 
       <ScrollView style={styles.body}>
             <View >
-                  <Text style={styles.title}>Nos bons oeufs frais</Text>
+                  <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text>
             </View>
             <View style={styles.container}>
               {ArticlesArray}
