@@ -7,9 +7,7 @@ import {connect} from 'react-redux';
 //pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
 //faire un [etat isDisable]
 
-import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+
 
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
