@@ -7,6 +7,7 @@ import { createStore, combineReducers } from "redux";
 import saveDepartement from "./reducers/saveDepartement";
 import count from "./reducers/count";
 import token from "./reducers/token";
+import detailArticle from "./reducers/detailArticle";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -36,7 +37,9 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //redux
-const store = createStore(combineReducers({ saveDepartement, count, token }));
+const store = createStore(
+  combineReducers({ saveDepartement, count, token, detailArticle })
+);
 
 const BottomNavigator = () => {
   return (

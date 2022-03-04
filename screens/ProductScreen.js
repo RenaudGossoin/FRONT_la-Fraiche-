@@ -12,6 +12,7 @@ function ProductScreen(props) {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [departement, setDepartement] = useState("");
   const [articleList, setArticleList] = useState([]);
+  const [showArticle, setShowArticle] = useState(null);
 
   const CategoryList = () => {
     return (
@@ -38,18 +39,18 @@ function ProductScreen(props) {
       console.log(props.token);
       if (props.token) {
         const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?token=${props.token}`
+          `http://192.168.10.110:3000/articles?token=${props.token}`
         );
         const body = await data.json();
         console.log(body);
-        setArticleList(body.articles);
+        setArticleList(body.article);
       } else {
         const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?departement=${props.saveDepartement}`
+          `http://192.168.10.110:3000/articles?departement=${props.saveDepartement}`
         );
         const body = await data.json();
         //console.log(body)
-        setArticleList(body.articles);
+        setArticleList(body.article);
       }
     };
 
@@ -57,12 +58,9 @@ function ProductScreen(props) {
     //console.log(departement+" from UseEffect")
   }, []);
 
-  //console.log(articleList)
-
-  const ArticlesArray = articleList.map((element, i) => {
-    console.log(element.img);
+  const ArticlesArray = articleList.map((element, _id) => {
     return (
-      <Card key={i} containerStyle={styles.item}>
+      <Card key={element._id} containerStyle={styles.item}>
         <Icon style={styles.icon} name="favorite" size={18} />
         <Card.Image style={styles.image} source={{ uri: element.img }} />
         <View style={styles.textcontainer}>
@@ -77,15 +75,35 @@ function ProductScreen(props) {
 
         <Text style={styles.productquantity}>6 pièces</Text>
 
-        <Pressable onPress={goTo} style={styles.button}>
+        <Pressable
+          // onPress={
+          //   (props.navigation.navigate("Detail", {
+          //     screen: "DetailScreen",
+          //   }),
+          //   setShowArticle((showArticle) =>
+          //     showArticle == element._id ? null : element._id
+          //   ),
+          //   props.onShowArticle(showArticle))
+          // }
+          onPress={
+            () => {
+              props.onShowArticle(element),
+                props.navigation.navigate("Detail", {
+                  screen: "DetailScreen",
+                });
+            }
+
+            // setShowArticle((showArticle) =>
+            //   showArticle == element._id ? null : element._id
+            // ),
+          }
+          style={styles.button}
+        >
           <Text style={styles.textbutton}>détails</Text>
         </Pressable>
       </Card>
     );
   });
-
-  const goTo = () =>
-    props.navigation.navigate("Detail", { screen: "DetailScreen" });
 
   return (
     <>
@@ -217,8 +235,16 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onShowArticle: function (article) {
+      dispatch({ type: "addArticle", article });
+    },
+  };
+}
+
 function mapStateToProps(state) {
   return { saveDepartement: state.saveDepartement, token: state.token };
 }
 
-export default connect(mapStateToProps, null)(ProductScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductScreen);
