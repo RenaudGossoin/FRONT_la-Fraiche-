@@ -69,7 +69,7 @@ function ProductScreen(props) {
 
         </View>
         <Text style={styles.productquantity}>{element.mesurement}</Text>
-        <Text style={styles.productandprice}>{element.prix}</Text>
+        <Text style={styles.productandprice}>{element.prix} €</Text>
         <View style={{justifyContent:'flex-end'}}>
         <Pressable
           // onPress={
