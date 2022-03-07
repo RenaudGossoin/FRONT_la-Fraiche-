@@ -17,26 +17,29 @@ import { connect } from "react-redux";
 function ProductScreen(props) {
   const [departement, setDepartement] = useState("");
   const [articleList, setArticleList] = useState([]);
-  const [showArticle, setShowArticle] = useState(null);
+  const [userInfo, setUserInfo] = useState();
 
   //console.log(articleList)
 
-  const goTo = () =>
-    props.navigation.navigate("Detail", { screen: "DetailScreen" });
   const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
 
   useEffect(() => {
-    console.log("ouverture UseEffect Product", props.saveCategorie);
+    //console.log("ouverture UseEffect Product", props.saveCategorie);
 
     const findArticles = async () => {
       //console.log(props.saveCategorie);
-      if (props.token) {
+      if (props.saveToken) {
         const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?token=${props.token}&categorie=${props.saveCategorie}`
+          `https://lafraiche.herokuapp.com/articles?token=${props.saveToken}&categorie=${props.saveCategorie}`
         );
 
         const body = await data.json();
+        //console.log("bodyproduct",body);
+        setUserInfo(
+          body.user.username.charAt(0).toUpperCase() +
+            body.user.username.slice(1)
+        );
         setArticleList(body.articlesFilter);
       } else {
         const data = await fetch(
@@ -49,63 +52,61 @@ function ProductScreen(props) {
 
     findArticles();
     //console.log(departement+" from UseEffect")
-  }, []);
+  }, [props.saveToken]);
 
-  const ArticlesArray = articleList.map((element, i) => {
+  //console.log("articleslist: ", articleList);
+
+  var welcome;
+  if (props.saveToken) {
+    welcome = `Bienvenue ${userInfo}`;
+  } else {
+    welcome = "Bienvenue sur La Fraîche";
+  }
+
+  const ArticlesArray = articleList.map((element, _id) => {
     //console.log(element.img);
+
     return (
       <Card key={element._id} containerStyle={styles.item}>
-        <View style={{flexDirection:'row', justifyContent:'flex-end', marginTop:-8 }}>
-        <Icon style={styles.icon} name="favorite" size={18} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            marginTop: -8,
+          }}
+        >
+          <Icon style={styles.icon} name="favorite" size={18} />
         </View>
-        <View style={{alignItems:'center'}}>
-        <Card.Image style={styles.image} source={{ uri: element.img }} />
+        <View style={{ alignItems: "center" }}>
+          <Card.Image style={styles.image} source={{ uri: element.img }} />
         </View>
         <View style={styles.textcontainer}>
-
           <View>
             <Text style={styles.productandprice}>{element.nom}</Text>
           </View>
-
         </View>
         <Text style={styles.productquantity}>{element.mesurement}</Text>
         <Text style={styles.productandprice}>{element.prix}</Text>
-        <View style={{justifyContent:'flex-end'}}>
-        <Pressable
-          // onPress={
-          //   (props.navigation.navigate("Detail", {
-          //     screen: "DetailScreen",
-          //   }),
-          //   setShowArticle((showArticle) =>
-          //     showArticle == element._id ? null : element._id
-          //   ),
-          //   props.onShowArticle(showArticle))
-          // }
-          onPress={
-            () => {
+        <View style={{ justifyContent: "flex-end" }}>
+          <Pressable
+            onPress={() => {
+              console.log("test product clique reussi");
               props.onShowArticle(element),
                 props.navigation.navigate("Detail", {
                   screen: "DetailScreen",
                 });
-            }
-
-            // setShowArticle((showArticle) =>
-            //   showArticle == element._id ? null : element._id
-            // ),
-          }
-          style={styles.button}
-        >
-          <Text style={styles.textbutton}>détails</Text>
-        </Pressable>
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.textbutton}>détails</Text>
+          </Pressable>
         </View>
-        
       </Card>
     );
   });
 
   return (
-    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom:70}}>
-
+    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
       <SafeAreaView
         style={{
           display: "flex",
@@ -116,45 +117,55 @@ function ProductScreen(props) {
           paddingHorizontal: 30,
         }}
       >
-
         <View
-          style={{
-           //flexDirection : "row",
-            //alignItems: "flex-end",
-            //justifyContent: "flex-end",
-          }}
+          style={
+            {
+              //flexDirection : "row",
+              //alignItems: "flex-end",
+              //justifyContent: "flex-end",
+            }
+          }
         >
-          <View style={{flexDirection:"row" ,alignItems:'flex-end', justifyContent:'space-between'}}>
-          <MaterialIcons
-          name="arrow-back-ios"
-          size={24}
-          color="#000000"
-          onPress={goBack}
-        />
-      <Text style={{ /*alignItems:"flex-start",*/ color: "white", fontSize: 18, fontWeight: "bold" }}>
-            Texte à dynamiser
-          </Text>
-      </View>
-         
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+            }}
+          >
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={24}
+              color="#000000"
+              onPress={goBack}
+            />
+            <Text
+              style={{
+                /*alignItems:"flex-start",*/ color: "white",
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
+            >
+              {welcome}
+            </Text>
+          </View>
         </View>
       </SafeAreaView>
 
-      <ScrollView style={styles.body} >
-            <View style={{marginTop:30}}>
-                  <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text>
-            </View>
-            <View style={styles.container}>
-              {ArticlesArray}
-            </View>
-        </ScrollView>
+      <ScrollView style={styles.body}>
+        <View style={{ marginTop: 30 }}>
+          <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text>
         </View>
+        <View style={styles.container}>{ArticlesArray}</View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
     //marginTop:20,
-    
+
     backgroundColor: "#ffffff",
   },
 
@@ -272,8 +283,8 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onShowArticle: function (article) {
-      dispatch({ type: "addArticle", article });
+    onShowArticle: function (showarticle) {
+      dispatch({ type: "showArticle", showarticle });
     },
   };
 }
@@ -281,7 +292,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     saveDepartement: state.saveDepartement,
-    token: state.token,
+    saveToken: state.saveToken,
     saveCategorie: state.saveCategorie,
   };
 }

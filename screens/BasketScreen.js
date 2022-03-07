@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, Image, StyleSheet, ScrollView } from "react-native";
 
 import { Text, Button } from "react-native-elements";
@@ -5,21 +6,41 @@ import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 
 function BasketScreen(props) {
-  console.log(props.token);
-  return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
-      <Text style={styles.title}>Mon Panier</Text>
+  //console.log("basket", props.saveToken);
+  //console.log("basket", props.saveBasket);
 
-      <View style={styles.container}>
+  useEffect(() => {
+    const basketUpdate = async () => {};
+
+    basketUpdate();
+    //console.log(departement+" from UseEffect")
+  }, [props.saveBasket]);
+
+  console.log("useeff", props.saveOrder);
+  console.log(props.saveBasket.length);
+
+  var noArticles;
+  if (props.saveBasket.length == 0) {
+    noArticles = "No Articles";
+  }
+
+  const basketArray = props.saveBasket.map((item, _id) => {
+    return (
+      <View key={item._id} style={styles.container}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <Image
             style={{ resizeMode: "contain", height: 50, width: 100 }}
-            source={require("../assets/abricots.png")}
+            source={{ uri: item.img }}
           />
         </View>
         <View style={styles.block}>
-          <Text style={{ fontWeight: "bold", paddingBottom: 3 }}>Abricots</Text>
-          <Text style={styles.element}> 1kg, 2.30 €</Text>
+          <Text style={{ fontWeight: "bold", paddingBottom: 3 }}>
+            {item.nom}
+          </Text>
+          <Text style={styles.element}>
+            {" "}
+            {item.quantity} kg, {item.prix} €
+          </Text>
           <View style={styles.blockbutton}>
             <Button
               title="-"
@@ -62,11 +83,19 @@ function BasketScreen(props) {
             containerStyle={{
               marginRight: 10,
             }}
-            onPress={() => console.log("delete: click réussi")}
+            onPress={() => props.onDeleteArticle(item)}
           />
           <Text style={{ paddingTop: 10 }}>2.30€ </Text>
         </View>
       </View>
+    );
+  });
+
+  return (
+    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+      <Text style={styles.title}>Mon Panier</Text>
+      <Text style={{ marginTop: 20, fontSize: 15 }}>{noArticles}</Text>
+      {basketArray}
 
       <View style={styles.block2}>
         <Text>Frais de port</Text>
@@ -155,8 +184,19 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return { token: state.token };
+function mapDispatchToProps(dispatch) {
+  return {
+    onDeleteArticle: function (article) {
+      dispatch({ type: "deleteArticle", article });
+    },
+  };
 }
 
-export default connect(mapStateToProps, null)(BasketScreen);
+function mapStateToProps(state) {
+  return {
+    saveToken: state.saveToken,
+    saveBasket: state.saveBasket,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasketScreen);

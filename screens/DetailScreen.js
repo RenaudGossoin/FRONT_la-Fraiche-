@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,7 +20,11 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
-  console.log(props.detailArticle);
+  const [showCount, setShowCount] = useState(0);
+  //console.log("detailscreen ", props.detailArticle);
+  // var showDetailArticle = props.saveDetailArticle;
+  //console.log("test detailarticle", showDetailArticle);
+  // console.log(props.saveCount);
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
@@ -41,7 +45,7 @@ function DetailScreen(props) {
             <View>
               <Card.Image
                 style={styles.image}
-                source={require("../assets/cerises.png")}
+                source={{ uri: props.saveDetailArticle.img }}
               />
             </View>
 
@@ -49,31 +53,33 @@ function DetailScreen(props) {
               <View style={styles.productandfavoriteline}>
                 <View>
                   <Text style={styles.producttitle}>
-                    {JSON.stringify(itemId.nom)}
+                    {props.saveDetailArticle.nom}
                   </Text>
                 </View>
               </View>
 
               <View style={styles.addquantityandpriceline}>
-                <View style={styles.blockbutton}>
+                {/* <View style={styles.blockbutton}>
                   <Button
                     title="-"
                     color="gray"
                     buttonStyle={styles.button}
-                    onPress={props.onDecreaseClick}
+                    onPress={props.onDecreaseClick(showDetailArticle.quantity)}
                   />
-                  <Text style={styles.quantity}>{props.count}</Text>
+                  <Text style={styles.quantity}>{props.saveCount}</Text>
                   <Button
                     title="+"
                     color="#53B175"
                     buttonStyle={styles.button}
-                    onPress={props.onIncreaseClick}
+                    onPress={props.onIncreaseClick(showDetailArticle.quantity)}
                   />
-                </View>
+                </View> */}
 
                 <View style={styles.mainproductinfolines}>
                   <View>
-                    <Text style={styles.price}>3,20€</Text>
+                    <Text style={styles.price}>
+                      {props.saveDetailArticle.prix} €
+                    </Text>
                   </View>
                   <View>
                     <Text style={styles.unit}>le kg</Text>
@@ -103,10 +109,7 @@ function DetailScreen(props) {
                   {showTextProductDetails && (
                     <View>
                       <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
+                        {props.saveDetailArticle.description}
                       </Text>
                     </View>
                   )}
@@ -157,10 +160,7 @@ function DetailScreen(props) {
                   {showTextConseils && (
                     <View>
                       <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
+                        {props.saveDetailArticle.astuce}
                       </Text>
                     </View>
                   )}
@@ -168,6 +168,10 @@ function DetailScreen(props) {
 
                 <Pressable
                   style={styles.buttonaddtobasket}
+                  onPress={() => {
+                    console.log("click detailscreen"),
+                      props.onAddToCart(props.saveDetailArticle);
+                  }}
 
                   // onPress={goTo}
                 >
@@ -326,18 +330,25 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onIncreaseClick: function () {
-      dispatch({ type: "increase" });
+    onIncreaseClick: function (element) {
+      dispatch({ type: "increase", element });
     },
 
-    onDecreaseClick: function () {
-      dispatch({ type: "decrease" });
+    onDecreaseClick: function (element) {
+      dispatch({ type: "decrease", element });
+    },
+
+    onAddToCart: function (articleBasket) {
+      dispatch({ type: "addToCart", articleBasket });
     },
   };
 }
 
 function mapStateToProps(state) {
-  return { count: state.count, detailArticle: state.detailArticle };
+  return {
+    saveCount: state.saveCount,
+    saveDetailArticle: state.saveDetailArticle,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);

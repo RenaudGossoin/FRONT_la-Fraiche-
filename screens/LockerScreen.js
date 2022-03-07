@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView  } from 'react-native';
-import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {connect} from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView } from "react-native";
+import { Overlay, Input, CheckBox, Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { connect } from "react-redux";
 
 //pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
 //faire un [etat isDisable]
 
-
-
-import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import CheckBoxLockers from './CheckBoxLockers';
+import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import CheckBoxLockers from "./CheckBoxLockers";
 
 function LockerScreen(props) {
+  const [lockersList, setLockersList] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const [lockersList, setLockersList] = useState([])
-  const [isDisabled, setIsDisabled] = useState(false)
-
- 
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
   const [gpay, setGpay] = useState(false);
@@ -28,20 +24,20 @@ function LockerScreen(props) {
   const [addPOI, setAddPOI] = useState(false);
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  
+
   useEffect(() => {
-    
-    const Lockers = async() => {
-      const data = await fetch(`https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`)
-      const body = await data.json()
+    const Lockers = async () => {
+      const data = await fetch(
+        `https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`
+      );
+      const body = await data.json();
       //console.log(body);
-      setLockersList(body.result)
-      
-    }
-    Lockers() 
-  }, [])
+      setLockersList(body.result);
+    };
+    Lockers();
+  }, []);
   //console.log(lockersList);
-//console.log(props.saveDepartement);
+  //console.log(props.saveToken);
   useEffect(() => {
     async function askPermissions() {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -56,25 +52,37 @@ function LockerScreen(props) {
   }, []);
 
   var markerPOI = lockersList.map((POI, i) => {
-    return <Marker key={i} pinColor="blue" coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
-      title={POI.nom}
-    />
+    return (
+      <Marker
+        key={i}
+        pinColor="blue"
+        coordinate={{ latitude: POI.latitude, longitude: POI.longitude }}
+        title={POI.nom}
+      />
+    );
   });
-  
-  
-  
 
   var selectPOI = (e) => {
     if (addPOI) {
       setAddPOI(false);
       setIsVisible(true);
-      setTempPOI({ latitude: e.nativeEvent.coordinate.latitude, longitude: e.nativeEvent.coordinate.longitude });
+      setTempPOI({
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      });
     }
-  }
+  };
 
   var handleSubmit = () => {
-
-    var copyListPOI = [...listPOI, { longitude: tempPOI.longitude, latitude: tempPOI.latitude, titre: titrePOI, description: descPOI }];
+    var copyListPOI = [
+      ...listPOI,
+      {
+        longitude: tempPOI.longitude,
+        latitude: tempPOI.latitude,
+        titre: titrePOI,
+        description: descPOI,
+      },
+    ];
     AsyncStorage.setItem("POI", JSON.stringify(copyListPOI));
 
     setListPOI(copyListPOI);
@@ -82,70 +90,81 @@ function LockerScreen(props) {
     setTempPOI();
     setDescPOI();
     setTitrePOI();
-  }
-
-
+  };
 
   return (
-    
-    <View style={{ flex: 1 }} >
-      <View style={{ alignItems: 'center',  
-                    textAlign: "center",
-                    paddingTop: 40,
-                    backgroundColor: "#53B175",
-                    paddingBottom: 15
-                    }}>
-      <Text style={{ color: 'white', fontSize:18}}>Mon casier</Text>
-    </View>
-
-            <View style = {{flexDirection: 'row', margin: 10}}>
-              <Text  style={{flex: 1, fontSize:20, }}>
-                Votre panier : 
-              </Text>
-              <Text style={{textAlign: 'right', flex: 1, fontSize:20}}>100€</Text>
-            </View>
-            
-       <View>   
-      <Overlay overlayStyle = {{height:'60%', width:'80%',borderRadius:10, padding:-10}}
-        isVisible={isVisible}
-        onBackdropPress={() => { setIsVisible(false) }} 
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          alignItems: "center",
+          textAlign: "center",
+          paddingTop: 40,
+          backgroundColor: "#53B175",
+          paddingBottom: 15,
+        }}
       >
-        
-      <ScrollView>
-        <View style={{ flex: 1, alignItems: 'center',
-         justifyContent: 'center',
-         backgroundColor:'#53B175', borderTopLeftRadius:10, borderTopRightRadius:10}}>
-          <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
-          </View>  
-          
-          <CheckBoxLockers
-          />
-          
-        
-        </ScrollView> 
-        
+        <Text style={{ color: "white", fontSize: 18 }}>Mon casier</Text>
+      </View>
 
+      <View style={{ flexDirection: "row", margin: 10 }}>
+        <Text style={{ flex: 1, fontSize: 20 }}>Votre panier :</Text>
+        <Text style={{ textAlign: "right", flex: 1, fontSize: 20 }}>100€</Text>
+      </View>
+
+      <View>
+        <Overlay
+          overlayStyle={{
+            height: "60%",
+            width: "80%",
+            borderRadius: 10,
+            padding: -10,
+          }}
+          isVisible={isVisible}
+          onBackdropPress={() => {
+            setIsVisible(false);
+          }}
+        >
+          <ScrollView>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#53B175",
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 25, margin: 5 }}>
+                Je choisis mon locker
+              </Text>
+            </View>
+
+            <CheckBoxLockers />
+          </ScrollView>
 
           <Button
           
             title="Confirmer"
-            onPress={() => {setIsVisible(false)}}
+            onPress={() => {
+              setIsVisible(false);
+            }}
             //disabled={isDisabled}
-            buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
-                containerStyle={{
-                  marginHorizontal: 70,
-                  marginVertical: 10,
-                  alignItems: 'center', 
-                  justifyContent: 'center'}}
-                      
-                  
+            buttonStyle={{ backgroundColor: "#53B175", borderRadius: 10 }}
+            containerStyle={{
+              marginHorizontal: 70,
+              marginVertical: 10,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           />
-        
-      </Overlay>
+        </Overlay>
       </View>
 
-      <MapView 
-        onPress={() => { setIsVisible(!isVisible) }}
+      <MapView
+        onPress={() => {
+          setIsVisible(!isVisible);
+        }}
         style={{ flex: 1 }}
         initialRegion={{
           latitude: 48.866667,
@@ -154,57 +173,54 @@ function LockerScreen(props) {
           longitudeDelta: 0.0421,
         }}
       >
-
-
-        <Marker key={"currentPos"}
+        <Marker
+          key={"currentPos"}
           pinColor="red"
           title="Hello"
           description="I'am here"
-          coordinate={{ latitude: currentLatitude, longitude: currentLongitude }}
+          coordinate={{
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+          }}
         />
-        
-        {markerPOI}
-        
 
+        {markerPOI}
       </MapView>
 
+      <View style={{ margin: -10 }}>
+        <CheckBox
+          title="Credit/ Debit Card"
+          checked={credit}
+          onPress={() => setCredit(!credit)}
+        />
+        <CheckBox
+          title="Paypal"
+          checked={paypal}
+          onPress={() => setPaypal(!paypal)}
+        />
+        <CheckBox
+          title="Gpay :  Credit/ Debit Card"
+          checked={gpay}
+          onPress={() => setGpay(!gpay)}
+        />
+      </View>
 
-            <View style={{margin:-10}}>
-            
-              <CheckBox 
-              title='Credit/ Debit Card'
-              checked={credit}
-              onPress={() => setCredit(!credit)}/>
-              <CheckBox 
-              title='Paypal'
-              checked={paypal}
-              onPress={() => setPaypal(!paypal)}/>
-              <CheckBox 
-              title='Gpay :  Credit/ Debit Card'
-              checked={gpay}
-              onPress={() => setGpay(!gpay)}/>
-        </View>
-        
-             <Button
-                title="Valider ma commande"
-                buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10, margin: 30, marginVertical: 10}}
-                 
-                onPress={() => props.navigation.navigate("Error")}
-              />
-        
-        
+      <Button
+        title="Valider ma commande"
+        buttonStyle={{
+          backgroundColor: "#53B175",
+          borderRadius: 10,
+          margin: 30,
+          marginVertical: 10,
+        }}
+        onPress={() => props.navigation.navigate("Error")}
+      />
     </View>
   );
 }
 
-
-
-
 function mapStateToProps(state) {
-  return { saveDepartement : state.saveDepartement, token: state.token }
+  return { saveDepartement: state.saveDepartement, saveToken: state.saveToken };
 }
 
-export default connect(
-  mapStateToProps, 
-  null
-)(LockerScreen);
+export default connect(mapStateToProps, null)(LockerScreen);
