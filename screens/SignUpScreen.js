@@ -155,6 +155,7 @@ const SignUpScreen = (props) => {
         }}
       >
         <TextInput
+        secureTextEntry={true}
           placeholder="password"
           style={styles.textInputPassword}
           type="password"

@@ -16,7 +16,7 @@ const HomeScreen = (props) => {
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.viewContainer}>
           <Image
-            source={require("../assets/logo.png")}
+            source={require("../assets/logo-navet.png")}
             style={styles.logo}
           ></Image>
           <View style={styles.textInputBtn}>
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
-    width: 200,
-    height: 200,
-    minHeight: 70,
+    width: 350,
+    height: 350,
+    minHeight: 100,
     resizeMode: "contain",
     // marginTop:70,
   },
