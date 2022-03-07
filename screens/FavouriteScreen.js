@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 
 const FavouriteScreen = (props) => {
-  console.log(props.token);
+  //console.log("favourite",props.saveToken);
   return (
     <View style={styles.container}>
       <Text>FavouriteScreen</Text>
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { saveToken: state.saveToken };
 }
 
 export default connect(mapStateToProps, null)(FavouriteScreen);

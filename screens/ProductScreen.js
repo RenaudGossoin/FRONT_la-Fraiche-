@@ -17,26 +17,29 @@ import { connect } from "react-redux";
 function ProductScreen(props) {
   const [departement, setDepartement] = useState("");
   const [articleList, setArticleList] = useState([]);
-  const [showArticle, setShowArticle] = useState(null);
+  const [userInfo, setUserInfo] = useState();
 
   //console.log(articleList)
 
-  const goTo = () =>
-    props.navigation.navigate("Detail", { screen: "DetailScreen" });
   const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
 
   useEffect(() => {
-    console.log("ouverture UseEffect Product", props.saveCategorie);
+    //console.log("ouverture UseEffect Product", props.saveCategorie);
 
     const findArticles = async () => {
       //console.log(props.saveCategorie);
-      if (props.token) {
+      if (props.saveToken) {
         const data = await fetch(
-          `https://lafraiche.herokuapp.com/articles?token=${props.token}&categorie=${props.saveCategorie}`
+          `https://lafraiche.herokuapp.com/articles?token=${props.saveToken}&categorie=${props.saveCategorie}`
         );
 
         const body = await data.json();
+        //console.log("bodyproduct",body);
+        setUserInfo(
+          body.user.username.charAt(0).toUpperCase() +
+            body.user.username.slice(1)
+        );
         setArticleList(body.articlesFilter);
       } else {
         const data = await fetch(
@@ -49,10 +52,20 @@ function ProductScreen(props) {
 
     findArticles();
     //console.log(departement+" from UseEffect")
-  }, []);
+  }, [props.saveToken]);
 
-  const ArticlesArray = articleList.map((element, i) => {
+  //console.log("articleslist: ", articleList);
+
+  var welcome;
+  if (props.saveToken) {
+    welcome = `Bienvenue ${userInfo}`;
+  } else {
+    welcome = "Bienvenue sur La Fraîche";
+  }
+
+  const ArticlesArray = articleList.map((element, _id) => {
     //console.log(element.img);
+
     return (
       <Card key={element._id} containerStyle={styles.item}>
         <Icon style={styles.icon} name="favorite" size={18} />
@@ -63,34 +76,20 @@ function ProductScreen(props) {
           </View>
 
           <View>
-            <Text style={styles.productandprice}>{element.prix}</Text>
+            <Text style={styles.productandprice}>{element.prix} €</Text>
           </View>
         </View>
 
         <Text style={styles.productquantity}>6 pièces</Text>
 
         <Pressable
-          // onPress={
-          //   (props.navigation.navigate("Detail", {
-          //     screen: "DetailScreen",
-          //   }),
-          //   setShowArticle((showArticle) =>
-          //     showArticle == element._id ? null : element._id
-          //   ),
-          //   props.onShowArticle(showArticle))
-          // }
-          onPress={
-            () => {
-              props.onShowArticle(element),
-                props.navigation.navigate("Detail", {
-                  screen: "DetailScreen",
-                });
-            }
-
-            // setShowArticle((showArticle) =>
-            //   showArticle == element._id ? null : element._id
-            // ),
-          }
+          onPress={() => {
+            console.log("test product clique reussi");
+            props.onShowArticle(element),
+              props.navigation.navigate("Detail", {
+                screen: "DetailScreen",
+              });
+          }}
           style={styles.button}
         >
           <Text style={styles.textbutton}>détails</Text>
@@ -124,7 +123,7 @@ function ProductScreen(props) {
           }}
         >
           <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
-            Texte à dynamiser
+            {welcome}
           </Text>
         </View>
       </SafeAreaView>
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    width: "30%",
+    width: "50%",
     height: "33%",
     borderRadius: 10,
     backgroundColor: "#ffffff",
@@ -258,8 +257,8 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onShowArticle: function (article) {
-      dispatch({ type: "addArticle", article });
+    onShowArticle: function (showarticle) {
+      dispatch({ type: "showArticle", showarticle });
     },
   };
 }
@@ -267,7 +266,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     saveDepartement: state.saveDepartement,
-    token: state.token,
+    saveToken: state.saveToken,
     saveCategorie: state.saveCategorie,
   };
 }
