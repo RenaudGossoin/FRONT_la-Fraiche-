@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import BandeVerteHaut from './BandeVerteHaut';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import RadialGradient from 'react-native-radial-gradient';
 
 import {connect} from 'react-redux';
 
@@ -112,7 +113,7 @@ function CategoriesScreen(props) {
 
               <Card containerStyle={styles.category}>
                 <Card.Image
-                name="laitage"
+                name="Fromages"
                   style={styles.imagedown}
                   source={require('../assets/cat-laitage.png')}
                 />
@@ -137,13 +138,13 @@ function CategoriesScreen(props) {
 };
 
 const styles = StyleSheet.create({
-  // bandeVerte: {
-  //   backgroundColor: "#53B175",
-  //   height: "17%",
-  // },
-  // body: {
-  //   backgroundColor: "#ffffff",
-  // },
+bandeVerte: {
+backgroundColor: "#53B175",
+height: "17%",
+},
+body: {
+  backgroundColor: "#ffffff",
+},
    title: {
      flex: 1,
      alignItems: "center",
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
   },
 
   category: {
+    justifyContent:'center',
     width: 150,
     height: 190,
     borderRadius: 18,
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     marginBottom: 10,
-    //resizeMode: 'contain'
+    resizeMode: 'contain'
   },
   categoryname: {
     textAlign: "center",

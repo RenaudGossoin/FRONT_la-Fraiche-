@@ -55,20 +55,22 @@ function ProductScreen(props) {
     //console.log(element.img);
     return (
       <Card key={element._id} containerStyle={styles.item}>
+        <View style={{flexDirection:'row', justifyContent:'flex-end', marginTop:-8 }}>
         <Icon style={styles.icon} name="favorite" size={18} />
+        </View>
+        <View style={{alignItems:'center'}}>
         <Card.Image style={styles.image} source={{ uri: element.img }} />
+        </View>
         <View style={styles.textcontainer}>
+
           <View>
             <Text style={styles.productandprice}>{element.nom}</Text>
           </View>
-  
-          <View>
-            <Text style={styles.productandprice}>{element.prix}</Text>
-          </View>
+
         </View>
-
-        <Text style={styles.productquantity}>6 pièces</Text>
-
+        <Text style={styles.productquantity}>{element.mesurement}</Text>
+        <Text style={styles.productandprice}>{element.prix}</Text>
+        <View style={{justifyContent:'flex-end'}}>
         <Pressable
           // onPress={
           //   (props.navigation.navigate("Detail", {
@@ -95,42 +97,50 @@ function ProductScreen(props) {
         >
           <Text style={styles.textbutton}>détails</Text>
         </Pressable>
+        </View>
+        
       </Card>
     );
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom:70}}>
+
       <SafeAreaView
         style={{
           display: "flex",
-          height: "16%",
+          height: 90,
           backgroundColor: "#53B175",
-          paddingBottom: 15,
-          paddingTop: 40,
+          paddingBottom: 0,
+          paddingTop: 50,
           paddingHorizontal: 30,
         }}
       >
-        <MaterialIcons
-          name="arrow-back-ios"
-          size={24}
-          color="white"
-          onPress={goBack}
-        />
+
         <View
           style={{
-            alignItems: "flex-end",
-            justifyContent: "flex-end",
+           //flexDirection : "row",
+            //alignItems: "flex-end",
+            //justifyContent: "flex-end",
           }}
         >
-          <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
+          <View style={{flexDirection:"row" ,alignItems:'flex-end', justifyContent:'space-between'}}>
+          <MaterialIcons
+          name="arrow-back-ios"
+          size={24}
+          color="#000000"
+          onPress={goBack}
+        />
+      <Text style={{ /*alignItems:"flex-start",*/ color: "white", fontSize: 18, fontWeight: "bold" }}>
             Texte à dynamiser
           </Text>
+      </View>
+         
         </View>
       </SafeAreaView>
 
-      <ScrollView style={styles.body}>
-            <View >
+      <ScrollView style={styles.body} >
+            <View style={{marginTop:30}}>
                   <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text>
             </View>
             <View style={styles.container}>
@@ -143,6 +153,8 @@ function ProductScreen(props) {
 
 const styles = StyleSheet.create({
   body: {
+    //marginTop:20,
+    
     backgroundColor: "#ffffff",
   },
 
@@ -166,8 +178,8 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    width: "30%",
-    height: "33%",
+    width: 108,
+    height: 200,
     borderRadius: 10,
     backgroundColor: "#ffffff",
     borderStyle: "solid",
@@ -184,13 +196,13 @@ const styles = StyleSheet.create({
 
     marginRight: 6,
     marginLeft: 6,
-    paddingHorizontal: "2%",
-    paddingBottom: "2%",
+    paddingHorizontal: 7,
+    //paddingBottom: "2%",
   },
 
-  icon: {
+  /*icon: {
     marginLeft: "80%",
-  },
+  },*/
 
   image: {
     width: 60,
