@@ -20,41 +20,17 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
-  const [likeProduct, setLikeProduct] = useState(false);
   const [showCount, setShowCount] = useState(0);
   //console.log("detailscreen ", props.detailArticle);
   // var showDetailArticle = props.saveDetailArticle;
   //console.log("test detailarticle", showDetailArticle);
   // console.log(props.saveCount);
 
-  const[copylistFavoritearticlesDATA, updatelistFavorites] = useState([{nom: "", prix:"", img:"", categorie: ""}]);
-  console.log('favoris', copylistFavoritearticlesDATA)
-
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
 
-
-  var handleFavoriteClick = () => {
-    setLikeProduct(!likeProduct);
-
-}
-
-
-
-if(likeProduct === true){
-  console.log('jai cliqué sur le coeur')
-  console.log (likeProduct)
-  var heartColor = {color: '#e74c3c'}
-};
-
-if(likeProduct === false){
-  console.log('jai cliqué sur le coeur')
-  console.log (likeProduct)
-  var heartColor = {color: 'gray'}
-}
-
-    return (
-      <>
+  return (
+    <>
       <ScrollView style={styles.body}>
         <View style={styles.body}>
           <View style={styles.container}>
@@ -73,23 +49,16 @@ if(likeProduct === false){
               />
             </View>
 
-                    <View style={styles.mainproductinfolines}>
-                        <View style={styles.productandfavoriteline}>
-                            <View><Text style={styles.producttitle}>{props.saveDetailArticle.nom}</Text></View>
-                            <View>
-                              <Icon 
-                                  name="favorite"
-                                  size={30}
-                                
-                                  style={heartColor}
-                                  // onPress={() => handleFavoriteClick()}
-                                  onPress={ () => {props.onAddtoFavClick(article)}}
+            <View style={styles.mainproductinfolines}>
+              <View style={styles.productandfavoriteline}>
+                <View>
+                  <Text style={styles.producttitle}>
+                    {props.saveDetailArticle.nom}
+                  </Text>
+                </View>
+              </View>
 
-
-                                  />
-                            </View>
-                        </View>
-                        <View style={styles.addquantityandpriceline}>
+              <View style={styles.addquantityandpriceline}>
                 {/* <View style={styles.blockbutton}>
                   <Button
                     title="-"
@@ -117,34 +86,36 @@ if(likeProduct === false){
                   </View>
                 </View>
               </View>
-                  
-                    <View>
-                    
-                    <View style={styles.marginTopshowhidemenu}>
-                        <View style={styles.firstlineshowhidemenu}>
-                            <Text style={styles.titleshowhidemenu}>
-                            Détails du produits</Text>
 
-                            <TouchableOpacity 
-                              onPress={() => setShowTextProductDetails(!showTextProductDetails)}
-                              >
-                                    <Image
-                                        style={styles.imgFleche}
-                                        source={require('../assets/fleche-deroulante-bas.png')}
-                                      />
-                            </TouchableOpacity>   
-                            
-                        </View>
+              <View>
+                <View style={styles.marginTopshowhidemenu}>
+                  <View style={styles.firstlineshowhidemenu}>
+                    <Text style={styles.titleshowhidemenu}>
+                      Détails du produits
+                    </Text>
+
+                    <TouchableOpacity
+                      onPress={() =>
+                        setShowTextProductDetails(!showTextProductDetails)
+                      }
+                    >
+                      <Image
+                        style={styles.imgFleche}
+                        source={require("../assets/fleche-deroulante-bas.png")}
+                      />
+                    </TouchableOpacity>
+                  </View>
 
                   {showTextProductDetails && (
                     <View>
                       <Text style={styles.textshowhidemenu}>
                         {props.saveDetailArticle.description}
                       </Text>
-                    </View>)}
                     </View>
+                  )}
+                </View>
 
-                    <View style={styles.marginTopshowhidemenu}>
+                <View style={styles.marginTopshowhidemenu}>
                   <View style={styles.firstlineshowhidemenu}>
                     <Text style={styles.titleshowhidemenu}>
                       Infos nutritionnelles
@@ -185,17 +156,15 @@ if(likeProduct === false){
                       />
                     </TouchableOpacity>
                   </View>
-                    
 
                   {showTextConseils && (
                     <View>
                       <Text style={styles.textshowhidemenu}>
                         {props.saveDetailArticle.astuce}
                       </Text>
-                    </View>)}
-                       </View>       
-                      
-                    
+                    </View>
+                  )}
+                </View>
 
                 <Pressable
                   style={styles.buttonaddtobasket}
@@ -372,12 +341,6 @@ function mapDispatchToProps(dispatch) {
     onAddToCart: function (articleBasket) {
       dispatch({ type: "addToCart", articleBasket });
     },
-
-    onAddtoFavClick: function(article){
-      dispatch({type: 'addFavArticle',
-        articleLiked: article
-      })
-    }
   };
 }
 
@@ -385,15 +348,7 @@ function mapStateToProps(state) {
   return {
     saveCount: state.saveCount,
     saveDetailArticle: state.saveDetailArticle,
-  
-    addtoFavlist: state.addtoFavlist,
   };
 }
 
-export default connect ( 
-  null,
-  mapStateToProps,
-  mapDispatchToProps
-  )(DetailScreen);
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);

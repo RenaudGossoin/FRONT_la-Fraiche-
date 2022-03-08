@@ -43,6 +43,7 @@ function AccountScreen(props) {
   //console.log("username", userUsername);
   // console.log("usermail", userEmail);
   //console.log("orders", orderInfo);
+  console.log("DetailArticle",props.saveDetailArticle)
 
   var selectOrder = () => {
     setIsVisible(true);
@@ -156,7 +157,7 @@ function AccountScreen(props) {
   });    */
 
 function mapStateToProps(state) {
-  return { saveToken: state.saveToken };
+  return { saveToken: state.saveToken, saveDetailArticle: state.saveDetailArticle };
 }
 
 export default connect(mapStateToProps, null)(AccountScreen);
