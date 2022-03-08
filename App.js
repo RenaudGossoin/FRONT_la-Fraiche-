@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect} from 'react';
+
 
 
 //redux
@@ -9,6 +11,7 @@ import saveDepartement from "./reducers/saveDepartement";
 import count from "./reducers/count";
 import token from "./reducers/token";
 import saveCategorie from "./reducers/saveCategorie"
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -29,9 +32,9 @@ import SignUpScreen from "./screens/SignUpScreen";
 import LockerScreen from "./screens/LockerScreen";
 import ProductScreen from "./screens/ProductScreen";
 import DetailScreen from "./screens/DetailScreen";
-
 import SuccessScreen from "./screens/SuccessScreen";
 import ErrorScreen from "./screens/ErrorScreen";
+import PaymentScreen from "./screens/PaymentScreen";
 
 //navigation
 const Stack = createStackNavigator();
@@ -82,9 +85,30 @@ const BottomNavigator = () => {
 };
 
 export default function App() {
+  const [publishableKey, setPublishableKey] = useState('');
+
+  const fetchPublishableKey = async () => {
+    const key = await fetchKey(); // fetch key from your server here
+    setPublishableKey(key);
+  };
+
+  useEffect(() => {
+    fetchPublishableKey();
+  }, []);
   return (
+    
+    
+    <StripeProvider
+      publishableKey="pk_test_51KHmtoJkO5eJfiDA1YzBXZXfQrBGZvhkr4lCgKUv6PiVOBpKbPFVYcEHkgBkDQS5zTYkoIc7qMiBcDVdkx9BYzsg00VrPLP3Lh"
+      urlScheme="https://lafraiche.herokuapp.com/" // required for 3D Secure and bank redirects
+      merchantIdentifier="merchant.com.{{la fraiche}}" // required for Apple Pay
+    >
+      
     <Provider store={store}>
-      <NavigationContainer>
+
+   
+    
+     <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SignIn" component={LogInScreen} />
@@ -95,9 +119,14 @@ export default function App() {
           <Stack.Screen name="Error" component={ErrorScreen} />
           <Stack.Screen name="Product" component={ProductScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
+          <Stack.Screen name="Payment" component={PaymentScreen} />
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
+    
+    </StripeProvider>
+    
   );
 }
+

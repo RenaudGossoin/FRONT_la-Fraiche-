@@ -5,11 +5,12 @@ import {
   ListItem,
   Icon,
   Text,
-  Accordion,
   Content,
 } from "react-native-elements";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { connect } from "react-redux";
+
+
 
 function AccountScreen(props) {
   const [expanded, setExpanded] = useState("");
@@ -26,7 +27,7 @@ function AccountScreen(props) {
       >
         <MaterialCommunityIcons name="human-greeting" size={50} color="black" />
         <View>
-          <Text style={{ fontSize: 20 }}>Steevie Wonder</Text>
+          <Text style={{ fontSize: 20, fontWeight:'bold' }}>Steevie Wonder</Text>
           <Text style={{ fontSize: 15, flexDirection: "row" }}>
             s.wonder@gmail.com
           </Text>
@@ -41,17 +42,22 @@ function AccountScreen(props) {
               <ListItem.Title style={{ fontSize: 20, marginLeft: 10 }}>
                 Mes commandes
               </ListItem.Title>
+                      
             </ListItem.Content>
           </>
         }
         isExpanded={expanded}
         onPress={() => {
           setExpanded(!expanded);
+          
         }}
+        
+        
       ></ListItem.Accordion>
 
       <Button
         title="Déconnexion"
+        onPress={() => props.navigation.navigate('SignIn')}
         buttonStyle={{
           backgroundColor: "#53B175",
           borderRadius: 10,
