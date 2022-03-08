@@ -5,9 +5,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import saveDepartement from "./reducers/saveDepartement";
-import count from "./reducers/count";
-import token from "./reducers/token";
-import saveCategorie from "./reducers/saveCategorie"
+import saveCount from "./reducers/saveCount";
+import saveToken from "./reducers/saveToken";
+import saveCategorie from "./reducers/saveCategorie";
+import saveDetailArticle from "./reducers/saveDetailArticle";
+import saveBasket from "./reducers/saveBasket";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -37,7 +39,16 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //redux
-const store = createStore(combineReducers({ saveDepartement, count, token, saveCategorie }));
+const store = createStore(
+  combineReducers({
+    saveDepartement,
+    saveCount,
+    saveToken,
+    saveCategorie,
+    saveDetailArticle,
+    saveBasket,
+  })
+);
 
 const BottomNavigator = () => {
   return (

@@ -169,6 +169,6 @@ const styles = StyleSheet.create({
   });    
     
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { saveToken: state.saveToken };
 }
 export default connect(mapStateToProps, null)(FavouriteScreen);

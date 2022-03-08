@@ -57,7 +57,7 @@ const LogInScreen = (props) => {
       <Text style={{ fontSize: 25, fontWeight: "bold" }}>Connexion</Text>
       <Text
         style={{
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: "bold",
           color: "#737373",
           marginTop: 25,
@@ -76,6 +76,7 @@ const LogInScreen = (props) => {
         }}
       >
         <TextInput
+        fontSize={18}
           placeholder="email"
           style={styles.textInput}
           onChangeText={(val) => setEmail(val)}
@@ -84,7 +85,7 @@ const LogInScreen = (props) => {
 
       <Text
         style={{
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: "bold",
           color: "#737373",
           marginTop: 25,
@@ -102,6 +103,8 @@ const LogInScreen = (props) => {
         }}
       >
         <TextInput
+        fontSize={18}
+        secureTextEntry={true}
           placeholder="password"
           style={styles.textInputPassword}
           type="password"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,11 @@ function DetailScreen(props) {
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
   const [likeProduct, setLikeProduct] = useState(false);
+  const [showCount, setShowCount] = useState(0);
+  //console.log("detailscreen ", props.detailArticle);
+  // var showDetailArticle = props.saveDetailArticle;
+  //console.log("test detailarticle", showDetailArticle);
+  // console.log(props.saveCount);
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
@@ -52,13 +57,13 @@ function DetailScreen(props) {
             <View>
               <Card.Image
                 style={styles.image}
-                source={require("../assets/cerises.png")}
+                source={{ uri: props.saveDetailArticle.img }}
               />
             </View>
 
                     <View style={styles.mainproductinfolines}>
                         <View style={styles.productandfavoriteline}>
-                            <View><Text style={styles.producttitle}>Cerises</Text></View>
+                            <View><Text style={styles.producttitle}>{props.saveDetailArticle.nom}</Text></View>
                             <View>
                               <Icon 
                                   name="favorite"
@@ -69,32 +74,35 @@ function DetailScreen(props) {
                                   />
                             </View>
                         </View>
-                        
-                        
                         <View style={styles.addquantityandpriceline}>
-                            <View style={styles.blockbutton}>
-                                <Button
-                                  title="-"
-                                  color="gray"
-                                  buttonStyle={styles.button}
-                                  onPress={props.onDecreaseClick}
-                                />
-                                <Text style={styles.quantity}>{props.count}</Text>
-                                <Button
-                                  title="+"
-                                  color="#53B175"
-                                  buttonStyle={styles.button}
-                                  onPress={props.onIncreaseClick}
-                                />
-                            </View>
+                {/* <View style={styles.blockbutton}>
+                  <Button
+                    title="-"
+                    color="gray"
+                    buttonStyle={styles.button}
+                    onPress={props.onDecreaseClick(showDetailArticle.quantity)}
+                  />
+                  <Text style={styles.quantity}>{props.saveCount}</Text>
+                  <Button
+                    title="+"
+                    color="#53B175"
+                    buttonStyle={styles.button}
+                    onPress={props.onIncreaseClick(showDetailArticle.quantity)}
+                  />
+                </View> */}
 
-                            <View style={styles.mainproductinfolines}>
-                                <View><Text style={styles.price}>3,20€</Text></View>
-                                <View><Text style={styles.unit}>le kg</Text></View>
-                            </View>
-                            
-                        </View>
-
+                <View style={styles.mainproductinfolines}>
+                  <View>
+                    <Text style={styles.price}>
+                      {props.saveDetailArticle.prix} €
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.unit}>le kg</Text>
+                  </View>
+                </View>
+              </View>
+                  
                     <View>
                     
                     <View style={styles.marginTopshowhidemenu}>
@@ -112,59 +120,81 @@ function DetailScreen(props) {
                             </TouchableOpacity>   
                             
                         </View>
-                         
-                        {showTextProductDetails && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
+
+                  {showTextProductDetails && (
+                    <View>
+                      <Text style={styles.textshowhidemenu}>
+                        {props.saveDetailArticle.description}
+                      </Text>
+                    </View>)}
                     </View>
-                              
 
                     <View style={styles.marginTopshowhidemenu}>
-                        <View style={styles.firstlineshowhidemenu}>
-                            <Text style={styles.titleshowhidemenu}>
-                            Infos nutritionnelles</Text>
+                  <View style={styles.firstlineshowhidemenu}>
+                    <Text style={styles.titleshowhidemenu}>
+                      Infos nutritionnelles
+                    </Text>
 
-                            <TouchableOpacity 
-                              onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
-                              >
-                                    <Image
-                                        style={styles.imgFleche}
-                                        source={require('../assets/fleche-deroulante-bas.png')}
-                                      />
-                            </TouchableOpacity>   
-                            
-                        </View>
-                         
-                        {showTextInfoNutri && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
+                    <TouchableOpacity
+                      onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
+                    >
+                      <Image
+                        style={styles.imgFleche}
+                        source={require("../assets/fleche-deroulante-bas.png")}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {showTextInfoNutri && (
+                    <View>
+                      <Text style={styles.textshowhidemenu}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Suspendisse lorem ipsum, elementum ut nisl vel,
+                        pellentesque vestibulum turpis. Donec vulputate felis eu
+                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
+                      </Text>
                     </View>
-                              
+                  )}
+                </View>
 
-                    <View style={styles.marginTopshowhidemenu}>
-                        <View style={styles.firstlineshowhidemenu}>
-                            <Text style={styles.titleshowhidemenu}>
-                            Conseils</Text>
+                <View style={styles.marginTopshowhidemenu}>
+                  <View style={styles.firstlineshowhidemenu}>
+                    <Text style={styles.titleshowhidemenu}>Conseils</Text>
 
-                            <TouchableOpacity 
-                              onPress={() => setShowTextConseils(!showTextConseils)}
-                              >
-                                    <Image
-                                        style={styles.imgFleche}
-                                        source={require('../assets/fleche-deroulante-bas.png')}
-                                      />
-                            </TouchableOpacity>   
-                            
-                        </View>
-                         
-                        {showTextConseils && <View><Text style={styles.textshowhidemenu}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lorem ipsum, elementum ut nisl vel, pellentesque vestibulum turpis. Donec vulputate felis eu facilisis eleifend. Sed risus massa, imperdiet sed dui.</Text></View>}
-                    </View>
-                              
+                    <TouchableOpacity
+                      onPress={() => setShowTextConseils(!showTextConseils)}
+                    >
+                      <Image
+                        style={styles.imgFleche}
+                        source={require("../assets/fleche-deroulante-bas.png")}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                    
+
+                  {showTextConseils && (
+                    <View>
+                      <Text style={styles.textshowhidemenu}>
+                        {props.saveDetailArticle.astuce}
+                      </Text>
+                    </View>)}
+                       </View>       
                       
-                    <Pressable 
-                      style={styles.buttonaddtobasket}
-                      
-                      // onPress={goTo}
-                      >
-                    <Text style={styles.textaddtobasketbutton}>Ajouter au panier</Text>  
-                    </Pressable>
+                    
 
+                <Pressable
+                  style={styles.buttonaddtobasket}
+                  onPress={() => {
+                    //console.log("click detailscreen"),
+                      props.onAddToCart(props.saveDetailArticle);
+                  }}
+
+                  // onPress={goTo}
+                >
+                  <Text style={styles.textaddtobasketbutton}>
+                    Ajouter au panier
+                  </Text>
+                </Pressable>
               </View>
             </View>
           </View>
@@ -316,18 +346,25 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onIncreaseClick: function () {
-      dispatch({ type: "increase" });
+    onIncreaseClick: function (element) {
+      dispatch({ type: "increase", element });
     },
 
-    onDecreaseClick: function () {
-      dispatch({ type: "decrease" });
+    onDecreaseClick: function (element) {
+      dispatch({ type: "decrease", element });
+    },
+
+    onAddToCart: function (articleBasket) {
+      dispatch({ type: "addToCart", articleBasket });
     },
   };
 }
 
 function mapStateToProps(state) {
-  return { count: state.count };
+  return {
+    saveCount: state.saveCount,
+    saveDetailArticle: state.saveDetailArticle,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);
