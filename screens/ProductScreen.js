@@ -90,7 +90,7 @@ function ProductScreen(props) {
         <View style={{ justifyContent: "flex-end" }}>
           <Pressable
             onPress={() => {
-              console.log("test product clique reussi");
+              //console.log("test product clique reussi");
               props.onShowArticle(element),
                 props.navigation.navigate("Detail", {
                   screen: "DetailScreen",

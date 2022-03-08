@@ -169,7 +169,7 @@ function DetailScreen(props) {
                 <Pressable
                   style={styles.buttonaddtobasket}
                   onPress={() => {
-                    console.log("click detailscreen"),
+                    //console.log("click detailscreen"),
                       props.onAddToCart(props.saveDetailArticle);
                   }}
 

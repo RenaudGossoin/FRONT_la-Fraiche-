@@ -30,7 +30,7 @@ function AccountScreen(props) {
         );
 
         const body = await data.json();
-        console.log("bodyaccount", body);
+        //console.log("bodyaccount", body);
         setUserUsername(body.info[0].username);
         setUserEmail(body.info[0].email);
         setOrderInfo(body.orders);

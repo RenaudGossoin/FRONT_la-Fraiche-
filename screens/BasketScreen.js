@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Image, StyleSheet, ScrollView } from "react-native";
 
 import { Text, Button } from "react-native-elements";
@@ -16,13 +16,15 @@ function BasketScreen(props) {
     //console.log(departement+" from UseEffect")
   }, [props.saveBasket]);
 
-  console.log("useeff", props.saveOrder);
-  console.log(props.saveBasket.length);
-
+  //console.log("useeff", props.saveOrder);
+  //console.log(props.saveBasket.length);
   var noArticles;
   if (props.saveBasket.length == 0) {
     noArticles = "No Articles";
   }
+
+
+
 
   const basketArray = props.saveBasket.map((item, _id) => {
     return (
@@ -39,7 +41,7 @@ function BasketScreen(props) {
           </Text>
           <Text style={styles.element}>
             {" "}
-            {item.quantity} kg, {item.prix} €
+            {item.mesurement},{parseInt(item.prix)} €
           </Text>
           <View style={styles.blockbutton}>
             <Button
@@ -51,9 +53,11 @@ function BasketScreen(props) {
               containerStyle={{
                 marginRight: 10,
               }}
-              onPress={() => console.log("add : click réussi")}
+              //onPress={() => decreaseQuantity()}
+              onPress={() => props.onDecreaseQuantity(item)}
+
             />
-            <Text>1</Text>
+            <Text>{item.quantity}</Text>
             <Button
               title="+"
               color="gray"
@@ -63,7 +67,7 @@ function BasketScreen(props) {
               containerStyle={{
                 marginLeft: 10,
               }}
-              onPress={() => console.log("minus: click réussi")}
+              onPress={() => props.onIncreaseQuantity(item)}
             />
           </View>
         </View>
@@ -85,11 +89,18 @@ function BasketScreen(props) {
             }}
             onPress={() => props.onDeleteArticle(item)}
           />
-          <Text style={{ paddingTop: 10 }}>2.30€ </Text>
+          <Text style={{ paddingTop: 10 }}>{item.prix*item.quantity} €</Text>
         </View>
       </View>
     );
   });
+
+
+
+  // METHODE REDUCE
+  var total=props.saveBasket.reduce((p, c) => p+c.prix*c.quantity, 0);
+console.log(typeof total);
+ console.log(Number(total)); 
 
   return (
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
@@ -129,7 +140,7 @@ function BasketScreen(props) {
           <Text style={{ fontWeight: "bold", paddingTop: 10 }}>
             Total panier
           </Text>
-          <Text style={{ paddingTop: 5 }}> 100 €</Text>
+          <Text style={{ paddingTop: 5 }}> {total}€</Text>
         </View>
       </View>
     </ScrollView>
@@ -189,6 +200,12 @@ function mapDispatchToProps(dispatch) {
     onDeleteArticle: function (article) {
       dispatch({ type: "deleteArticle", article });
     },
+onIncreaseQuantity: function (article){
+  dispatch({type: "increaseQuantity", article})
+},
+onDecreaseQuantity: function (article){
+  dispatch({type: "decreaseQuantity", article})
+}
   };
 }
 
@@ -196,6 +213,7 @@ function mapStateToProps(state) {
   return {
     saveToken: state.saveToken,
     saveBasket: state.saveBasket,
+
   };
 }
 
