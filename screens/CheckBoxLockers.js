@@ -1,23 +1,103 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import {connect} from 'react-redux';
+
 //Le choix des lockers sont fait en dur... Trop compliqué de pouvoir les selectionnés un à un. AB 
 
 
-//pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
-//faire un [etat isDisable]
+
 export default function CheckBoxLockers(props) {
 
-    const [checkBox, setCheckBox] = useState([false, false, false,false,false,false,false,false]);
-   /* const [isDisabled, setIsDisabled] = useState(false)
-    
-    for (var i=0; i<checkBox.length; i++) {
-        if(checkBox>=2){
-            setIsDisabled = true
-        } 
-    }*/
-   
+    const [checkBox, setCheckBox] = useState(false);
+    const [check, setCheck] = useState(false);
+    const [checkB, setCheckB] = useState(false);
+    const [checko, setChecko] = useState(false);
+    const [checkx, setCheckX] = useState(false);
+    const [choix, setChoix] = useState(false);
+    const [choice, setChoice] = useState(false);
+    const [box, setBox] = useState(false);
+        
+    const lecheckbox = () => {
+        setCheckBox(true);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(false);
+        setBox(false);
+    }
+    const leBox = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(false);
+        setBox(true);
+    }
+    const lecheck = () => {
+        setCheckBox(false);
+        setCheck(true);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(false);
+        setBox(false);
+    }
+    const lecheckB = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(true);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(false);
+        setBox(false);
+    }
+    const lechecko = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(true);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(false);
+        setBox(false);
+    }
+    const lecheckX = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(true);
+        setChoix(false);
+        setChoice(false);
+        setBox(false);
+    }
+    const lecheckChoix = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(true);
+        setChoice(false);
+        setBox(false);
+    }
+    const lecheckChoice = () => {
+        setCheckBox(false);
+        setCheck(false);
+        setCheckB(false);
+        setChecko(false);
+        setCheckX(false);
+        setChoix(false);
+        setChoice(true);
+        setBox(false);
+    }
+
     return (
 
         
@@ -27,46 +107,46 @@ export default function CheckBoxLockers(props) {
             <CheckBox
         title="La boîte à meuh Paris Grenelle - 44 Rue de la Fédération, 75015 Paris "
 
-        checked={checkBox[0]}
-                onPress={() => setCheckBox([!checkBox[0], checkBox[1], checkBox[2],checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+        checked={checkBox}
+                onPress={lecheckbox}
             />
 
             <CheckBox
         title="La boîte à meuh Paris Hauteville - 3 Place Franz Liszt, 75010 Paris"
-        checked={checkBox[1]}
-                onPress={() => setCheckBox([checkBox[0], !checkBox[1], checkBox[2],checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+        checked={check}
+                onPress={lecheck}
             />
 
             <CheckBox
         title="La boîte à meuh Paris Saint Augustin - 8 Rue de la Michodière, 75002 Paris"
-        checked={checkBox[2]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], !checkBox[2],checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+        checked={checkB}
+                onPress={lecheckB}
             />
             <CheckBox
         title=
         "La boîte à meuh Paris Jaures - 15 Rue de l'Ourcq, 75019 Paris"
-        checked={checkBox[3]}
-                onPress={() =>setCheckBox([checkBox[0], checkBox[1], checkBox[2],!checkBox[3],checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+        checked={checko}
+                onPress={lechecko}
             />
             <CheckBox
         title="La boîte à meuh Paris Saint Martin - 13 Boulevard de Strasbourg, 75010 Paris"
-        checked={checkBox[4]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], checkBox[2],checkBox[3],!checkBox[4],checkBox[5],checkBox[6],checkBox[7]])}
+        checked={checkx}
+                onPress={lecheckX}
             />
             <CheckBox
         title="La boîte à meuh Parmentier - 7b Rue Lechevin, 75011 Paris"
-        checked={checkBox[5]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], checkBox[2],checkBox[3],checkBox[4],!checkBox[5],checkBox[6],checkBox[7]])}
+        checked={choix}
+                onPress={lecheckChoix}
             />
             <CheckBox
         title="La boîte à meuh Bastille - 9 Rue des Minimes, 75003 Paris,"
-        checked={checkBox[6]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], checkBox[2],checkBox[3],checkBox[4],checkBox[5],!checkBox[6],checkBox[7]])}
+        checked={choice}
+                onPress={lecheckChoice}
             />
             <CheckBox
         title="La boîte à meuh Saint André Beaux Arts - 27 Quai des Grands Augustins, 75006 Paris"
-        checked={checkBox[7]}
-                onPress={() => setCheckBox([checkBox[0], checkBox[1], checkBox[2],checkBox[3],checkBox[4],checkBox[5],checkBox[6],!checkBox[7]])}
+        checked={box}
+                onPress={leBox}
             />
 
         </View>

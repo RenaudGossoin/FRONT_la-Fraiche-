@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Overlay, Input, CheckBox, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { connect } from "react-redux";
 
-//pr disable si plus de 1 checkbox, maper sur [checkbox] et verifier if checkbox [i] === true, alors trouver le moyen de disable le button confirm.
-//faire un [etat isDisable]
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, SafeAreaView  } from 'react-native';
+import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import CheckBoxLockers from "./CheckBoxLockers";
 
-function LockerScreen(props) {
-  const [lockersList, setLockersList] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(false);
 
+
+
+
+function LockerScreen(props) {
+  //const [isDisabled, setIsDisabled] = useState(false);
+
+  const goBack = () => props.navigation.navigate('BottomNavigator', {screen: 'Basket'});
+  const [lockersList, setLockersList] = useState([])
+  //const [isDisabled, setIsDisabled] = useState(false)
+
+ 
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
   const [gpay, setGpay] = useState(false);
@@ -91,19 +99,79 @@ function LockerScreen(props) {
     setDescPOI();
     setTitrePOI();
   };
+//selection de la methode de paiement
+const laCB = () => {
+  setCredit(true);
+  setPaypal(false);
+  setGpay(false);  
+}
+const lePaypal = () => {
+  setCredit(false);
+  setPaypal(true);
+  setGpay(false);  
+}
+const legpay = () => {
+  setCredit(false);
+  setPaypal(false);
+  setGpay(true);  
+}
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          alignItems: "center",
-          textAlign: "center",
-          paddingTop: 40,
-          backgroundColor: "#53B175",
-          paddingBottom: 15,
-        }}
+    
+    <View style={{ flex: 1 }} >
+      <View style={{ flexDirection: 'row',
+                    padding: 40,
+                    backgroundColor: "#53B175",
+                    paddingBottom: 15
+                    }}>
+                      <MaterialIcons style={{flex: 1, color: 'white', fontSize:18, paddingLeft:1}} name="arrow-back-ios" size={24} color="white" onPress={goBack}/> 
+      <Text style={{flex: 1, textAlign:'left', color: 'white', fontSize:18, paddingRight:70}}>Mon locker</Text>
+      
+    </View>
+
+            <View style = {{flexDirection: 'row', margin: 10}}>
+              <Text  style={{flex: 1, fontSize:20, }}>
+                Votre panier : 
+              </Text>
+              <Text style={{textAlign: 'right', flex: 1, fontSize:20}}>100€</Text>
+            </View>
+            
+       <View>   
+      <Overlay overlayStyle = {{height:'60%', width:'80%',borderRadius:10, padding:-10}}
+        isVisible={isVisible}
+        onBackdropPress={() => { setIsVisible(false) }} 
       >
-        <Text style={{ color: "white", fontSize: 18 }}>Mon casier</Text>
+        
+      <ScrollView>
+        <View style={{ flex: 1, alignItems: 'center',
+         justifyContent: 'center',
+         backgroundColor:'#53B175', borderTopLeftRadius:10 , borderTopRightRadius:10}}>
+          <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
+          </View>    
+          
+          <CheckBoxLockers
+          />
+          
+        
+        </ScrollView> 
+        
+
+
+          <Button
+            title="Confirmer"
+            onPress={() => {setIsVisible(false)}}
+            //disabled={isDisabled}
+            buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
+                containerStyle={{
+                  marginHorizontal: 70,
+                  marginVertical: 10,
+                  alignItems: 'center', 
+                  justifyContent: 'center'}}
+                      
+                  
+          />
+        
+      </Overlay>
       </View>
 
       <View style={{ flexDirection: "row", margin: 10 }}>
@@ -187,34 +255,31 @@ function LockerScreen(props) {
         {markerPOI}
       </MapView>
 
-      <View style={{ margin: -10 }}>
-        <CheckBox
-          title="Credit/ Debit Card"
-          checked={credit}
-          onPress={() => setCredit(!credit)}
-        />
-        <CheckBox
-          title="Paypal"
-          checked={paypal}
-          onPress={() => setPaypal(!paypal)}
-        />
-        <CheckBox
-          title="Gpay :  Credit/ Debit Card"
-          checked={gpay}
-          onPress={() => setGpay(!gpay)}
-        />
-      </View>
-
-      <Button
-        title="Valider ma commande"
-        buttonStyle={{
-          backgroundColor: "#53B175",
-          borderRadius: 10,
-          margin: 30,
-          marginVertical: 10,
-        }}
-        onPress={() => props.navigation.navigate("Error")}
-      />
+            <View style={{margin:-10}}>
+            
+              <CheckBox 
+              title='Credit/ Debit Card'
+              checked={credit}
+              onPress={laCB}/>
+              <CheckBox 
+              title='Paypal'
+              checked={paypal}
+              onPress={lePaypal}/>
+              <CheckBox 
+              title='Gpay :  Credit/ Debit Card'
+              checked={gpay}
+              onPress={legpay}/>
+              
+        </View>
+      
+             <Button
+                title="Valider ma commande"
+                buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10, margin: 30, marginVertical: 10}}
+                 
+                onPress={() => props.navigation.navigate("Payment")}
+              />
+        
+        
     </View>
   );
 }

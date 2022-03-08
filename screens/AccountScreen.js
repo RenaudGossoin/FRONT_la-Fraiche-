@@ -5,7 +5,6 @@ import {
   ListItem,
   Icon,
   Text,
-  Accordion,
   Content,
   Image,
   Overlay,
@@ -13,6 +12,8 @@ import {
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { Avatar } from "react-native-elements/dist/avatar/Avatar";
+
+
 
 function AccountScreen(props) {
   //console.log("account", props.saveToken);
@@ -122,15 +123,17 @@ function AccountScreen(props) {
               <ListItem.Title style={{ fontSize: 20, marginLeft: 10 }}>
                 Mes commandes
               </ListItem.Title>
+                      
             </ListItem.Content>
           </>
         }
         isExpanded={expanded}
         onPress={() => {
           setExpanded(!expanded);
+          
         }}
       >
-        {orderList}
+        {orderList} 
       </ListItem.Accordion>
 
       <Button
