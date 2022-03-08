@@ -1,15 +1,23 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 
-const FavouriteScreen = (props) => {
+
+
+function FavouriteScreen(props){
+
+
+
     return (
 <ScrollView style={styles.body}>
+
+
     <View style={styles.container.displayColumn}>
     <Text style={styles.title}>Mes favoris</Text>
     <View>
+
           <View style={styles.displayRow}>
               <Card.Image
                   style={styles.imgProduct}
@@ -169,6 +177,7 @@ const styles = StyleSheet.create({
   });    
     
 function mapStateToProps(state) {
-  return { token: state.token };
+  return {
+    token: state.token};
 }
 export default connect(mapStateToProps, null)(FavouriteScreen);

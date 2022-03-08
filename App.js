@@ -7,7 +7,8 @@ import { createStore, combineReducers } from "redux";
 import saveDepartement from "./reducers/saveDepartement";
 import count from "./reducers/count";
 import token from "./reducers/token";
-import saveCategorie from "./reducers/saveCategorie"
+import saveCategorie from "./reducers/saveCategorie";
+import addtoFavlist from "./reducers/addtoFavlist";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -32,12 +33,15 @@ import DetailScreen from "./screens/DetailScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import ErrorScreen from "./screens/ErrorScreen";
 
+
+
 //navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //redux
-const store = createStore(combineReducers({ saveDepartement, count, token, saveCategorie }));
+const store = createStore(combineReducers({ 
+  saveDepartement, count, token, saveCategorie, addtoFavlist}));
 
 const BottomNavigator = () => {
   return (
@@ -78,6 +82,10 @@ const BottomNavigator = () => {
 };
 
 export default function App() {
+
+  // const [favoriteArticlesList, setFavoriteArticlesList] = useState([]);
+  // const [articleList, setarticleList] = useState([])
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -91,6 +99,7 @@ export default function App() {
           <Stack.Screen name="Error" component={ErrorScreen} />
           <Stack.Screen name="Product" component={ProductScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
+          <Stack.Screen name="Favorites" component={FavouriteScreen} />
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

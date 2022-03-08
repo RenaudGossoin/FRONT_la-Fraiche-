@@ -22,20 +22,32 @@ function DetailScreen(props) {
   const [showTextConseils, setShowTextConseils] = useState(false);
   const [likeProduct, setLikeProduct] = useState(false);
 
+  const[copylistFavoritearticlesDATA, updatelistFavorites] = useState([{nom: "", prix:"", img:"", categorie: ""}]);
+  console.log('favoris', copylistFavoritearticlesDATA)
+
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
 
+
   var handleFavoriteClick = () => {
     setLikeProduct(!likeProduct);
-    console.log('jai cliqué sur le coeur')
-    console.log (likeProduct)
-  }
 
-  // var heartColor = '';
-  // console.log (heartColor)
-  // if(likeProduct === true){
-  //   heartColor = '#e74c3c'
-  // };
+}
+
+
+
+if(likeProduct === true){
+  console.log('jai cliqué sur le coeur')
+  console.log (likeProduct)
+  var heartColor = {color: '#e74c3c'}
+};
+
+if(likeProduct === false){
+  console.log('jai cliqué sur le coeur')
+  console.log (likeProduct)
+  var heartColor = {color: 'gray'}
+}
+
     return (
       <>
       <ScrollView style={styles.body}>
@@ -64,8 +76,11 @@ function DetailScreen(props) {
                                   name="favorite"
                                   size={30}
                                 
-                                  // color={heartColor}
-                                  onPress={()=>handleFavoriteClick()}
+                                  style={heartColor}
+                                  // onPress={() => handleFavoriteClick()}
+                                  onPress={ () => {props.onAddtoFavClick(article)}}
+
+
                                   />
                             </View>
                         </View>
@@ -323,11 +338,26 @@ function mapDispatchToProps(dispatch) {
     onDecreaseClick: function () {
       dispatch({ type: "decrease" });
     },
+
+    onAddtoFavClick: function(article){
+      dispatch({type: 'addFavArticle',
+        articleLiked: article
+      })
+    }
   };
 }
 
 function mapStateToProps(state) {
-  return { count: state.count };
+  return { 
+    count: state.count,
+    addtoFavlist: state.addtoFavlist,
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);
+export default connect ( 
+  null,
+  mapStateToProps,
+  mapDispatchToProps
+  )(DetailScreen);
+
+
