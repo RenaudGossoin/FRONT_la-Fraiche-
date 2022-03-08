@@ -10,6 +10,7 @@ import saveToken from "./reducers/saveToken";
 import saveCategorie from "./reducers/saveCategorie";
 import saveDetailArticle from "./reducers/saveDetailArticle";
 import saveBasket from "./reducers/saveBasket";
+import addtoFavlist from "./reducers/addtoFavlist";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -34,6 +35,8 @@ import DetailScreen from "./screens/DetailScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import ErrorScreen from "./screens/ErrorScreen";
 
+
+
 //navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,6 +50,7 @@ const store = createStore(
     saveCategorie,
     saveDetailArticle,
     saveBasket,
+    addtoFavlist,
   })
 );
 
@@ -89,6 +93,10 @@ const BottomNavigator = () => {
 };
 
 export default function App() {
+
+  // const [favoriteArticlesList, setFavoriteArticlesList] = useState([]);
+  // const [articleList, setarticleList] = useState([])
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -102,6 +110,7 @@ export default function App() {
           <Stack.Screen name="Error" component={ErrorScreen} />
           <Stack.Screen name="Product" component={ProductScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
+          <Stack.Screen name="Favorites" component={FavouriteScreen} />
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
