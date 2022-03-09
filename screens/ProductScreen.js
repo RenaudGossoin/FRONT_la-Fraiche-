@@ -18,11 +18,14 @@ function ProductScreen(props) {
   const [departement, setDepartement] = useState("");
   const [articleList, setArticleList] = useState([]);
   const [userInfo, setUserInfo] = useState();
+  const [likeProduct, setLikeProduct] = useState(false);
 
   //console.log(articleList)
 
   const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
+
+
 
   useEffect(() => {
     //console.log("ouverture UseEffect Product", props.saveCategorie);
@@ -52,6 +55,9 @@ function ProductScreen(props) {
 
     findArticles();
     //console.log(departement+" from UseEffect")
+    
+   
+
   }, [props.saveToken]);
 
   //console.log("articleslist: ", articleList);
@@ -75,7 +81,11 @@ function ProductScreen(props) {
             marginTop: -8,
           }}
         >
-          <Icon style={styles.icon} name="favorite" size={18} />
+          <Icon 
+              style={styles.icon} 
+              name="favorite" 
+              size={18} 
+              />
         </View>
         <View style={{ alignItems: "center" }}>
           <Card.Image style={styles.image} source={{ uri: element.img }} />
@@ -294,6 +304,7 @@ function mapStateToProps(state) {
     saveDepartement: state.saveDepartement,
     saveToken: state.saveToken,
     saveCategorie: state.saveCategorie,
+    saveDetailArticle: state.saveDetailArticle,
   };
 }
 

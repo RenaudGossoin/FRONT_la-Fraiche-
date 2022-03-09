@@ -1,25 +1,32 @@
 
-// export default function(state = [], action){
+export default function(favlist =[], action) {
+    
+    if(action.type == "addtoFavlist") {
+    //    console.log("addtofavlist reduc", action.articleFavorite)
+        var favListCopy = [...favlist];
+        var findArticle = false;
 
-//     if(action.type == 'addFavArticle'){
-//         var favListCopy = [...state]
-//         // var favListCopy = [...favlist]
-//         var findArticle = false
+        for(let i = 0 ; i<favListCopy.length ; i++){
+            if(favListCopy[i]._id == action.articleFavorite._id){
+                findArticle = true
+            }
+        }
 
-//         for(let i=0;i<favListCopy.length;i++){
-//             if(favListCopy[i].nom == action.articleLiked.nom){
-//                 findArticle = true
-//             }
-//         }
-
-//         if(!findArticle){
-//             favListCopy.push(action.articleLiked)
-//         }
+        if(!findArticle){
+            favListCopy.push(action.articleFavorite)
+        }
+        return favListCopy;
+    } else if (action.type == "deleteArticleFavori") {
+        var favListCopy = favlist.filter((element) => element._id != action.article._id);
+        return favListCopy;
+   
+    } else {
+        return favlist
+        }
+}
         
-       
-//         return favListCopy;
-        
-//     } 
+
+
     
 //     // else if(action.type == 'deleteArticle'){
 //     //     var wishListCopy = [...wishList]
@@ -36,7 +43,27 @@
 
 //     //     return wishListCopy
         
-//     // } else {
-//     //     return wishList
-//     // }
-// }
+
+
+// export default function(favlist =[], action) {
+    
+//     if(action.type == "addtoFavlist") {
+//        console.log("addtofavlist reduc", action.articleFavorite)
+//         var favListCopy = [...favlist];
+//         var findArticle = false;
+
+//         for(let i = 0 ; i<favListCopy.length ; i++){
+//             if(favListCopy[i]._id == action.articleFavorite._id){
+//                 findArticle = true
+//             }
+//         }
+
+//         if(!findArticle){
+//             favListCopy.push(action.articleFavorite)
+//         }
+//         return favListCopy;
+        
+//     } else  {
+//         return favlist
+//         }
+//         }

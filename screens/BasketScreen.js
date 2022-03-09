@@ -200,12 +200,12 @@ function mapDispatchToProps(dispatch) {
     onDeleteArticle: function (article) {
       dispatch({ type: "deleteArticle", article });
     },
-onIncreaseQuantity: function (article){
-  dispatch({type: "increaseQuantity", article})
-},
-onDecreaseQuantity: function (article){
-  dispatch({type: "decreaseQuantity", article})
-}
+    onIncreaseQuantity: function (article){
+      dispatch({type: "increaseQuantity", article})
+    },
+    onDecreaseQuantity: function (article){
+      dispatch({type: "decreaseQuantity", article})
+    }
   };
 }
 

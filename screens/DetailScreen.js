@@ -20,6 +20,8 @@ function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
   const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
+  const [likeProduct, setLikeProduct] = useState(false);
+
   const [showCount, setShowCount] = useState(0);
   //console.log("detailscreen ", props.detailArticle);
   // var showDetailArticle = props.saveDetailArticle;
@@ -28,6 +30,23 @@ function DetailScreen(props) {
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
+
+  var handleFavoriteClick = () => {
+      setLikeProduct(!likeProduct);
+  }
+  
+  if(likeProduct === true){
+    console.log('jai cliqué sur le coeur')
+    console.log (likeProduct)
+    var heartColor = {color: '#e74c3c'}
+  };
+  
+  if(likeProduct === false){
+    console.log('jai cliqué sur le coeur')
+    console.log (likeProduct)
+    var heartColor = {color: 'gray'}
+  }
+  
 
   return (
     <>
@@ -56,7 +75,25 @@ function DetailScreen(props) {
                     {props.saveDetailArticle.nom}
                   </Text>
                 </View>
+              
+
+              
+              <View>
+                  <Icon 
+                      name="favorite"
+                      size={30}
+                    
+                      style={heartColor}
+                      // onPress={() => handleFavoriteClick()}
+                      onPress={() => {
+                        // console.log("click detailscreen",props.saveDetailArticle),
+                          props.addtoFavlist(props.saveDetailArticle);
+                          handleFavoriteClick();
+                      }}
+                      />
               </View>
+              </View>
+
 
               <View style={styles.addquantityandpriceline}>
                 {/* <View style={styles.blockbutton}>
@@ -341,6 +378,10 @@ function mapDispatchToProps(dispatch) {
     onAddToCart: function (articleBasket) {
       dispatch({ type: "addToCart", articleBasket });
     },
+
+    addtoFavlist: function(articleFavorite){
+      dispatch({ type: "addtoFavlist", articleFavorite });
+    },
   };
 }
 
@@ -350,5 +391,8 @@ function mapStateToProps(state) {
     saveDetailArticle: state.saveDetailArticle,
   };
 }
+
+// var addTofavlist = props.addTofavlist
+// console.log('state de addtofavlist', addTofavlist)
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);
