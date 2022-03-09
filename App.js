@@ -10,7 +10,7 @@ import saveToken from "./reducers/saveToken";
 import saveCategorie from "./reducers/saveCategorie";
 import saveDetailArticle from "./reducers/saveDetailArticle";
 import saveBasket from "./reducers/saveBasket";
-// import addtoFavlist from "./reducers/addtoFavlist";
+import addtoFavlist from "./reducers/addtoFavlist";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -50,7 +50,7 @@ const store = createStore(
     saveCategorie,
     saveDetailArticle,
     saveBasket,
-    
+    addtoFavlist    
   })
 );
 

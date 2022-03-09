@@ -1,14 +1,65 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
+import { View, Image, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {Card} from 'react-native-elements';
+import { Button } from 'react-native-elements/dist/buttons/Button';
 import {connect} from 'react-redux';
 
 
 
-function FavouriteScreen(props){
+function FavouriteScreen(props) {
+// console.log("favlist", props.addtoFavlist);
+// console.log("favlist", props.saveToken);
 
+var noArticles;
+if (props.addtoFavlist.length == 0) {
+  noArticles = "No Favorite Articles";
+}
 
+const favArray = props.addtoFavlist.map((item, _id) => {
+  return (
+      <View key={item._id} style={styles.displayRow}>
+          
+            <Image
+              style={styles.imgProduct}
+              source={{ uri: item.img }}
+            />
+          
+          
+              <View style={styles.displayColumn2}>
+                  <Text style={styles.productTitle}>
+                        {item.nom}</Text>
+                  <Text style={styles.productInfos}>{item.prix} €</Text>
+              </View>
+
+          <View>
+              <View style={styles.displayColumn3}>
+                 <View style={styles.displayRow}>
+                    <Text style={styles.productPrice}>{item.prix} €</Text>
+                     
+                      <Card.Image
+                        style={styles.imgTrash}
+                        source={require('../assets/trash.png')}
+                        onPress={() => props.onDeleteFavArticle(item)}
+                      />
+                </View>
+
+                
+                  <Pressable
+                    style={styles.detailsButton}>
+
+                  <Text style={styles.textdetailButton}>détails</Text>
+                </Pressable>
+              
+              </View>
+               
+          </View>   
+      </View>
+   
+);
+})
+
+// console.log("favarr", favArray)
 
     return (
 <ScrollView style={styles.body}>
@@ -17,64 +68,9 @@ function FavouriteScreen(props){
     <View style={styles.container.displayColumn}>
     <Text style={styles.title}>Mes favoris</Text>
     <View>
-
-          <View style={styles.displayRow}>
-              <Card.Image
-                  style={styles.imgProduct}
-                  source={require('../assets/poires.png')}
-                />
-              
-              <View style={styles.displayColumn}>
-                <Text style={styles.productTitle}>Poires</Text>
-                <Text style={styles.productInfos}>1 kg, 3,20€</Text>
-              </View>
-
-              <View style={styles.displayColumn}>
-                <View style={styles.displayRow}> 
-                    <Text style={styles.productPrice}>3,20€</Text>
-                    <Card.Image
-                      style={styles.imgTrash}
-                      source={require('../assets/trash.png')}
-                    />
-                </View>
-                <Pressable
-                    style={styles.detailsButton}>
-                    
-                    <Text style={styles.textdetailButton}>détails</Text>
-                </Pressable>
-
-              </View>
-          </View>
-
-
-          <View style={styles.displayRow}>
-              <Card.Image
-                  style={styles.imgProduct}
-                  source={require('../assets/radis.png')}
-                />
-              
-              <View style={styles.displayColumn}>
-                <Text style={styles.productTitle}>Radis</Text>
-                <Text style={styles.productInfos}>1 kg, 1,50€</Text>
-              </View>
-
-              <View style={styles.displayColumn}>
-                <View style={styles.displayRow}> 
-                    <Text style={styles.productPrice}>1,50€</Text>
-                    <Card.Image
-                      style={styles.imgTrash}
-                      source={require('../assets/trash.png')}
-                    />
-                </View>
-                <Pressable
-                    style={styles.detailsButton}>
-                    
-                    <Text style={styles.textdetailButton}>détails</Text>
-                </Pressable>
-
-              </View>
-          </View>
-
+    <Text style={{ marginTop: 50, fontSize: 18, fontWeight : "bold", textAlign : "center" }}>{noArticles}</Text>
+    {favArray}
+       
 
     </View>
     </View>
@@ -95,12 +91,12 @@ const styles = StyleSheet.create({
     },
 
     title : {
-      marginTop : 55,
+      marginTop : 60,
       textAlign : 'center',
       fontWeight : 'bold',
       fontSize : 20,
 
-      marginBottom : 40,
+      marginBottom : 20,
     },
 
    
@@ -130,29 +126,44 @@ const styles = StyleSheet.create({
 
     productPrice : {
       paddingTop : 5,
-      marginLeft : 150,
+      marginBottom : 3,
+      marginLeft : 65,
       
       fontSize : 14,
       fontWeight : 'bold',
+      width :45,
     },
 
     displayRow : {
       display : 'flex',
       flexDirection : 'row',
+
     },
 
-    displayColumn : {
+    displayColumn2 : {
       display : 'flex',
       flexDirection: 'column',
 
       marginTop : 30,
+    width : 150,
     },
+
+    displayColumn3 : {
+      display : 'flex',
+      flexDirection: 'column',
+
+      marginTop : 30,
+      backgroundColor : '#ffffff',
+      width : 50,
+    },
+
+   
 
     imgTrash : {
       width : 15,
       height: 15,
       marginTop : 5,
-      marginLeft : 10,
+      marginLeft : 0,
     },
 
     detailsButton : {
@@ -163,7 +174,7 @@ const styles = StyleSheet.create({
       paddingTop: 2,
       paddingBottom: 2,
       marginTop: 5,
-      marginLeft : 130,
+      marginLeft : 50,
 
     },
 
@@ -175,8 +186,21 @@ const styles = StyleSheet.create({
       fontWeight : 'bold',
     },
   });    
-    
-function mapStateToProps(state) {
-  return { saveToken: state.saveToken };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onDeleteFavArticle: function (article) {
+      dispatch({ type: "deleteArticleFavori", article });
+    },
+  };
 }
-export default connect(mapStateToProps, null)(FavouriteScreen);
+
+
+function mapStateToProps(state) {
+  return {
+    saveToken: state.saveToken,
+    addtoFavlist: state.addtoFavlist,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, null)(FavouriteScreen);
