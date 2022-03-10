@@ -10,13 +10,13 @@ const HomeScreen = (props) => {
 
   return (
     <ImageBackground
-      source={require("../assets/background_panier.png")}
+      source={require("../assets/homeScreen_background.png")}
       style={styles.container}
     >
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.viewContainer}>
           <Image
-            source={require("../assets/logo-navet.png")}
+            source={require("../assets/logo-navet-Alpha.png")}
             style={styles.logo}
           ></Image>
           <View style={styles.textInputBtn}>
@@ -50,7 +50,7 @@ const HomeScreen = (props) => {
               Pas de compte ?
             </Text>
             <Text
-              style={{ color: "#53B175" }}
+              style={{ color: "#006D24" }}
               onPress={() =>
                 props.navigation.navigate("SignIn", { screen: "SignIn" })
               }
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 25,
-    width: 120,
+    width: 100,
     borderColor: "#737373",
     borderBottomWidth: 1,
     paddingBottom: 5,
@@ -93,9 +93,9 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 45,
-    width: 100,
-    backgroundColor: "#53B175",
-    borderRadius: 10,
+    width: 110,
+    backgroundColor: "#006D24",
+    borderRadius: 30,
     marginLeft: 10,
   },
   links: {
