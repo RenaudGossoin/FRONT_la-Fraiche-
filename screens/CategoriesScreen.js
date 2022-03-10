@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 
 function CategoriesScreen(props) {
   const [userInfo, setUserInfo] = useState();
-  console.log("console", props.saveToken);
+  //console.log("console", props.saveToken);
   useEffect(() => {
     //console.log("ouverture UseEffect Product", props.saveCategorie);
 
@@ -29,7 +29,7 @@ function CategoriesScreen(props) {
         );
 
         const body = await data.json();
-        console.log("bodycat", body);
+        //console.log("bodycat", body);
         setUserInfo(
           body.detailUser.username.charAt(0).toUpperCase() +
             body.detailUser.username.slice(1)

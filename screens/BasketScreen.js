@@ -16,8 +16,8 @@ function BasketScreen(props) {
     //console.log(departement+" from UseEffect")
   }, [props.saveBasket]);
 
-  console.log("useeff", props.saveOrder);
-  console.log(props.saveBasket.length);
+  //console.log("useeff", props.saveOrder);
+  // console.log(props.saveBasket.length);
 
   var noArticles;
   if (props.saveBasket.length == 0) {

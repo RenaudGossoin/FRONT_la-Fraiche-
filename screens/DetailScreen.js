@@ -46,6 +46,7 @@ function DetailScreen(props) {
               <Card.Image
                 style={styles.image}
                 source={{ uri: props.saveDetailArticle.img }}
+                resizeMode="contain"
               />
             </View>
 
@@ -120,27 +121,12 @@ function DetailScreen(props) {
                     <Text style={styles.titleshowhidemenu}>
                       Infos nutritionnelles
                     </Text>
-
-                    <TouchableOpacity
-                      onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
-                    >
-                      <Image
-                        style={styles.imgFleche}
-                        source={require("../assets/fleche-deroulante-bas.png")}
-                      />
-                    </TouchableOpacity>
                   </View>
-
-                  {showTextInfoNutri && (
-                    <View>
-                      <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
-                      </Text>
-                    </View>
-                  )}
+                  <Card.Image
+                    style={styles.nutriscore}
+                    source={{ uri: props.saveDetailArticle.nutriscore }}
+                    resizeMode="contain"
+                  />
                 </View>
 
                 <View style={styles.marginTopshowhidemenu}>
@@ -169,8 +155,8 @@ function DetailScreen(props) {
                 <Pressable
                   style={styles.buttonaddtobasket}
                   onPress={() => {
-                    console.log("click detailscreen"),
-                      props.onAddToCart(props.saveDetailArticle);
+                    // console.log("click detailscreen"),
+                    props.onAddToCart(props.saveDetailArticle);
                   }}
 
                   // onPress={goTo}
@@ -325,6 +311,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 20,
     paddingBottom: 20,
+  },
+  nutriscore: {
+    width: 100,
+    height: 70,
   },
 });
 
