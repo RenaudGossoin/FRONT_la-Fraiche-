@@ -140,6 +140,7 @@ export default function App() {
           <Stack.Screen name="Success" component={SuccessScreen} />
           <Stack.Screen name="Account" component={AccountScreen} />
           <Stack.Screen name="Error" component={ErrorScreen} />
+          <Stack.Screen name="Favourite" component={FavouriteScreen} />
           <Stack.Screen name="Product" component={ProductScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
           <Stack.Screen name="Favorites" component={FavouriteScreen} />

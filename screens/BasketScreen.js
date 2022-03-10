@@ -4,6 +4,8 @@ import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Text, Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
+import { MaterialIcons } from "@expo/vector-icons";
+
 
 function BasketScreen(props) {
   //console.log("basket", props.saveToken);
@@ -19,10 +21,11 @@ function BasketScreen(props) {
   //console.log("useeff", props.saveOrder);
   // console.log(props.saveBasket.length);
 
-  var noArticles;
-  if (props.saveBasket.length == 0) {
-    noArticles = "No Articles";
-  }
+  // var noArticles;
+  // if (props.saveBasket.length == 0) {
+  //   noArticles = "No Articles";
+  // }
+
 //console.log(props.saveToken);
   var handleSubmit = () => {
     if(props.saveToken && props.saveBasket.length > 0) {
@@ -31,27 +34,48 @@ function BasketScreen(props) {
        props.navigation.navigate('SignIn')
     }
   }
+  //console.log(props.saveBasket.length);
+  
+
+console.log(props.saveBasket)
+
+// var welcome;
+//   if (props.saveToken) {
+//     welcome = `Bienvenue ${userInfo}`;
+//   } else {
+//     welcome = "Bienvenue sur La Fraîche";
+//   }
+
+const goBack = () =>
+    props.navigation.navigate("BottomNavigator", { screen: "Categories" });
 
 
   const basketArray = props.saveBasket.map((item, _id) => {
     return (
       <View key={item._id} style={styles.container}>
-        <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={{ flex: 1, alignItems: "center", borderRightWidth:2, borderColor:"#ffffff"}}>
+          
           <Image
-            style={{ resizeMode: "contain", height: 50, width: 100 }}
+            style={{ resizeMode: "contain", height: 50, width: 100, color: "gray" }}
             source={{ uri: item.img }}
           />
         </View>
         <View style={styles.block}>
-          <Text style={{ fontWeight: "bold", paddingBottom: 3 }}>
+          <Text style={{ fontWeight: "bold", paddingBottom: 1, paddingLeft:5 }}>
             {item.nom}
           </Text>
           <Text style={styles.element}>
-            {" "}
-            {item.mesurement},{parseInt(item.prix)} €
+            {/* {" "} */}
+            {item.mesurement}
+            {/* {parseInt(item.prix)} €  */}
           </Text>
           <View style={styles.blockbutton}>
-            <Button
+
+          <Ionicons name="remove-circle" size={32} color="#006D24"   style={{ marginRight: 10,}}
+onPress={() => props.onDecreaseQuantity(item)}
+
+          />
+            {/* <Button
               title="-"
               color="gray"
               buttonStyle={styles.button}
@@ -65,8 +89,15 @@ function BasketScreen(props) {
             />
             <Text>{item.quantity}</Text>
             <Button
+
+            /> */}
+            <Text style={{fontWeight:"bold"}}>{item.quantity}</Text>
+            <Ionicons name="add-circle" size={32} color="#006D24"   style={{ marginLeft: 10,}}
+              onPress={() => props.onIncreaseQuantity(item)}
+
+          />
+            {/* <Button
               title="+"
-              color="gray"
               buttonStyle={styles.button}
               type="outline"
               titleStyle={{ color: "#636e72" }}
@@ -74,7 +105,7 @@ function BasketScreen(props) {
                 marginLeft: 10,
               }}
               onPress={() => props.onIncreaseQuantity(item)}
-            />
+            /> */}
           </View>
         </View>
         <View
@@ -84,7 +115,11 @@ function BasketScreen(props) {
             justifyContent: "space-between",
           }}
         >
-          <Button
+          <Ionicons name="md-close-circle-outline" size={32} color="#006D24"   style={{ paddingLeft:15, alignItems:"flex-end",}}
+            onPress={() => props.onDeleteArticle(item)}
+            />
+
+          {/* <Button
             title="x"
             color="gray"
             buttonStyle={styles.button}
@@ -96,25 +131,55 @@ function BasketScreen(props) {
             onPress={() => props.onDeleteArticle(item)}
           />
           <Text style={{ paddingTop: 10 }}>{(item.prix*item.quantity).toFixed(2)} €</Text>
+          /> */}
+          <Text style={{ paddingTop: 10, fontWeight:"bold" }}>{Math.round(item.prix*item.quantity*100)/100} €</Text>
         </View>
       </View>
     );
   });
 
+  var noArticles;
+  if (props.saveBasket.length == 0) {
+    noArticles = "votre panier est vide";
+  }
+  else if(props.saveBasket.length == 1){
+  noArticles = props.saveBasket.length  + " article dans votre panier"
+  }else{
+    noArticles = props.saveBasket.length  + " articles dans votre panier"
+    }
+
   // METHODE REDUCE
-  var total = props.saveBasket.reduce((p, c) => p + c.prix * c.quantity, 0);
-  console.log(typeof total);
-  console.log(Number(total));
+  var total=props.saveBasket.reduce((p, c) => p+c.prix*c.quantity, 0);
+  const fdp=5
+  let totalFdp=total+fdp
+  let totalOk=totalFdp.toFixed(2)
+
+ console.log((total.toFixed(2))); 
 
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
-      <Text style={styles.title}>Mon Panier</Text>
-      <Text style={{ marginTop: 20, fontSize: 15 }}>{noArticles}</Text>
+    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
+    <View style={styles.TopBar}>
+    <MaterialIcons
+            name="arrow-back-ios"
+            size={24}
+            color="#000000"
+            onPress={goBack}
+          />
+<Text style={{fontWeight:"bold", fontSize:16, color:"#737373"}}>Mon panier</Text>
+
+</View>
+    <ScrollView style={{ backgroundColor: "#ffffff", }}>
+      <Text style={{ marginTop: 20, fontSize: 16, fontWeight:"bold", marginBottom:20, textAlign:"center" }}>{noArticles}</Text>
+
       {basketArray}
 
       <View style={styles.block2}>
-        <Text>Frais de port</Text>
-        <Text style={{ paddingLeft: 80 }}>5 €</Text>
+
+        {/* <Text>Frais de port</Text>
+        <Text style={{ paddingLeft: 80 }}>5 €</Text> */}
+        
+        <Text style={{fontWeight:"bold", color:"#006D24"}}>Frais de port</Text>
+        <Text style={{ paddingLeft: 80, fontWeight:"bold", color:"#006D24" }}>{fdp} €</Text>
       </View>
       <View
         style={{
@@ -128,12 +193,12 @@ function BasketScreen(props) {
           title={"Valider mon panier"}
           containerStyle={{
             marginTop: 30,
-            marginHorizontal: 50,
+            marginHorizontal: 20,
             marginVertical: 10,
           }}
-          buttonStyle={{ borderRadius: 10, backgroundColor: "#53B175" }}
             
           onPress={() =>handleSubmit()/*{props.onValidateCart(total+5), props.navigation.navigate("Locker")}*/}
+          buttonStyle={{ width:200, borderRadius: 20, backgroundColor: "#006D24" }}
         />
         <View
           style={{
@@ -145,22 +210,46 @@ function BasketScreen(props) {
           <Text style={{ fontWeight: "bold", paddingTop: 10 }}>
             Total panier
           </Text>
-          <Text style={{ paddingTop: 5 }}> {(total + 5).toFixed(2)} €</Text>
+          {/* <Text style={{ paddingTop: 5 }}> {(total + 5).toFixed(2)} €</Text> */}
+          <Text style={{ paddingTop: 5, fontWeight: "bold", color:"#006D24" }}> {totalOk}€</Text>
         </View>
       </View>
     </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  TopBar:{
+    flexDirection:"row",
+    paddingHorizontal:25,
+    paddingBottom:20,
+    //flexDirection:"column",
+    justifyContent:"space-between",
+    alignItems:"flex-end",
+    backgroundColor:"#ffffff",
+    height:120,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#EDEDED",
     flexDirection: "row",
     alignItems: "center",
+    borderBottomWidth:1,
+    borderColor:"#fff",
   },
   title: {
-    textAlign: "center",
+    textAlign:"center",
     paddingTop: 40,
     backgroundColor: "#53B175",
     paddingBottom: 15,
@@ -169,13 +258,15 @@ const styles = StyleSheet.create({
   },
   block: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     paddingTop: 10,
     paddingBottom: 10,
+    marginLeft:20,
   },
   element: {
-    paddingBottom: 5,
+    paddingLeft:5,
+       paddingBottom: 3,
     fontSize: 13,
     color: "gray",
     marginBottom: 4,
@@ -188,15 +279,17 @@ const styles = StyleSheet.create({
   },
   button: {
     borderColor: "#636e72",
-    borderRadius: 7,
-    paddingBottom: 2,
-    paddingTop: 2,
+    borderRadius: 30,
+    paddingBottom: 1,
+    paddingTop: 1,
   },
   block2: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 30,
+    marginTop: 0,
+    paddingVertical:15,
+    backgroundColor:"#A2D7B4"
   },
 });
 

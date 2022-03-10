@@ -23,6 +23,7 @@ function DetailScreen(props) {
   const [likeProduct, setLikeProduct] = useState(false);
 
   const [showCount, setShowCount] = useState(0);
+  
   //console.log("detailscreen ", props.detailArticle);
   // var showDetailArticle = props.saveDetailArticle;
   //console.log("test detailarticle", showDetailArticle);
@@ -60,7 +61,7 @@ function DetailScreen(props) {
                 />
               </TouchableOpacity>
             </View>
-            <View>
+            <View style={{alignItems:"center"}}>
               <Card.Image
                 style={styles.image}
                 source={{ uri: props.saveDetailArticle.img }}
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
 
-    marginTop: 50,
+    marginTop: 30,
     padding: 30,
   },
 
@@ -227,11 +228,14 @@ const styles = StyleSheet.create({
   },
 
   image: {
+    alignItems:"center",
+    justifyContent:"center",
     width: 329,
     height: 200,
     marginBottom: 0,
     marginRight: 13,
     marginLeft: 13,
+    resizeMode: "contain",
   },
 
   mainproductinfolines: {
@@ -328,12 +332,12 @@ const styles = StyleSheet.create({
   },
 
   buttonaddtobasket: {
-    backgroundColor: "#53B175",
+    backgroundColor: "#006D24",
 
-    borderRadius: 17,
+    borderRadius: 40,
     height: 67,
 
-    marginTop: 80,
+    marginTop: 40,
   },
 
   textaddtobasketbutton: {

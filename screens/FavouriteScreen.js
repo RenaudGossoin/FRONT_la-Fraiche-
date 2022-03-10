@@ -78,6 +78,8 @@ const favArray = props.addtoFavlist.map((item, _id) => {
     );
 };
 
+
+
 const styles = StyleSheet.create({
   body : {
     backgroundColor: '#ffffff',

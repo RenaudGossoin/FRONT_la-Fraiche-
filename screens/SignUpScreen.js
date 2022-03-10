@@ -50,7 +50,7 @@ const SignUpScreen = (props) => {
 
   return (
     <ImageBackground
-      source={require("../assets/background-img-bokeh.jpg")}
+      source={require("../assets/backgroundSignIn.png")}
       style={styles.container}
     >
       <Text style={{ fontSize: 25, fontWeight: "bold", marginBottom: 20 }}>
