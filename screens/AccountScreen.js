@@ -145,6 +145,7 @@ function AccountScreen(props) {
           marginVertical: "95%",
           alignItems: "center",
         }}
+        onPress={() => props.navigation.navigate('SignIn')}
       />
     </View>
   );

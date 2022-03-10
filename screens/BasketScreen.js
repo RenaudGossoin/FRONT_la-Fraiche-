@@ -22,8 +22,14 @@ function BasketScreen(props) {
   if (props.saveBasket.length == 0) {
     noArticles = "No Articles";
   }
-
-
+//console.log(props.saveToken);
+  var handleSubmit = () => {
+    if(props.saveToken && props.saveBasket.length > 0) {
+      props.onValidateCart(total+5), props.navigation.navigate("Locker")
+    } else {
+       props.navigation.navigate('SignIn')
+    }
+  }
 
 
   const basketArray = props.saveBasket.map((item, _id) => {
@@ -89,7 +95,7 @@ function BasketScreen(props) {
             }}
             onPress={() => props.onDeleteArticle(item)}
           />
-          <Text style={{ paddingTop: 10 }}>{item.prix*item.quantity} €</Text>
+          <Text style={{ paddingTop: 10 }}>{(item.prix*item.quantity).toFixed(2)} €</Text>
         </View>
       </View>
     );
@@ -110,7 +116,7 @@ console.log(typeof total);
 
       <View style={styles.block2}>
         <Text>Frais de port</Text>
-        <Text style={{ paddingLeft: 80 }}>30 €</Text>
+        <Text style={{ paddingLeft: 80 }}>5 €</Text>
       </View>
       <View
         style={{
@@ -128,7 +134,8 @@ console.log(typeof total);
             marginVertical: 10,
           }}
           buttonStyle={{ borderRadius: 10, backgroundColor: "#53B175" }}
-          onPress={() => props.navigation.navigate("Locker")}
+            
+          onPress={() =>handleSubmit()/*{props.onValidateCart(total+5), props.navigation.navigate("Locker")}*/}
         />
         <View
           style={{
@@ -140,7 +147,7 @@ console.log(typeof total);
           <Text style={{ fontWeight: "bold", paddingTop: 10 }}>
             Total panier
           </Text>
-          <Text style={{ paddingTop: 5 }}> {total}€</Text>
+          <Text style={{ paddingTop: 5 }}> {(total + 5).toFixed(2)} €</Text>
         </View>
       </View>
     </ScrollView>
@@ -205,6 +212,9 @@ onIncreaseQuantity: function (article){
 },
 onDecreaseQuantity: function (article){
   dispatch({type: "decreaseQuantity", article})
+},
+onValidateCart: function (article) {
+  dispatch({type: "ValidateCart", article})
 }
   };
 }
@@ -213,7 +223,7 @@ function mapStateToProps(state) {
   return {
     saveToken: state.saveToken,
     saveBasket: state.saveBasket,
-
+    saveToken: state.saveToken,
   };
 }
 
