@@ -32,21 +32,20 @@ function DetailScreen(props) {
     props.navigation.navigate("Product", { screen: "ProductScreen" });
 
   var handleFavoriteClick = () => {
-      setLikeProduct(!likeProduct);
-  }
-  
-  if(likeProduct === true){
-    console.log('jai cliqué sur le coeur')
-    console.log (likeProduct)
-    var heartColor = {color: '#e74c3c'}
+    setLikeProduct(!likeProduct);
   };
-  
-  if(likeProduct === false){
-    console.log('jai cliqué sur le coeur')
-    console.log (likeProduct)
-    var heartColor = {color: 'gray'}
+
+  if (likeProduct === true) {
+    console.log("jai cliqué sur le coeur");
+    console.log(likeProduct);
+    var heartColor = { color: "#e74c3c" };
   }
-  
+
+  if (likeProduct === false) {
+    console.log("jai cliqué sur le coeur");
+    console.log(likeProduct);
+    var heartColor = { color: "gray" };
+  }
 
   return (
     <>
@@ -65,6 +64,7 @@ function DetailScreen(props) {
               <Card.Image
                 style={styles.image}
                 source={{ uri: props.saveDetailArticle.img }}
+                resizeMode="contain"
               />
             </View>
 
@@ -75,25 +75,21 @@ function DetailScreen(props) {
                     {props.saveDetailArticle.nom}
                   </Text>
                 </View>
-              
 
-              
-              <View>
-                  <Icon 
-                      name="favorite"
-                      size={30}
-                    
-                      style={heartColor}
-                      // onPress={() => handleFavoriteClick()}
-                      onPress={() => {
-                        // console.log("click detailscreen",props.saveDetailArticle),
-                          props.addtoFavlist(props.saveDetailArticle);
-                          handleFavoriteClick();
-                      }}
-                      />
+                <View>
+                  <Icon
+                    name="favorite"
+                    size={30}
+                    style={heartColor}
+                    // onPress={() => handleFavoriteClick()}
+                    onPress={() => {
+                      // console.log("click detailscreen",props.saveDetailArticle),
+                      props.addtoFavlist(props.saveDetailArticle);
+                      handleFavoriteClick();
+                    }}
+                  />
+                </View>
               </View>
-              </View>
-
 
               <View style={styles.addquantityandpriceline}>
                 {/* <View style={styles.blockbutton}>
@@ -157,27 +153,12 @@ function DetailScreen(props) {
                     <Text style={styles.titleshowhidemenu}>
                       Infos nutritionnelles
                     </Text>
-
-                    <TouchableOpacity
-                      onPress={() => setShowTextInfoNutri(!showTextInfoNutri)}
-                    >
-                      <Image
-                        style={styles.imgFleche}
-                        source={require("../assets/fleche-deroulante-bas.png")}
-                      />
-                    </TouchableOpacity>
                   </View>
-
-                  {showTextInfoNutri && (
-                    <View>
-                      <Text style={styles.textshowhidemenu}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse lorem ipsum, elementum ut nisl vel,
-                        pellentesque vestibulum turpis. Donec vulputate felis eu
-                        facilisis eleifend. Sed risus massa, imperdiet sed dui.
-                      </Text>
-                    </View>
-                  )}
+                  <Card.Image
+                    style={styles.nutriscore}
+                    source={{ uri: props.saveDetailArticle.nutriscore }}
+                    resizeMode="contain"
+                  />
                 </View>
 
                 <View style={styles.marginTopshowhidemenu}>
@@ -207,7 +188,7 @@ function DetailScreen(props) {
                   style={styles.buttonaddtobasket}
                   onPress={() => {
                     //console.log("click detailscreen"),
-                      props.onAddToCart(props.saveDetailArticle);
+                    props.onAddToCart(props.saveDetailArticle);
                   }}
 
                   // onPress={goTo}
@@ -363,6 +344,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
   },
+  nutriscore: {
+    width: 100,
+    height: 70,
+  },
 });
 
 function mapDispatchToProps(dispatch) {
@@ -379,7 +364,7 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: "addToCart", articleBasket });
     },
 
-    addtoFavlist: function(articleFavorite){
+    addtoFavlist: function (articleFavorite) {
       dispatch({ type: "addtoFavlist", articleFavorite });
     },
   };

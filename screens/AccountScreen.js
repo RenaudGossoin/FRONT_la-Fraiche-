@@ -91,7 +91,6 @@ function AccountScreen(props) {
             style={{
               height: 60,
               width: 120,
-              MarginTop: 50,
               resizeMode: "contain",
             }}
             source={require("../assets/codebarre.png")}

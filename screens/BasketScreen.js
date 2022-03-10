@@ -17,14 +17,12 @@ function BasketScreen(props) {
   }, [props.saveBasket]);
 
   //console.log("useeff", props.saveOrder);
-  //console.log(props.saveBasket.length);
+  // console.log(props.saveBasket.length);
+
   var noArticles;
   if (props.saveBasket.length == 0) {
     noArticles = "No Articles";
   }
-
-
-
 
   const basketArray = props.saveBasket.map((item, _id) => {
     return (
@@ -55,7 +53,6 @@ function BasketScreen(props) {
               }}
               //onPress={() => decreaseQuantity()}
               onPress={() => props.onDecreaseQuantity(item)}
-
             />
             <Text>{item.quantity}</Text>
             <Button
@@ -89,18 +86,16 @@ function BasketScreen(props) {
             }}
             onPress={() => props.onDeleteArticle(item)}
           />
-          <Text style={{ paddingTop: 10 }}>{item.prix*item.quantity} €</Text>
+          <Text style={{ paddingTop: 10 }}>{item.prix * item.quantity} €</Text>
         </View>
       </View>
     );
   });
 
-
-
   // METHODE REDUCE
-  var total=props.saveBasket.reduce((p, c) => p+c.prix*c.quantity, 0);
-console.log(typeof total);
- console.log(Number(total)); 
+  var total = props.saveBasket.reduce((p, c) => p + c.prix * c.quantity, 0);
+  console.log(typeof total);
+  console.log(Number(total));
 
   return (
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
@@ -200,12 +195,12 @@ function mapDispatchToProps(dispatch) {
     onDeleteArticle: function (article) {
       dispatch({ type: "deleteArticle", article });
     },
-    onIncreaseQuantity: function (article){
-      dispatch({type: "increaseQuantity", article})
+    onIncreaseQuantity: function (article) {
+      dispatch({ type: "increaseQuantity", article });
     },
-    onDecreaseQuantity: function (article){
-      dispatch({type: "decreaseQuantity", article})
-    }
+    onDecreaseQuantity: function (article) {
+      dispatch({ type: "decreaseQuantity", article });
+    },
   };
 }
 
@@ -213,7 +208,6 @@ function mapStateToProps(state) {
   return {
     saveToken: state.saveToken,
     saveBasket: state.saveBasket,
-
   };
 }
 
