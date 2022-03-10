@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView  } from 'react-native';
 import { Overlay, Input, CheckBox, Button} from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import {connect} from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
@@ -10,20 +10,21 @@ import { MaterialIcons } from '@expo/vector-icons';
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import CheckBoxLockers from "./CheckBoxLockers";
-
 
 
 
 
 function LockerScreen(props) {
   //const [isDisabled, setIsDisabled] = useState(false);
-
+//console.log('lire idsavelocker',props.saveIdLocker);
+  //console.log(props.saveValidateCart);
+  //console.log('lire saveBasket',props.saveBasket);
   const goBack = () => props.navigation.navigate('BottomNavigator', {screen: 'Basket'});
   const [lockersList, setLockersList] = useState([])
   //const [isDisabled, setIsDisabled] = useState(false)
+  var isChecked = false
 
- 
+  const [lockerSelected, setLockerSelected] = useState(null) 
   const [credit, setCredit] = useState(false);
   const [paypal, setPaypal] = useState(false);
   const [gpay, setGpay] = useState(false);
@@ -32,11 +33,14 @@ function LockerScreen(props) {
   const [addPOI, setAddPOI] = useState(false);
   const [listPOI, setListPOI] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-
+  const [currentDate, setCurrentDate] = useState('');
+  const [deliveryDate, setDeliverytDate] = useState('');
+  const [listIdBasket, setListIdBasket] = useState([]);
+  
   useEffect(() => {
     const Lockers = async () => {
       const data = await fetch(
-        `https://lafraiche.herokuapp.com/lockers?departement=${props.saveDepartement}`
+        `https://lafraiche.herokuapp.com/lockers?token=${props.saveToken}`
       );
       const body = await data.json();
       //console.log(body);
@@ -44,16 +48,23 @@ function LockerScreen(props) {
     };
     Lockers();
   }, []);
-  //console.log(lockersList);
-  //console.log(props.saveToken);
+ // console.log(lockersList);
+ console.log('basket a voir',props.saveBasket)
+ var test = props.saveBasket
+ var tab = []
+  var idList = test.map((article, i) => {
+   tab = [...listIdBasket, article._id]
+  });
+  console.log('idlist',idList);
+  console.log('isbaask', tab)
+
   useEffect(() => {
     async function askPermissions() {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status === "granted") {
-        Location.watchPositionAsync({ distanceInterval: 2 }, (location) => {
+        var location = await Location.getCurrentPositionAsync({})
           setCurrentLatitude(location.coords.latitude);
           setCurrentLongitude(location.coords.longitude);
-        });
       }
     }
     askPermissions();
@@ -115,6 +126,61 @@ const legpay = () => {
   setPaypal(false);
   setGpay(true);  
 }
+useEffect(() => {
+
+  var date = new Date().getDate(); //Current Date
+  var month = new Date().getMonth() + 1; //Current Month
+  var year = new Date().getFullYear();
+  setCurrentDate(
+    date + '/' + month + '/' + year 
+    + ' '
+  ); 
+  var date = new Date().getDate()+2; //Current Date
+  var month = new Date().getMonth() + 1; //Current Month
+  var year = new Date().getFullYear();
+  setDeliverytDate(
+    date + '/' + month + '/' + year 
+    + ' '
+  ); 
+//console.log(deliveryDate);
+ // setDeliverytDate(currentDate.setDate(currentDate.getDate()+2));
+}, []);// console.log(currentDate, deliveryDate);
+
+ //montrer mes checkboxes
+
+
+ //console.log('pagelocker',lockersList)
+ var checkboxList = lockersList.map((casier, i) => {
+  //console.log(lockerSelected);
+  
+   
+   //console.log('log du nom casier',casier.nom)
+  return (
+    
+    <CheckBox
+    title={casier.nom}
+    key={i}
+    onPress={() => {setLockerSelected(i); props.onIdSelected(casier)} }
+    checked={lockerSelected===i}
+    
+        />
+  );
+}); 
+
+console.log('recup des données',  props.saveIdLocker._id)
+var handleSubmitOrder = async () => {
+  //console.log(username);
+  const data = await fetch("https://lafraiche.herokuapp.com/orders", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/x-www-form-urlencoded" },
+    body: `totalOrder=${props.saveValidateCart}&date_insert=${currentDate}&date_shipment=${deliveryDate}&articles=${tab}&locker=${props.saveIdLocker._id}&token=${props.saveToken}`
+    
+  });
+  const body = await data.json()
+  console.log('récuperation des données',body)
+  
+}
 
   return (
     
@@ -128,58 +194,17 @@ const legpay = () => {
       <Text style={{flex: 1, textAlign:'left', color: 'white', fontSize:18, paddingRight:70}}>Mon locker</Text>
       
     </View>
-
+                    
             <View style = {{flexDirection: 'row', margin: 10}}>
               <Text  style={{flex: 1, fontSize:20, }}>
                 Votre panier : 
               </Text>
-              <Text style={{textAlign: 'right', flex: 1, fontSize:20}}>100€</Text>
+              <Text style={{textAlign: 'right', flex: 1, fontSize:20}}>{props.saveValidateCart}€</Text>
             </View>
-            
-       <View>   
-      <Overlay overlayStyle = {{height:'60%', width:'80%',borderRadius:10, padding:-10}}
-        isVisible={isVisible}
-        onBackdropPress={() => { setIsVisible(false) }} 
-      >
-        
-      <ScrollView>
-        <View style={{ flex: 1, alignItems: 'center',
-         justifyContent: 'center',
-         backgroundColor:'#53B175', borderTopLeftRadius:10 , borderTopRightRadius:10}}>
-          <Text style={{ color: 'white', fontSize:25, margin:5 }}>Je choisis mon locker</Text>
-          </View>    
-          
-          <CheckBoxLockers
-          />
-          
-        
-        </ScrollView> 
-        
+      
+      
 
-
-          <Button
-            title="Confirmer"
-            onPress={() => {setIsVisible(false)}}
-            //disabled={isDisabled}
-            buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10 }}
-                containerStyle={{
-                  marginHorizontal: 70,
-                  marginVertical: 10,
-                  alignItems: 'center', 
-                  justifyContent: 'center'}}
-                      
-                  
-          />
-        
-      </Overlay>
-      </View>
-
-      <View style={{ flexDirection: "row", margin: 10 }}>
-        <Text style={{ flex: 1, fontSize: 20 }}>Votre panier :</Text>
-        <Text style={{ textAlign: "right", flex: 1, fontSize: 20 }}>100€</Text>
-      </View>
-
-      <View>
+      
         <Overlay
           overlayStyle={{
             height: "60%",
@@ -207,14 +232,15 @@ const legpay = () => {
                 Je choisis mon locker
               </Text>
             </View>
-
-            <CheckBoxLockers />
+{checkboxList}
+            
           </ScrollView>
 
           <Button
           
             title="Confirmer"
             onPress={() => {
+             
               setIsVisible(false);
             }}
             //disabled={isDisabled}
@@ -227,13 +253,13 @@ const legpay = () => {
             }}
           />
         </Overlay>
-      </View>
+      
 
       <MapView
         onPress={() => {
           setIsVisible(!isVisible);
         }}
-        style={{ flex: 1 }}
+        style={{ height: 230 }}
         initialRegion={{
           latitude: 48.866667,
           longitude: 2.333333,
@@ -255,8 +281,18 @@ const legpay = () => {
         {markerPOI}
       </MapView>
 
-            <View style={{margin:-10}}>
-            
+            <View>
+            <View style={{padding:10}}>
+              <Text style={{fontSize:18, textAlign:'center'}}>
+                Mon locker choisi :
+              </Text>
+              <Text style={{fontSize:15 }}>
+                {props.saveIdLocker.nom} 
+              </Text>
+              <Text style={{fontSize:15 }}>
+              {props.saveIdLocker.adresse}
+              </Text>
+            </View>
               <CheckBox 
               title='Credit/ Debit Card'
               checked={credit}
@@ -275,17 +311,31 @@ const legpay = () => {
              <Button
                 title="Valider ma commande"
                 buttonStyle={{ backgroundColor: '#53B175', borderRadius: 10, margin: 30, marginVertical: 10}}
-                 
-                onPress={() => props.navigation.navigate("Payment")}
+                onPress={() =>{ handleSubmitOrder();  props.navigation.navigate('Payment')}}
               />
         
         
     </View>
+    
   );
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    onIdSelected: function (locker) {
+      dispatch({ type: "selectedId", locker });
+    }
 
-function mapStateToProps(state) {
-  return { saveDepartement: state.saveDepartement, saveToken: state.saveToken };
+  };
 }
 
-export default connect(mapStateToProps, null)(LockerScreen);
+
+function mapStateToProps(state) {
+  return { 
+            saveToken: state.saveToken,
+            saveValidateCart: state.saveValidateCart,
+            saveBasket: state.saveBasket,
+            saveIdLocker: state.saveIdLocker,
+     };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LockerScreen);

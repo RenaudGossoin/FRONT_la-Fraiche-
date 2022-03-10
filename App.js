@@ -13,6 +13,9 @@ import saveCategorie from "./reducers/saveCategorie";
 import saveDetailArticle from "./reducers/saveDetailArticle";
 import saveBasket from "./reducers/saveBasket";
 import addtoFavlist from "./reducers/addtoFavlist";
+import saveValidateCart from "./reducers/saveValidateCart";
+import saveIdLocker from "./reducers/saveIdLocker";
+// import addtoFavlist from "./reducers/addtoFavlist";
 
 
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -55,7 +58,10 @@ const store = createStore(
     saveCategorie,
     saveDetailArticle,
     saveBasket,
-    addtoFavlist    
+    addtoFavlist,    
+    saveValidateCart,
+    saveIdLocker,
+    
   })
 );
 
@@ -102,7 +108,7 @@ export default function App() {
   // const [favoriteArticlesList, setFavoriteArticlesList] = useState([]);
   // const [articleList, setarticleList] = useState([])
 
-  const [publishableKey, setPublishableKey] = useState('');
+  /*const [publishableKey, setPublishableKey] = useState('');
 
   const fetchPublishableKey = async () => {
     const key = await fetchKey(); // fetch key from your server here
@@ -119,8 +125,8 @@ export default function App() {
       publishableKey="pk_test_51KHmtoJkO5eJfiDA1YzBXZXfQrBGZvhkr4lCgKUv6PiVOBpKbPFVYcEHkgBkDQS5zTYkoIc7qMiBcDVdkx9BYzsg00VrPLP3Lh"
       urlScheme="https://lafraiche.herokuapp.com/" // required for 3D Secure and bank redirects
       merchantIdentifier="merchant.com.{{la fraiche}}" // required for Apple Pay
-    >
-      
+    >*/
+      return(
     <Provider store={store}>
 
    
@@ -143,7 +149,7 @@ export default function App() {
       </NavigationContainer>
     </Provider>
     
-    </StripeProvider>
+    //</StripeProvider>
     
   );
 }

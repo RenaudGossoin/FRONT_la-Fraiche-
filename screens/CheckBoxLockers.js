@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import { View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-
+import {connect} from 'react-redux';
 //Le choix des lockers sont fait en dur... Trop compliqué de pouvoir les selectionnés un à un. AB 
 
 
 
-export default function CheckBoxLockers(props) {
+function CheckBoxLockers(props) {
 
     const [checkBox, setCheckBox] = useState(false);
     const [check, setCheck] = useState(false);
@@ -98,6 +98,13 @@ export default function CheckBoxLockers(props) {
         setBox(false);
     }
 
+
+    const idLockers = [{checkBox1:checkBox, checkBox2:check, checkBox3:checkB, checkBox4:checko, checkBox5:checkx, checkBox6:choix, checkBox7:choice, checkBox8:box}]
+
+console.log(idLockers);
+
+
+
     return (
 
         
@@ -108,7 +115,7 @@ export default function CheckBoxLockers(props) {
         title="La boîte à meuh Paris Grenelle - 44 Rue de la Fédération, 75015 Paris "
 
         checked={checkBox}
-                onPress={lecheckbox}
+                onPress={()=>{ lecheckbox}}
             />
 
             <CheckBox
@@ -153,11 +160,14 @@ export default function CheckBoxLockers(props) {
     )
 }
 
-/*function mapDispatchToProps(dispatch) {
-    return {
-      onKeepCheck: function(check) {
-          dispatch( {type: 'saveCheck', check} )
-      }
-    }
-   }
+        function mapDispatchToProps(dispatch) {
+            return {
+              onRegisterCheckBox: function (element) {
+                dispatch({ type: "register", element });
+              },
+              
+            };
+          }
+          
+
    export default connect(null, mapDispatchToProps)(CheckBoxLockers);*/
