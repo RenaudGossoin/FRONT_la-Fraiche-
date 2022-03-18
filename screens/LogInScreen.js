@@ -76,7 +76,7 @@ const LogInScreen = (props) => {
         }}
       >
         <TextInput
-        fontSize={18}
+          fontSize={18}
           placeholder="email"
           style={styles.textInput}
           onChangeText={(val) => setEmail(val)}
@@ -103,8 +103,8 @@ const LogInScreen = (props) => {
         }}
       >
         <TextInput
-        fontSize={18}
-        secureTextEntry={true}
+          fontSize={18}
+          secureTextEntry={true}
           placeholder="password"
           style={styles.textInputPassword}
           type="password"

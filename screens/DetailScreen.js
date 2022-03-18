@@ -5,32 +5,21 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
-  Button,
   Image,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { Ionicons } from '@expo/vector-icons'; 
-
-// import Divider from 'react-native-divider';
+import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
 
+/*Affichage du produit selectionné à partir du store.
+Utilisation d'un hook d'état pour liker le produit et enregistrement du produit liké dans le store */
 function DetailScreen(props) {
   const [showTextProductDetails, setShowTextProductDetails] = useState(false);
-  const [showTextInfoNutri, setShowTextInfoNutri] = useState(false);
   const [showTextConseils, setShowTextConseils] = useState(false);
   const [likeProduct, setLikeProduct] = useState(false);
-
-  const [showCount, setShowCount] = useState(0);
-
-
-  
-  //console.log("detailscreen ", props.detailArticle);
-  // var showDetailArticle = props.saveDetailArticle;
-  //console.log("test detailarticle", showDetailArticle);
-  // console.log(props.saveCount);
 
   const goBack = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
@@ -38,16 +27,12 @@ function DetailScreen(props) {
   var handleFavoriteClick = () => {
     setLikeProduct(!likeProduct);
   };
-  
+
   if (likeProduct === true) {
-    console.log("jai cliqué sur le coeur");
-    console.log(likeProduct);
     var heartColor = { color: "#e74c3c" };
   }
 
   if (likeProduct === false) {
-    console.log("jai cliqué sur le coeur");
-    console.log(likeProduct);
     var heartColor = { color: "gray" };
   }
 
@@ -57,10 +42,14 @@ function DetailScreen(props) {
         <View style={styles.body}>
           <View style={styles.container}>
             <View>
-            <Ionicons name="chevron-back-circle-outline" size={30} color="#737373" onPress={goBack}/>
-              
+              <Ionicons
+                name="chevron-back-circle-outline"
+                size={30}
+                color="#737373"
+                onPress={goBack}
+              />
             </View>
-            <View style={{alignItems:"center"}}>
+            <View style={{ alignItems: "center" }}>
               <Card.Image
                 style={styles.image}
                 source={{ uri: props.saveDetailArticle.img }}
@@ -81,9 +70,7 @@ function DetailScreen(props) {
                     name="favorite"
                     size={30}
                     style={heartColor}
-                    // onPress={() => handleFavoriteClick()}
                     onPress={() => {
-                      // console.log("click detailscreen",props.saveDetailArticle),
                       props.addtoFavlist(props.saveDetailArticle);
                       props.saveHeartColor(likeProduct);
                       handleFavoriteClick();
@@ -188,11 +175,8 @@ function DetailScreen(props) {
                 <Pressable
                   style={styles.buttonaddtobasket}
                   onPress={() => {
-                    //console.log("click detailscreen"),
                     props.onAddToCart(props.saveDetailArticle);
                   }}
-
-                  // onPress={goTo}
                 >
                   <Text style={styles.textaddtobasketbutton}>
                     Ajouter au panier
@@ -228,8 +212,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    alignItems:"center",
-    justifyContent:"center",
+    alignItems: "center",
+    justifyContent: "center",
     width: 329,
     height: 200,
     marginBottom: 0,
@@ -302,7 +286,7 @@ const styles = StyleSheet.create({
   },
 
   marginTopshowhidemenu: {
-    marginTop:20,
+    marginTop: 20,
   },
 
   firstlineshowhidemenu: {
@@ -338,7 +322,7 @@ const styles = StyleSheet.create({
     height: 67,
 
     marginTop: 20,
-    marginBottom:30
+    marginBottom: 30,
   },
 
   textaddtobasketbutton: {
@@ -384,8 +368,5 @@ function mapStateToProps(state) {
     saveDetailArticle: state.saveDetailArticle,
   };
 }
-
-// var addTofavlist = props.addTofavlist
-// console.log('state de addtofavlist', addTofavlist)
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);

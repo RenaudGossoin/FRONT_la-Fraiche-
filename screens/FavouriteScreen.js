@@ -1,52 +1,69 @@
-
-import React from 'react';
-import { View, Image, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-import {Card} from 'react-native-elements';
-import { Button } from 'react-native-elements/dist/buttons/Button';
-import {connect} from 'react-redux';
+import React from "react";
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
+import { Card } from "react-native-elements";
+import { Button } from "react-native-elements/dist/buttons/Button";
+import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 
-
-
-
 function FavouriteScreen(props) {
-// console.log("favlist", props.addtoFavlist);
-// console.log("favlist", props.saveToken);
+  var noArticles;
+  if (props.addtoFavlist.length == 0) {
+    noArticles = "No Favorite Articles";
+  }
 
-const goBack = () =>
+  const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
 
-// var noArticles;
-// if (props.addtoFavlist.length == 0) {
-//   noArticles = "No Favorite Articles";
-// }
+  // var noArticles;
+  // if (props.addtoFavlist.length == 0) {
+  //   noArticles = "No Favorite Articles";
+  // }
 
-var noArticles;
+  var noArticles;
   if (props.addtoFavlist.length == 0) {
     noArticles = "votre liste de favoris est vide";
+  } else if (props.addtoFavlist.length == 1) {
+    noArticles =
+      props.addtoFavlist.length + " article dans votre liste de favoris";
+  } else {
+    noArticles =
+      props.addtoFavlist.length + " articles dans votre liste de favoris";
   }
-  else if(props.addtoFavlist.length == 1){
-  noArticles = props.addtoFavlist.length  + " article dans votre liste de favoris"
-  }else{
-    noArticles = props.addtoFavlist.length  + " articles dans votre liste de favoris"
-    }
 
-
-
-const favArray = props.addtoFavlist.map((item, _id) => {
-  return (
+  const favArray = props.addtoFavlist.map((item, _id) => {
+    return (
       <View key={item._id} style={styles.container}>
-          {/* //////////BasketScreen//////////// */}
+        {/* //////////BasketScreen//////////// */}
 
-        <View style={{ flex: 1, alignItems: "center", borderRightWidth:2, borderColor:"#ffffff"}}>
-          
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            borderRightWidth: 2,
+            borderColor: "#ffffff",
+          }}
+        >
           <Image
-            style={{ resizeMode: "contain", height: 50, width: 100, color: "gray" }}
+            style={{
+              resizeMode: "contain",
+              height: 50,
+              width: 100,
+              color: "gray",
+            }}
             source={{ uri: item.img }}
           />
         </View>
         <View style={styles.block}>
-          <Text style={{ fontWeight: "bold", paddingBottom: 1, paddingLeft:0 }}>
+          <Text
+            style={{ fontWeight: "bold", paddingBottom: 1, paddingLeft: 0 }}
+          >
             {item.nom}
           </Text>
           <Text style={styles.element}>
@@ -55,19 +72,17 @@ const favArray = props.addtoFavlist.map((item, _id) => {
             {/* {parseInt(item.prix)} €  */}
           </Text>
           <Pressable
-                    style={styles.detailsButton}
-                    onPress={()=>{
-                      props.onShowArticle(item),
+            style={styles.detailsButton}
+            onPress={() => {
+              props.onShowArticle(item),
                 props.navigation.navigate("Detail", {
                   screen: "DetailScreen",
                 });
-                    }}>
-
-                  <Text style={styles.textdetailButton}>détails</Text>
-                </Pressable>
-          <View style={styles.blockbutton}>
-         
-          </View>
+            }}
+          >
+            <Text style={styles.textdetailButton}>détails</Text>
+          </Pressable>
+          <View style={styles.blockbutton}></View>
         </View>
         <View
           style={{
@@ -76,57 +91,72 @@ const favArray = props.addtoFavlist.map((item, _id) => {
             justifyContent: "space-between",
           }}
         >
-          <Ionicons name="md-close-circle-outline" size={32} color="#006D24"   style={{ paddingLeft:15, alignItems:"flex-end",}}
+          <Ionicons
+            name="md-close-circle-outline"
+            size={32}
+            color="#006D24"
+            style={{ paddingLeft: 15, alignItems: "flex-end" }}
             onPress={() => props.onDeleteFavArticle(item)}
-            />
+          />
 
-          <Text style={{ paddingTop: 10, fontWeight:"bold" }}>{item.prix} €</Text>
+          <Text style={{ paddingTop: 10, fontWeight: "bold" }}>
+            {item.prix} €
+          </Text>
         </View>
-          {/* //////////////////////Origin FavouriteScreen////////////////// */}
-        
+        {/* //////////////////////Origin FavouriteScreen////////////////// */}
       </View>
-   
-);
-})
-
-////////////////Début du style///////////////////////
-    return (
-      <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
-      <View style={styles.TopBar}>
-      <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
-  
-  <Text style={{fontWeight:"bold", fontSize:16, color:"#737373"}}>Mes favoris</Text>
-
-  </View>
-<ScrollView style={styles.body}>
-<Text style={{ marginTop: 20, fontSize: 16, fontWeight:"bold", marginBottom:20, textAlign:"center" }}>{noArticles}</Text>
-
-    {favArray}
-       
-
-
-</ScrollView>
-</View>
     );
-};
+  });
 
+  ////////////////Début du style///////////////////////
+  return (
+    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
+      <View style={styles.TopBar}>
+        <Ionicons
+          name="chevron-back-circle-outline"
+          size={30}
+          color="#006D24"
+          onPress={goBack}
+        />
 
+        <Text style={{ fontWeight: "bold", fontSize: 16, color: "#737373" }}>
+          Mes favoris
+        </Text>
+      </View>
+      <ScrollView style={styles.body}>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: 16,
+            fontWeight: "bold",
+            marginBottom: 20,
+            textAlign: "center",
+          }}
+        >
+          {noArticles}
+        </Text>
+
+        {favArray}
+      </ScrollView>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-  body : {
-    backgroundColor: '#ffffff',
+  body: {
+    backgroundColor: "#ffffff",
   },
-  TopBar:{
-    flexDirection:"row",
-    paddingHorizontal:25,
-    paddingBottom:20,
+  TopBar: {
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    paddingBottom: 20,
     //flexDirection:"column",
-    justifyContent:"space-between",
-    alignItems:"flex-end",
-    backgroundColor:"#ffffff",
-    height:120,
-    borderBottomLeftRadius:20,
-    borderBottomRightRadius:20,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    backgroundColor: "#ffffff",
+    height: 120,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 5,
@@ -143,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     paddingTop: 10,
     paddingBottom: 10,
-    marginLeft:20,
+    marginLeft: 20,
   },
 
   container: {
@@ -151,107 +181,107 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEDED",
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth:1,
-    borderColor:"#fff",
+    borderBottomWidth: 1,
+    borderColor: "#fff",
   },
- 
 
-    title : {
-      marginTop : 60,
-      textAlign : 'center',
-      fontWeight : 'bold',
-      fontSize : 20,
+  title: {
+    marginTop: 60,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
 
-      marginBottom : 20,
-    },
+    marginBottom: 20,
+  },
 
-   
+  title: {
+    marginTop: 60,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
 
-    imgProduct : {
-      width : 55,
-      height: 55,
-      
+    marginBottom: 20,
+  },
 
-      marginLeft : 15,
-      marginRight : 15,
-      marginTop : 30,
-    },
+  imgProduct: {
+    width: 55,
+    height: 55,
 
-    productTitle : {
-      fontWeight : 'bold',
-      fontSize : 14,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 30,
+  },
 
-      paddingTop : 5,
-      marginBottom : 10,
-    },
+  productTitle: {
+    fontWeight: "bold",
+    fontSize: 14,
 
-    productInfos : {
-      fontSize : 12,
-      color : '#7C7C7C',
-    },
+    paddingTop: 5,
+    marginBottom: 10,
+  },
 
-    productPrice : {
-      paddingTop : 5,
-      marginBottom : 3,
-      marginLeft : 65,
-      
-      fontSize : 14,
-      fontWeight : 'bold',
-      width :45,
-    },
+  productInfos: {
+    fontSize: 12,
+    color: "#7C7C7C",
+  },
 
-    displayRow : {
-      display : 'flex',
-      flexDirection : 'row',
+  productPrice: {
+    paddingTop: 5,
+    marginBottom: 3,
+    marginLeft: 65,
 
-    },
+    fontSize: 14,
+    fontWeight: "bold",
+    width: 45,
+  },
 
-    displayColumn2 : {
-      display : 'flex',
-      flexDirection: 'column',
+  displayRow: {
+    display: "flex",
+    flexDirection: "row",
+  },
 
-      marginTop : 30,
-    width : 150,
-    },
+  displayColumn2: {
+    display: "flex",
+    flexDirection: "column",
 
-    displayColumn3 : {
-      display : 'flex',
-      flexDirection: 'column',
+    marginTop: 30,
+    width: 150,
+  },
 
-      marginTop : 30,
-      backgroundColor : '#ffffff',
-      width : 50,
-    },
+  displayColumn3: {
+    display: "flex",
+    flexDirection: "column",
 
-   
+    marginTop: 30,
+    backgroundColor: "#ffffff",
+    width: 50,
+  },
 
-    imgTrash : {
-      width : 15,
-      height: 15,
-      marginTop : 5,
-      marginLeft : 0,
-    },
+  detailsButton: {
+    backgroundColor: "#53B175",
+    opacity: 1,
+    width: 85,
+    borderRadius: 17,
+    paddingTop: 2,
+    paddingBottom: 2,
+    marginTop: 5,
+    //marginLeft : 50,
+  },
+  imgTrash: {
+    width: 15,
+    height: 15,
+    marginTop: 5,
+    marginLeft: 0,
+  },
 
-    detailsButton : {
-      backgroundColor: "#53B175",
-      opacity : 1,
-      width : 85,
-      borderRadius: 17,
-      paddingTop: 2,
-      paddingBottom: 2,
-      marginTop: 5,
-      //marginLeft : 50,
-
-    },
-
-    textdetailButton : {
-      marginLeft : 'auto',
-      marginRight : 'auto',
-      color : "#ffffff",
-      fontSize : 14,
-      fontWeight : 'bold',
-    },
-  });    
+  textdetailButton: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+});
 
 function mapDispatchToProps(dispatch) {
   return {

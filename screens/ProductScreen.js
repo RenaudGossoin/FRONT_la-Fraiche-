@@ -6,14 +6,13 @@ import {
   ScrollView,
   Pressable,
   SafeAreaView,
-  Image
+  Image,
 } from "react-native";
 import { Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons'; 
-
+import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
 
@@ -27,8 +26,6 @@ function ProductScreen(props) {
 
   const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
-
-
 
   useEffect(() => {
     //console.log("ouverture UseEffect Product", props.saveCategorie);
@@ -58,9 +55,6 @@ function ProductScreen(props) {
 
     findArticles();
     //console.log(departement+" from UseEffect")
-    
-   
-
   }, [props.saveToken]);
 
   //console.log("articleslist: ", articleList);
@@ -72,25 +66,38 @@ function ProductScreen(props) {
     welcome = "Bienvenue sur La Fraîche";
   }
 
-console.log(props.saveCategorie)
+  //console.log(props.saveCategorie)
 
-var imgCategorie;
-if(props.saveCategorie=="Fruits"){
-  
-imgCategorie= <Image source={require("../assets/NosFruits.png")} style={styles.title}/>
+  var imgCategorie;
+  if (props.saveCategorie == "Fruits") {
+    imgCategorie = (
+      <Image source={require("../assets/NosFruits.png")} style={styles.title} />
+    );
+  } else if (props.saveCategorie == "Legumes") {
+    imgCategorie = (
+      <Image
+        source={require("../assets/NosLégumes.png")}
+        style={styles.title}
+      />
+    );
+  } else if (props.saveCategorie == "Oeufs") {
+    imgCategorie = (
+      <Image source={require("../assets/NosOeufs.png")} style={styles.title} />
+    );
+  } else if (props.saveCategorie == "Fromages") {
+    imgCategorie = (
+      <Image
+        source={require("../assets/NosFromages.png")}
+        style={styles.title}
+      />
+    );
+  } else {
+    {
+      <Text>N'oubliez pas de choisir une catégorie.</Text>;
+    }
+  }
 
-}else if(props.saveCategorie=="Legumes"){
-  imgCategorie= <Image source={require("../assets/NosLégumes.png")} style={styles.title}/>
-}else if(props.saveCategorie=="Oeufs"){
-  imgCategorie= <Image source={require("../assets/NosOeufs.png")} style={styles.title}/>
-}else if(props.saveCategorie=="Fromages"){
-  imgCategorie= <Image source={require("../assets/NosFromages.png")} style={styles.title}/>
- }
-else{
-  {<Text>N'oubliez pas de choisir une catégorie.</Text>}
-}
-
-///////////////////MAP ARTICLELIST//////////////////////
+  ///////////////////MAP ARTICLELIST//////////////////////
   const ArticlesArray = articleList.map((element, _id) => {
     //console.log(element.img);
 
@@ -103,7 +110,6 @@ else{
             marginTop: -8,
           }}
         >
-
           {/* <Icon style={styles.icon} name="favorite" size={18} 
           onPress={() => {
             console.log("element de ProductScreen", element),
@@ -111,7 +117,6 @@ else{
               props.navigation.navigate("Favourite", { screen: "FavouriteScreen" });
             }}
           /> */}
-
         </View>
         <View style={{ alignItems: "center" }}>
           <Card.Image style={styles.image} source={{ uri: element.img }} />
@@ -142,15 +147,37 @@ else{
   });
 
   return (
-    
     <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
       <View style={styles.TopBar}>
-      <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/>
-      <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
+        <Image
+          source={require("../assets/courge.png")}
+          style={{
+            position: "absolute",
+            width: 160,
+            resizeMode: "contain",
+            top: -60,
+            left: -40,
+          }}
+          onPress={goBack}
+        />
+        <Ionicons
+          name="chevron-back-circle-outline"
+          size={30}
+          color="#006D24"
+          onPress={goBack}
+        />
 
-
-<Text style={{fontWeight:"bold", fontSize:16, color:"#737373",marginBottom:6}}>{welcome}</Text>
-</View>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 16,
+            color: "#737373",
+            marginBottom: 6,
+          }}
+        >
+          {welcome}
+        </Text>
+      </View>
       {/* <SafeAreaView
         style={{
           display: "flex",
@@ -197,33 +224,28 @@ else{
       </SafeAreaView> */}
 
       <ScrollView style={styles.body}>
-      
-
-      
-
         <View style={{ marginTop: 0 }}>
-       {imgCategorie}
+          {imgCategorie}
           {/* <Text style={styles.title}>Nos {props.saveCategorie} frais !</Text> */}
         </View>
         <View style={styles.container}>{ArticlesArray}</View>
       </ScrollView>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  TopBar:{
-    flexDirection:"row",
-    paddingHorizontal:25,
-    paddingBottom:20,
+  TopBar: {
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    paddingBottom: 20,
     //flexDirection:"column",
-    justifyContent:"space-between",
-    alignItems:"flex-end",
-    backgroundColor:"#FFFFFF",
-    height:120,
-    borderBottomLeftRadius:20,
-    borderBottomRightRadius:20,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    backgroundColor: "#FFFFFF",
+    height: 120,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 5,
@@ -243,13 +265,13 @@ const styles = StyleSheet.create({
   title: {
     //position:'relative',
     //borderRadius:15,
-    marginTop:20,
-    marginHorizontal:20,
+    marginTop: 20,
+    marginHorizontal: 20,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     height: 125,
-    maxWidth:"90%",
+    maxWidth: "90%",
     // shadowColor: "#000",
     // shadowOffset: {
     //   width: 5,
@@ -258,7 +280,6 @@ const styles = StyleSheet.create({
     // shadowOpacity: 1,
     // shadowRadius: 5,
     // elevation: 10,
-
 
     //marginTop: 20,
   },

@@ -5,19 +5,15 @@ import {
   ListItem,
   Icon,
   Text,
-  Content,
   Image,
   Overlay,
 } from "react-native-elements";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { Avatar } from "react-native-elements/dist/avatar/Avatar";
-import { Ionicons } from '@expo/vector-icons'; 
-
-
+import { Ionicons } from "@expo/vector-icons";
 
 function AccountScreen(props) {
-  //console.log("account", props.saveToken);
   const [expanded, setExpanded] = useState("");
   const [userUsername, setUserUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -25,9 +21,10 @@ function AccountScreen(props) {
   const [isVisible, setIsVisible] = useState(false);
 
   const goBack = () =>
-  props.navigation.navigate("BottomNavigator", { screen: "Categories" });
+    props.navigation.navigate("BottomNavigator", { screen: "Categories" });
 
-
+  /*Au chargement du composant, on appelle la route account pour aller chercher les infos de l'user
+  On utulise un hook d'état pour remplir son usename, infos et commandes */
   useEffect(() => {
     const findAccount = async () => {
       if (props.saveToken) {
@@ -36,7 +33,7 @@ function AccountScreen(props) {
         );
 
         const body = await data.json();
-        //console.log("bodyaccount", body);
+
         setUserUsername(body.info[0].username);
         setUserEmail(body.info[0].email);
         setOrderInfo(body.orders);
@@ -45,11 +42,6 @@ function AccountScreen(props) {
 
     findAccount();
   }, []);
-
-  //console.log("username", userUsername);
-  // console.log("usermail", userEmail);
-  //console.log("orders", orderInfo);
-  console.log("DetailArticle",props.saveDetailArticle)
 
   var selectOrder = () => {
     setIsVisible(true);
@@ -80,19 +72,30 @@ function AccountScreen(props) {
   });
 
   return (
-    <View style={{backgroundColor:"#ffffff"}}>
-       <View style={styles.TopBar}>
-      {/* <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/> */}
-      <Ionicons name="person-outline" size={30} color="black" />
+    <View style={{ backgroundColor: "#ffffff" }}>
+      <View style={styles.TopBar}>
+        {/* <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/> */}
+        <Ionicons name="person-outline" size={30} color="black" />
 
-        <View style={{justifyContent:"flex-start"}}>
-        {/* <MaterialCommunityIcons name="human-greeting" size={50} color="black" /> */}
-          <Text style={{ fontSize: 20, color:"black", marginRight:20}}>{userUsername}</Text>
+        <View style={{ justifyContent: "flex-start" }}>
+          {/* <MaterialCommunityIcons name="human-greeting" size={50} color="black" /> */}
+          <Text style={{ fontSize: 20, color: "black", marginRight: 20 }}>
+            {userUsername}
+          </Text>
           <Text style={{ fontSize: 15 }}>{userEmail}</Text>
         </View>
-        <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/>
-
-</View>
+        <Image
+          source={require("../assets/courge.png")}
+          style={{
+            position: "absolute",
+            width: 160,
+            resizeMode: "contain",
+            top: -60,
+            left: -40,
+          }}
+          onPress={goBack}
+        />
+      </View>
       <Overlay
         isVisible={isVisible}
         onBackdropPress={() => {
@@ -134,22 +137,25 @@ function AccountScreen(props) {
       <ListItem.Accordion
         content={
           <>
-          <Ionicons name="basket-outline" size={30} color="black" style={{paddingHorizontal:20}} />
+            <Ionicons
+              name="basket-outline"
+              size={30}
+              color="black"
+              style={{ paddingHorizontal: 20 }}
+            />
             <ListItem.Content>
               <ListItem.Title style={{ fontSize: 20, marginLeft: 10 }}>
                 Mes commandes
               </ListItem.Title>
-                      
             </ListItem.Content>
           </>
         }
         isExpanded={expanded}
         onPress={() => {
           setExpanded(!expanded);
-          
         }}
       >
-        {orderList} 
+        {orderList}
       </ListItem.Accordion>
 
       <Button
@@ -161,7 +167,7 @@ function AccountScreen(props) {
           marginVertical: "95%",
           alignItems: "center",
         }}
-        onPress={() => props.navigation.navigate('SignIn')}
+        onPress={() => props.navigation.navigate("SignIn")}
       />
     </View>
   );
@@ -176,31 +182,34 @@ function AccountScreen(props) {
     },
   });    */
 
-  const styles = StyleSheet.create({
-    TopBar:{
-      flexDirection:"row",
-      paddingHorizontal:25,
-      paddingBottom:20,
-      //flexDirection:"column",
-      justifyContent:"center",
-      alignItems:"flex-end",
-      backgroundColor:"#FFFFFF",
-      height:120,
-      borderBottomLeftRadius:20,
-      borderBottomRightRadius:20,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 5,
-        height: 5,
-      },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 10,
+const styles = StyleSheet.create({
+  TopBar: {
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    paddingBottom: 20,
+    //flexDirection:"column",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    backgroundColor: "#FFFFFF",
+    height: 120,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
     },
-  })
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+});
 
 function mapStateToProps(state) {
-  return { saveToken: state.saveToken, saveDetailArticle: state.saveDetailArticle };
+  return {
+    saveToken: state.saveToken,
+    saveDetailArticle: state.saveDetailArticle,
+  };
 }
 
 export default connect(mapStateToProps, null)(AccountScreen);

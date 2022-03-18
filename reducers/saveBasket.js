@@ -1,6 +1,5 @@
 export default function (cart = [], action) {
   if (action.type == "addToCart") {
-    //console.log("addtocart reduc", action.articleBasket);
     var cartCopy = [...cart];
     var findArticle = false;
 
@@ -18,19 +17,19 @@ export default function (cart = [], action) {
     var cartCopy = cart.filter((element) => element._id != action.article._id);
 
     return cartCopy;
-  }else if( action.type =="increaseQuantity"){
-    var cartCopy = [...cart]
-    for (let i=0; i<cartCopy.length; i++){
-      if(cartCopy[i]._id == action.article._id){
-        cartCopy[i].quantity = cartCopy[i].quantity+1
+  } else if (action.type == "increaseQuantity") {
+    var cartCopy = [...cart];
+    for (let i = 0; i < cartCopy.length; i++) {
+      if (cartCopy[i]._id == action.article._id) {
+        cartCopy[i].quantity = cartCopy[i].quantity + 1;
       }
     }
     return cartCopy;
-  }else if(action.type == "decreaseQuantity"){
-    var cartCopy=[...cart]
-    for(let i=0; i<cartCopy.length; i++){
-      if(cartCopy[i]._id == action.article._id&&cartCopy[i].quantity>1){
-        cartCopy[i].quantity =cartCopy[i].quantity-1
+  } else if (action.type == "decreaseQuantity") {
+    var cartCopy = [...cart];
+    for (let i = 0; i < cartCopy.length; i++) {
+      if (cartCopy[i]._id == action.article._id && cartCopy[i].quantity > 1) {
+        cartCopy[i].quantity = cartCopy[i].quantity - 1;
       }
     }
     return cartCopy;
