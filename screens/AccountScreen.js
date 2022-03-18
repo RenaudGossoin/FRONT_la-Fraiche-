@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import {
   Button,
   ListItem,
   Icon,
   Text,
-  Content,
   Image,
   Overlay,
 } from "react-native-elements";
@@ -13,16 +12,15 @@ import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { Avatar } from "react-native-elements/dist/avatar/Avatar";
 
-
-
 function AccountScreen(props) {
-  //console.log("account", props.saveToken);
   const [expanded, setExpanded] = useState("");
   const [userUsername, setUserUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [orderInfo, setOrderInfo] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
+  /*Au chargement du composant, on appelle la route account pour aller chercher les infos de l'user
+  On utulise un hook d'état pour remplir son usename, infos et commandes */
   useEffect(() => {
     const findAccount = async () => {
       if (props.saveToken) {
@@ -31,7 +29,7 @@ function AccountScreen(props) {
         );
 
         const body = await data.json();
-        //console.log("bodyaccount", body);
+
         setUserUsername(body.info[0].username);
         setUserEmail(body.info[0].email);
         setOrderInfo(body.orders);
@@ -40,11 +38,6 @@ function AccountScreen(props) {
 
     findAccount();
   }, []);
-
-  //console.log("username", userUsername);
-  // console.log("usermail", userEmail);
-  //console.log("orders", orderInfo);
-  console.log("DetailArticle",props.saveDetailArticle)
 
   var selectOrder = () => {
     setIsVisible(true);
@@ -122,17 +115,15 @@ function AccountScreen(props) {
               <ListItem.Title style={{ fontSize: 20, marginLeft: 10 }}>
                 Mes commandes
               </ListItem.Title>
-                      
             </ListItem.Content>
           </>
         }
         isExpanded={expanded}
         onPress={() => {
           setExpanded(!expanded);
-          
         }}
       >
-        {orderList} 
+        {orderList}
       </ListItem.Accordion>
 
       <Button
@@ -144,23 +135,17 @@ function AccountScreen(props) {
           marginVertical: "95%",
           alignItems: "center",
         }}
-        onPress={() => props.navigation.navigate('SignIn')}
+        onPress={() => props.navigation.navigate("SignIn")}
       />
     </View>
   );
 }
 
-/*const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });    */
-
 function mapStateToProps(state) {
-  return { saveToken: state.saveToken, saveDetailArticle: state.saveDetailArticle };
+  return {
+    saveToken: state.saveToken,
+    saveDetailArticle: state.saveDetailArticle,
+  };
 }
 
 export default connect(mapStateToProps, null)(AccountScreen);
