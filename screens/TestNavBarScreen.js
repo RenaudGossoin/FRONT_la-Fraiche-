@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button, ScrollView } from "react-native";
+import { View, Text} from "react-native";
 
 
 const TestNavBarScreen = () => {

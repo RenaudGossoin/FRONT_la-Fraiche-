@@ -4,6 +4,8 @@ import { View, Image, Text, StyleSheet, Pressable, ScrollView} from 'react-nativ
 import {Card} from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
 import {connect} from 'react-redux';
+import { Ionicons } from "@expo/vector-icons";
+
 
 
 
@@ -11,70 +13,100 @@ function FavouriteScreen(props) {
 // console.log("favlist", props.addtoFavlist);
 // console.log("favlist", props.saveToken);
 
+const goBack = () =>
+    props.navigation.navigate("BottomNavigator", { screen: "Categories" });
+
+// var noArticles;
+// if (props.addtoFavlist.length == 0) {
+//   noArticles = "No Favorite Articles";
+// }
+
 var noArticles;
-if (props.addtoFavlist.length == 0) {
-  noArticles = "No Favorite Articles";
-}
+  if (props.addtoFavlist.length == 0) {
+    noArticles = "votre liste de favoris est vide";
+  }
+  else if(props.addtoFavlist.length == 1){
+  noArticles = props.addtoFavlist.length  + " article dans votre liste de favoris"
+  }else{
+    noArticles = props.addtoFavlist.length  + " articles dans votre liste de favoris"
+    }
+
+
 
 const favArray = props.addtoFavlist.map((item, _id) => {
   return (
-      <View key={item._id} style={styles.displayRow}>
-          
-            <Image
-              style={styles.imgProduct}
-              source={{ uri: item.img }}
-            />
-          
-          
-              <View style={styles.displayColumn2}>
-                  <Text style={styles.productTitle}>
-                        {item.nom}</Text>
-                  <Text style={styles.productInfos}>{item.prix} €</Text>
-              </View>
+      <View key={item._id} style={styles.container}>
+          {/* //////////BasketScreen//////////// */}
 
-          <View>
-              <View style={styles.displayColumn3}>
-                 <View style={styles.displayRow}>
-                    <Text style={styles.productPrice}>{item.prix} €</Text>
-                     
-                      <Card.Image
-                        style={styles.imgTrash}
-                        source={require('../assets/trash.png')}
-                        onPress={() => props.onDeleteFavArticle(item)}
-                      />
-                </View>
-
-                
-                  <Pressable
-                    style={styles.detailsButton}>
+        <View style={{ flex: 1, alignItems: "center", borderRightWidth:2, borderColor:"#ffffff"}}>
+          
+          <Image
+            style={{ resizeMode: "contain", height: 50, width: 100, color: "gray" }}
+            source={{ uri: item.img }}
+          />
+        </View>
+        <View style={styles.block}>
+          <Text style={{ fontWeight: "bold", paddingBottom: 1, paddingLeft:0 }}>
+            {item.nom}
+          </Text>
+          <Text style={styles.element}>
+            {/* {" "} */}
+            {item.mesurement}
+            {/* {parseInt(item.prix)} €  */}
+          </Text>
+          <Pressable
+                    style={styles.detailsButton}
+                    onPress={()=>{
+                      props.onShowArticle(item),
+                props.navigation.navigate("Detail", {
+                  screen: "DetailScreen",
+                });
+                    }}>
 
                   <Text style={styles.textdetailButton}>détails</Text>
                 </Pressable>
-              
-              </View>
-               
-          </View>   
+          <View style={styles.blockbutton}>
+         
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Ionicons name="md-close-circle-outline" size={32} color="#006D24"   style={{ paddingLeft:15, alignItems:"flex-end",}}
+            onPress={() => props.onDeleteFavArticle(item)}
+            />
+
+          <Text style={{ paddingTop: 10, fontWeight:"bold" }}>{item.prix} €</Text>
+        </View>
+          {/* //////////////////////Origin FavouriteScreen////////////////// */}
+        
       </View>
    
 );
 })
 
-// console.log("favarr", favArray)
-
+////////////////Début du style///////////////////////
     return (
+      <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
+      <View style={styles.TopBar}>
+      <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
+  
+  <Text style={{fontWeight:"bold", fontSize:16, color:"#737373"}}>Mes favoris</Text>
+
+  </View>
 <ScrollView style={styles.body}>
+<Text style={{ marginTop: 20, fontSize: 16, fontWeight:"bold", marginBottom:20, textAlign:"center" }}>{noArticles}</Text>
 
-
-    <View style={styles.container.displayColumn}>
-    <Text style={styles.title}>Mes favoris</Text>
-    <View>
-    <Text style={{ marginTop: 50, fontSize: 18, fontWeight : "bold", textAlign : "center" }}>{noArticles}</Text>
     {favArray}
        
 
-    </View>
-    </View>
+
 </ScrollView>
+</View>
     );
 };
 
@@ -84,13 +116,45 @@ const styles = StyleSheet.create({
   body : {
     backgroundColor: '#ffffff',
   },
+  TopBar:{
+    flexDirection:"row",
+    paddingHorizontal:25,
+    paddingBottom:20,
+    //flexDirection:"column",
+    justifyContent:"space-between",
+    alignItems:"flex-end",
+    backgroundColor:"#ffffff",
+    height:120,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+
+  block: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft:20,
+  },
 
   container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+    flex: 1,
+    backgroundColor: "#EDEDED",
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth:1,
+    borderColor:"#fff",
+  },
+ 
 
     title : {
       marginTop : 60,
@@ -176,7 +240,7 @@ const styles = StyleSheet.create({
       paddingTop: 2,
       paddingBottom: 2,
       marginTop: 5,
-      marginLeft : 50,
+      //marginLeft : 50,
 
     },
 
@@ -194,9 +258,11 @@ function mapDispatchToProps(dispatch) {
     onDeleteFavArticle: function (article) {
       dispatch({ type: "deleteArticleFavori", article });
     },
+    onShowArticle: function (showarticle) {
+      dispatch({ type: "showArticle", showarticle });
+    },
   };
 }
-
 
 function mapStateToProps(state) {
   return {
@@ -205,4 +271,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null)(FavouriteScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(FavouriteScreen);

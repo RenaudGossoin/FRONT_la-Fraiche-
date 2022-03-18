@@ -6,7 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 function BasketScreen(props) {
   //console.log("basket", props.saveToken);
   //console.log("basket", props.saveBasket);
@@ -21,11 +20,6 @@ function BasketScreen(props) {
   //console.log("useeff", props.saveOrder);
   // console.log(props.saveBasket.length);
 
-  // var noArticles;
-  // if (props.saveBasket.length == 0) {
-  //   noArticles = "No Articles";
-  // }
-
 //console.log(props.saveToken);
   var handleSubmit = () => {
     if(props.saveToken && props.saveBasket.length > 0) {
@@ -36,15 +30,7 @@ function BasketScreen(props) {
   }
   //console.log(props.saveBasket.length);
   
-
 console.log(props.saveBasket)
-
-// var welcome;
-//   if (props.saveToken) {
-//     welcome = `Bienvenue ${userInfo}`;
-//   } else {
-//     welcome = "Bienvenue sur La Fraîche";
-//   }
 
 const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
@@ -72,40 +58,17 @@ const goBack = () =>
           <View style={styles.blockbutton}>
 
           <Ionicons name="remove-circle" size={32} color="#006D24"   style={{ marginRight: 10,}}
+          
 onPress={() => props.onDecreaseQuantity(item)}
 
           />
-            {/* <Button
-              title="-"
-              color="gray"
-              buttonStyle={styles.button}
-              type="outline"
-              titleStyle={{ color: "#636e72" }}
-              containerStyle={{
-                marginRight: 10,
-              }}
-              //onPress={() => decreaseQuantity()}
-              onPress={() => props.onDecreaseQuantity(item)}
-            />
-            <Text>{item.quantity}</Text>
-            <Button
 
-            /> */}
             <Text style={{fontWeight:"bold"}}>{item.quantity}</Text>
             <Ionicons name="add-circle" size={32} color="#006D24"   style={{ marginLeft: 10,}}
               onPress={() => props.onIncreaseQuantity(item)}
 
           />
-            {/* <Button
-              title="+"
-              buttonStyle={styles.button}
-              type="outline"
-              titleStyle={{ color: "#636e72" }}
-              containerStyle={{
-                marginLeft: 10,
-              }}
-              onPress={() => props.onIncreaseQuantity(item)}
-            /> */}
+            
           </View>
         </View>
         <View
@@ -119,19 +82,6 @@ onPress={() => props.onDecreaseQuantity(item)}
             onPress={() => props.onDeleteArticle(item)}
             />
 
-          {/* <Button
-            title="x"
-            color="gray"
-            buttonStyle={styles.button}
-            type="outline"
-            titleStyle={{ color: "#636e72" }}
-            containerStyle={{
-              marginRight: 10,
-            }}
-            onPress={() => props.onDeleteArticle(item)}
-          />
-          <Text style={{ paddingTop: 10 }}>{(item.prix*item.quantity).toFixed(2)} €</Text>
-          /> */}
           <Text style={{ paddingTop: 10, fontWeight:"bold" }}>{Math.round(item.prix*item.quantity*100)/100} €</Text>
         </View>
       </View>
@@ -159,12 +109,8 @@ onPress={() => props.onDecreaseQuantity(item)}
   return (
     <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
     <View style={styles.TopBar}>
-    <MaterialIcons
-            name="arrow-back-ios"
-            size={24}
-            color="#000000"
-            onPress={goBack}
-          />
+    <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
+
 <Text style={{fontWeight:"bold", fontSize:16, color:"#737373"}}>Mon panier</Text>
 
 </View>

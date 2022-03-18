@@ -190,7 +190,7 @@ const SignUpScreen = (props) => {
             props.navigation.navigate("SignIn", { screen: "SignIn" })
           }
         >
-          Déja un compte
+          Déja un compte ?
         </Text>
       </View>
     </ImageBackground>
@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
   button: {
     height: 45,
     //width:100,
-    backgroundColor: "#53B175",
-    borderRadius: 10,
+    backgroundColor: "#006D24",
+    borderRadius: 30,
     marginTop: 20,
   },
 });

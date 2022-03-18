@@ -144,19 +144,10 @@ else{
   return (
     
     <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
-
-     
-
       <View style={styles.TopBar}>
       <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/>
       <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
-      {/* <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color="#000000"
-              onPress={goBack}
-            /> */}
-            {/* <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/> */}
+
 
 <Text style={{fontWeight:"bold", fontSize:16, color:"#737373",marginBottom:6}}>{welcome}</Text>
 </View>
