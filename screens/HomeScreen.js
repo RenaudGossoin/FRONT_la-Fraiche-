@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet,TextInput,Image, ImageBackground, ScrollView,KeyboardAvoidingView } from 'react-native'
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+  ImageBackground,
+  KeyboardAvoidingView,
+} from "react-native";
 import { LogBox } from "react-native";
-import { Button } from 'react-native-elements';
-import {connect} from 'react-redux';
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { Button } from "react-native-elements";
+import { connect } from "react-redux";
 
-
-  LogBox.ignoreAllLogs()
-
+LogBox.ignoreAllLogs();
 
 const HomeScreen = (props) => {
   const [departement, setDepartement] = useState("");
@@ -123,6 +128,5 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: "saveDepartement", departement });
     },
   };
-    
 }
 export default connect(null, mapDispatchToProps)(HomeScreen);

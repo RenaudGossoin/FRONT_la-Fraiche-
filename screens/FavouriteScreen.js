@@ -7,8 +7,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { Card } from "react-native-elements";
-import { Button } from "react-native-elements/dist/buttons/Button";
+
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -20,11 +19,6 @@ function FavouriteScreen(props) {
 
   const goBack = () =>
     props.navigation.navigate("BottomNavigator", { screen: "Categories" });
-
-  // var noArticles;
-  // if (props.addtoFavlist.length == 0) {
-  //   noArticles = "No Favorite Articles";
-  // }
 
   var noArticles;
   if (props.addtoFavlist.length == 0) {

@@ -11,6 +11,11 @@ import * as Permissions from "expo-permissions";
 
 import moment from "moment";
 
+/*Utilisation d'un useffect pour afficher la map avec les lockers du departement et la position de l'utilisateur
+ On recupere egalement la date du jour et la date de libraison dans un hook d'état
+ Lorsque l'utulisateur veut valider sa commande avec le bouton, il déclanche la fonction
+ handlesubmitorder qui va appeler la route order avec les informations pour les enregistrer en bdd
+ Si c'est ok il peut passer au paiement*/
 function LockerScreen(props) {
   const [lockersList, setLockersList] = useState([]);
   const [lockerSelected, setLockerSelected] = useState(null);
@@ -57,9 +62,6 @@ function LockerScreen(props) {
     getDate();
   }, []);
 
-  console.log("latitude", currentLatitude);
-  console.log("longitude", currentLongitude);
-
   var tab = [];
   var idList = props.saveBasket.map((article, i) => {
     tab = [...tab, article._id];
@@ -87,24 +89,6 @@ function LockerScreen(props) {
     }
   };
 
-  var handleSubmit = () => {
-    var copyListPOI = [
-      ...listPOI,
-      {
-        longitude: tempPOI.longitude,
-        latitude: tempPOI.latitude,
-        titre: titrePOI,
-        description: descPOI,
-      },
-    ];
-    AsyncStorage.setItem("POI", JSON.stringify(copyListPOI));
-
-    setListPOI(copyListPOI);
-    setIsVisible(false);
-    setTempPOI();
-    setDescPOI();
-    setTitrePOI();
-  };
   //selection de la methode de paiement
   const laCB = () => {
     setCredit(true);
@@ -123,7 +107,6 @@ function LockerScreen(props) {
   };
 
   //montrer mes checkboxes
-
   var checkboxList = lockersList.map((casier, i) => {
     return (
       <CheckBox

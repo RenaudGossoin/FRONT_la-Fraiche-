@@ -80,22 +80,6 @@ function DetailScreen(props) {
               </View>
 
               <View style={styles.addquantityandpriceline}>
-                {/* <View style={styles.blockbutton}>
-                  <Button
-                    title="-"
-                    color="gray"
-                    buttonStyle={styles.button}
-                    onPress={props.onDecreaseClick(showDetailArticle.quantity)}
-                  />
-                  <Text style={styles.quantity}>{props.saveCount}</Text>
-                  <Button
-                    title="+"
-                    color="#53B175"
-                    buttonStyle={styles.button}
-                    onPress={props.onIncreaseClick(showDetailArticle.quantity)}
-                  />
-                </View> */}
-
                 <View style={styles.mainproductinfolines}>
                   <View>
                     <Text style={styles.price}>

@@ -4,19 +4,15 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
-  SafeAreaView,
-  ImageBackground,
   Image,
 } from "react-native";
-import { Card } from "react-native-elements";
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import BandeVerteHaut from "./BandeVerteHaut";
-import { MaterialIcons } from "@expo/vector-icons";
-import RadialGradient from "react-native-radial-gradient";
 
 import { connect } from "react-redux";
-
+/*A l'initialisation du composant, si le token est lu à partir du store, le front envoie la requete pour aller chercher
+les infos d'utilisateur pour afficher son prénom sinon on affiche bienvenue à la fraîche
+lorsqu'on appuie sur une categorie de pdt on appelle une fonction qui va enregistrer dans le store
+la catégorie deproduit sur laquelle on ient d'appuyer */
 function CategoriesScreen(props) {
   const [userInfo, setUserInfo] = useState();
 
@@ -47,27 +43,22 @@ function CategoriesScreen(props) {
 
   const goTo = () =>
     props.navigation.navigate("Product", { screen: "ProductScreen" });
-  const [categorie, setCategorie] = useState("");
 
   var handleOnPressFruits = () => {
-    setCategorie("Fruits");
     props.onSubmitCategorie("Fruits");
     goTo();
   };
 
   var handleOnPressLegumes = () => {
-    setCategorie("Legumes");
     props.onSubmitCategorie("Legumes");
     goTo();
   };
 
   var handleOnPressOeufs = () => {
-    setCategorie("Oeufs");
     props.onSubmitCategorie("Oeufs");
     goTo();
   };
   var handleOnPressFromages = () => {
-    setCategorie("Fromages");
     props.onSubmitCategorie("Fromages");
     goTo();
   };

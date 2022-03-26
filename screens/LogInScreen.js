@@ -9,7 +9,8 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
-
+/*Fonction handlesubmitSignin envoie une requête au backend avec les infos du front
+  Exectute la requete et renvoie la réponse au frontend */
 const LogInScreen = (props) => {
   const [password, setPassword] = useState("");
 
@@ -20,8 +21,6 @@ const LogInScreen = (props) => {
   const [listErrorsSignin, setErrorsSignin] = useState([]);
 
   var handleSubmitSignin = async () => {
-    //console.log(email);
-    // console.log(password);
     const data = await fetch("https://lafraiche.herokuapp.com/sign-in", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -29,7 +28,6 @@ const LogInScreen = (props) => {
     });
 
     const body = await data.json();
-    //console.log(body);
 
     if (body.result == true) {
       props.addToken(body.token);
@@ -164,9 +162,9 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 45,
-    //width:100,
+
     backgroundColor: "#006D24",
-    borderRadius:30,
+    borderRadius: 30,
     marginTop: 20,
   },
 });

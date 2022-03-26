@@ -5,15 +5,12 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
-  Button,
   Image,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { Ionicons } from '@expo/vector-icons'; 
 
-// import Divider from 'react-native-divider';
+import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
 
@@ -28,24 +25,40 @@ function DetailScreen(props) {
     <>
       <ScrollView style={styles.body}>
         <View style={styles.body}>
-        <View style={styles.TopBar}>
-      <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/>
-      <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/>
-      {/* <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color="#000000"
+          <View style={styles.TopBar}>
+            <Image
+              source={require("../assets/courge.png")}
+              style={{
+                position: "absolute",
+                width: 160,
+                resizeMode: "contain",
+                top: -60,
+                left: -40,
+              }}
               onPress={goBack}
-            /> */}
-            {/* <Image source={require("../assets/courge.png")} style={{position:"absolute", width:160, resizeMode:"contain", top:-60, left:-40}}  onPress={goBack}/> */}
+            />
+            <Ionicons
+              name="chevron-back-circle-outline"
+              size={30}
+              color="#006D24"
+              onPress={goBack}
+            />
 
-<Text style={{fontWeight:"bold", fontSize:16, color:"#737373",marginBottom:6}}>Nos Fermier·e·s</Text>
-</View>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                color: "#737373",
+                marginBottom: 6,
+              }}
+            >
+              Nos Fermier·e·s
+            </Text>
+          </View>
           <View style={styles.container}>
-          
-            <View style={{alignItems:"center"}}>
+            <View style={{ alignItems: "center" }}>
               <Image
-               style={{marginTop:-75, maxHeight:500}}
+                style={{ marginTop: -75, maxHeight: 500 }}
                 source={require("../assets/FarmerResize.png")}
                 resizeMode="contain"
               />
@@ -58,7 +71,6 @@ function DetailScreen(props) {
                     Ferme de la vache bleue
                   </Text>
                 </View>
-
               </View>
 
               <View>
@@ -91,9 +103,7 @@ function DetailScreen(props) {
 
                 <View style={styles.marginTopshowhidemenu}>
                   <View style={styles.firstlineshowhidemenu}>
-                    <Text style={styles.titleshowhidemenu}>
-                      Nos produits
-                    </Text>
+                    <Text style={styles.titleshowhidemenu}>Nos produits</Text>
                   </View>
                   <Card.Image
                     style={styles.nutriscore}
@@ -148,27 +158,26 @@ function DetailScreen(props) {
 }
 
 const styles = StyleSheet.create({
-
-    TopBar:{
-        flexDirection:"row",
-        paddingHorizontal:25,
-        paddingBottom:20,
-        //flexDirection:"column",
-        justifyContent:"space-between",
-        alignItems:"flex-end",
-        backgroundColor:"#FFFFFF",
-        height:120,
-        borderBottomLeftRadius:20,
-        borderBottomRightRadius:20,
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 5,
-          height: 5,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-      },
+  TopBar: {
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    paddingBottom: 20,
+    //flexDirection:"column",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    backgroundColor: "#FFFFFF",
+    height: 120,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+  },
 
   body: {
     backgroundColor: "#ffffff",
@@ -190,8 +199,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    alignItems:"center",
-    justifyContent:"center",
+    alignItems: "center",
+    justifyContent: "center",
     width: 329,
     height: 200,
     marginBottom: 0,
@@ -216,7 +225,7 @@ const styles = StyleSheet.create({
   producttitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color:"#006D24"
+    color: "#006D24",
   },
 
   addquantityandpriceline: {
@@ -265,7 +274,7 @@ const styles = StyleSheet.create({
   },
 
   marginTopshowhidemenu: {
-    marginTop:20,
+    marginTop: 20,
   },
 
   firstlineshowhidemenu: {
@@ -301,7 +310,7 @@ const styles = StyleSheet.create({
     height: 67,
 
     marginTop: 20,
-    marginBottom:30
+    marginBottom: 30,
   },
 
   textaddtobasketbutton: {

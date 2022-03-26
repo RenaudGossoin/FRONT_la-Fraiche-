@@ -74,11 +74,9 @@ function AccountScreen(props) {
   return (
     <View style={{ backgroundColor: "#ffffff" }}>
       <View style={styles.TopBar}>
-        {/* <Ionicons name="chevron-back-circle-outline" size={30} color="#006D24" onPress={goBack}/> */}
         <Ionicons name="person-outline" size={30} color="black" />
 
         <View style={{ justifyContent: "flex-start" }}>
-          {/* <MaterialCommunityIcons name="human-greeting" size={50} color="black" /> */}
           <Text style={{ fontSize: 20, color: "black", marginRight: 20 }}>
             {userUsername}
           </Text>
@@ -117,22 +115,6 @@ function AccountScreen(props) {
           />
         </View>
       </Overlay>
-      {/* <View
-        style={{
-          flexDirection: "row",
-          margin: 50,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <MaterialCommunityIcons name="human-greeting" size={50} color="black" />
-        <View>
-          <Text style={{ fontSize: 20 }}> {userUsername}</Text>
-          <Text style={{ fontSize: 15, flexDirection: "row" }}>
-            {userEmail}
-          </Text>
-        </View>
-      </View> */}
 
       <ListItem.Accordion
         content={
@@ -172,15 +154,6 @@ function AccountScreen(props) {
     </View>
   );
 }
-
-/*const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });    */
 
 const styles = StyleSheet.create({
   TopBar: {

@@ -4,7 +4,6 @@ import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Text, Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { MaterialIcons } from "@expo/vector-icons";
 
 /*Utilisation d'un hook d'effet à l'initiallisation du composant pour afficher le panier
 Mise à jour du screen avec la mise à jour du panier qui a été enregistré dans le store à chaque achat de produit */
@@ -112,7 +111,7 @@ function BasketScreen(props) {
   let totalOk = totalFdp.toFixed(2);
 
   return (
-    <View style={{ /*flex: 1,*/ backgroundColor: "#ffffff", marginBottom: 70 }}>
+    <View style={{ backgroundColor: "#ffffff", marginBottom: 70 }}>
       <View style={styles.TopBar}>
         <Ionicons
           name="chevron-back-circle-outline"
@@ -141,9 +140,6 @@ function BasketScreen(props) {
         {basketArray}
 
         <View style={styles.block2}>
-          {/* <Text>Frais de port</Text>
-        <Text style={{ paddingLeft: 80 }}>5 €</Text> */}
-
           <Text style={{ fontWeight: "bold", color: "#006D24" }}>
             Frais de port
           </Text>

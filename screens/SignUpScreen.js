@@ -20,8 +20,9 @@ const SignUpScreen = (props) => {
 
   const [listErrorsSignup, setErrorsSignup] = useState([]);
 
+  /*Fonction gandlesubmitSignup envoie une requête au backend avec les infos du front
+  Exectute la requete et renvoie la réponse au frontend */
   var handleSubmitSignup = async () => {
-    //console.log(username);
     const data = await fetch("https://lafraiche.herokuapp.com/sign-up", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -29,14 +30,12 @@ const SignUpScreen = (props) => {
     });
 
     const body = await data.json();
-    //console.log(body);
 
     if (body.result == true) {
       setUserExists(true);
       props.addToken(body.token);
     } else {
       setErrorsSignup(body.error);
-      //console.log(listErrorsSignup);
     }
   };
 
